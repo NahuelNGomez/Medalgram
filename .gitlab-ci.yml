@@ -1,7 +1,7 @@
 variables:
-  FRONTEND_IMAGE: registry.gitlab.com/ignaciolosc/docker-compose-ejemplo-fork/ejemplo-frontend
-  BACKEND_IMAGE: registry.gitlab.com/ignaciolosc/docker-compose-ejemplo-fork/ejemplo-backend
-  INGRESS_IMAGE: registry.gitlab.com/ignaciolosc/docker-compose-ejemplo-fork/ejemplo-ingress
+  FRONTEND_IMAGE: registry.gitlab.com/bughunters3/medalgram/ejemplo-frontend
+  BACKEND_IMAGE: registry.gitlab.com/ignaciolosc/medalgram/ejemplo-backend
+  INGRESS_IMAGE: registry.gitlab.com/ignaciolosc/medalgram/ejemplo-ingress
   MAVEN_CLI_OPTS: >-
     --batch-mode
     --errors
