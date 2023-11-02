@@ -6,7 +6,7 @@ export default function NavegationBar() {
         <nav className="w-full bg-dark1 border-gray-200">
             <div className="flex flex-wrap items-center justify-between mx-auto p-4">
             <div className="flex flex-nowrap items-center justify-between">
-                <a href="#" className="flex items-center">
+                <a href="/" className="flex items-center">
                     <img src="https://i.ibb.co/hCwXjMC/principal.png" className="h-8 mr-3" alt="principal Logo" />
                 </a>
                 <Link href="/sports" className="nav-link link-body-emphasis active text-gray-300 text-xl underline" aria-current="page">Deportes</Link>
