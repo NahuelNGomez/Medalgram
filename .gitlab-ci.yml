@@ -1,25 +1,86 @@
-build-job:
+variables:
+  FRONTEND_IMAGE: registry.gitlab.com/ignaciolosc/docker-compose-ejemplo-fork/ejemplo-frontend
+  BACKEND_IMAGE: registry.gitlab.com/ignaciolosc/docker-compose-ejemplo-fork/ejemplo-backend
+  INGRESS_IMAGE: registry.gitlab.com/ignaciolosc/docker-compose-ejemplo-fork/ejemplo-ingress
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+  MAVEN_OPTS: >-
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+
+stages:
+  - test
+  - build
+  - deploy
+
+# test:
+#   stage: test
+#   script:
+#     - cat /test
+#   tags:
+#     - deploy
+
+verify:
+  stage: test
+  image: maven:3-openjdk-17
+  cache:
+    - key:
+        files:
+          - src/backend/pom.xml
+      paths:
+        - .m2/repository
+  script:
+    - cd src/backend
+    - mvn $MAVEN_CLI_OPTS test
+  tags:
+    - docker-runner
+
+build_frontend:
   stage: build
   script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
-    - docker build -t medalgram -f Dockerfile
+    - cd src/frontend/medalgram
+    - docker build -t $FRONTEND_IMAGE .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $FRONTEND_IMAGE
+  tags:
+    - docker-build
 
-test-job1:
-  stage: test
+build_ingress:
+  stage: build
   script:
-    - echo "This job tests something"
+    - cd src/ingress
+    - docker build -t $INGRESS_IMAGE .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $INGRESS_IMAGE
+  tags:
+    - docker-build
 
-test-job2:
-  stage: test
+build_backend:
+  stage: build
   script:
-    - echo "This job tests something, but takes more time than test-job1."
-    - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
-    - echo "which simulates a test that runs 20 seconds longer than test-job1"
-    - sleep 20
+    - cd src/backend
+    - docker build -t $BACKEND_IMAGE .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $BACKEND_IMAGE
+  tags:
+    - docker-build
 
-deploy-prod:
+deploy:
   stage: deploy
   script:
-    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
-    - docker run -p 33000:80 medalgram
-  environment: production
+    - mv .env.prod .env
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $FRONTEND_IMAGE
+    - docker pull $BACKEND_IMAGE
+    - docker pull $INGRESS_IMAGE
+    - docker-compose down --remove-orphans
+    - docker-compose up -d
+  only:
+    - main
+  tags:
+    - docker-deploy

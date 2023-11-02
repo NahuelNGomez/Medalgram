@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  ingress:
+    build: ./src/ingress
+    image: "${INGRESS_IMAGE}"
+    restart: always
+    ports:
+      - "${INGRESS_PORT}:80"
+
+  backend:
+    build: ./src/backend
+    image: ${BACKEND_IMAGE}
+    restart: always
+    ports:
+      - "${BACKEND_EXTERNAL_PORT}:8080"
+
+  frontend:
+    build: ./src/frontend/medalgram
+    image: ${FRONTEND_IMAGE}
+    restart: always
+    ports:
+      - "${FRONTEND_EXTERNAL_PORT}:80"
+    environment:
+      API_URL: "${BACKEND_URL}"
