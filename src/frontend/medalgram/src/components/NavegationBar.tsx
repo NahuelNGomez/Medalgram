@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NavegationBar() {
 
     return (
-        <nav className="w-full bg-dark1 border-gray-200">
+        <nav className="w-full bg-dark1 border-gray-200 shadow-md shadow-black/50">
             <div className="flex flex-wrap items-center justify-between mx-auto p-4">
             <div className="flex flex-nowrap items-center justify-between">
                 <a href="/" className="flex items-center">
