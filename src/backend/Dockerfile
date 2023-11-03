@@ -15,4 +15,3 @@ FROM eclipse-temurin:17-jre-focal AS deploy
 
 COPY --from=build /app/target/docker-demo-backend-0.0.1-SNAPSHOT.jar /app/main.jar
 CMD ["java", "-jar", "/app/main.jar"]
-

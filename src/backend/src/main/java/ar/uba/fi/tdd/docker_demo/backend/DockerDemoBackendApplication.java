@@ -1,13 +1,13 @@
-package com.example.medalgram;
+package ar.uba.fi.tdd.docker_demo.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MedalgramApplication {
+public class DockerDemoBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MedalgramApplication.class, args);
+		SpringApplication.run(DockerDemoBackendApplication.class, args);
 	}
 
 }
