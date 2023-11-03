@@ -1,6 +1,24 @@
+'use client';
+
 import NavegationBar from "@/components/NavegationBar";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 
 export default function Signup() {
+    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [notification, setNotification] = useState('')
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleLogin = () => {
+        if (formData.username && formData.password) {
+            setNotification('Se enviaría una request.')
+        } else {
+            setNotification('Por favor, complete todos los campos.')
+        }
+    };
 
     return (
         <main className="flex flex-col justify-center items-center">
@@ -15,14 +33,29 @@ export default function Signup() {
                         <label className="block text-white text-sm font-bold mb-2" htmlFor="username">
                             Email
                         </label>
-                        <input className="shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200" id="username" type="text" placeholder="Introduce tu email" />
+                        <input
+                            value={formData.username}
+                            onChange={handleInputChange}
+                            name="username"
+                            className="required shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200"
+                            id="username"
+                            type="text"
+                            placeholder="Introduce tu email"
+                        />
                     </div>
                     <div className="mb-6 px-8 ">
                         <label className="block text-white text-sm font-bold mb-2" htmlFor="password">
                             Contraseña
                         </label>
-                        <input className="shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200" id="password" type="password" placeholder="Introduce tu contraseña" />
-                        {/*<p className="text-red-500 text-xs italic">Please choose a password.</p>*/}
+                        <input
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            name="password"
+                            className="required shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200"
+                            id="password"
+                            type="password"
+                            placeholder="Introduce tu contraseña"
+                        />
                     </div>
                     <div className="flex items-center justify-between px-8">
                         <a className="inline-block align-baseline text-sm underline text-gray-400 hover:text-white" href="/login">
@@ -32,7 +65,8 @@ export default function Signup() {
                             Términos y Condiciones
                         </a>
                     </div>
-                    <div className="w-full pt-5"><button className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline" type="button">
+                    { notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
+                    <div className="w-full pt-5"><button onClick={handleLogin} className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline" type="button">
                         Iniciar Sesión
                     </button></div>
                 </form>

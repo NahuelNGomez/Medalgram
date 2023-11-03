@@ -1,8 +1,7 @@
 import Image from 'next/image'
 
 interface componentsArgs {
-    image: string; // Tipo explícito para la prop 'imagen'
-
+    image: string;
   }
 
 export default function FeaturedTournament({image}: componentsArgs){
