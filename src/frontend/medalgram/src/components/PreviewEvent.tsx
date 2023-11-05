@@ -11,7 +11,7 @@ export default function PreviewEvent(){
                     <p>Lugar: Lugar X</p>
                 </div>
                 <div className="flex justify-center items-center py-4">
-                <Link href={`/`} className="nav-link link-body-emphasis active" aria-current="page">
+                <Link href={`/sports`+ 2+ '/events/' + 1} className="nav-link link-body-emphasis active" aria-current="page">
                     <div className="flex flex-wrap justify-center items-center px-8 py-3 text-xs text-gray-300 text-xl bg-dark1">Más información
                         <svg className="pl-3 w-6 text-white" fill="none" viewBox="0 0 24 24"  stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
