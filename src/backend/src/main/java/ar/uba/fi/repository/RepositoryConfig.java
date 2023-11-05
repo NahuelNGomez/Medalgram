@@ -11,6 +11,5 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Account.class);
-        config.exposeIdsFor(Sport.class);
     }
 }

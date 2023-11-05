@@ -1,8 +1,10 @@
 package ar.uba.fi;
 
+import ar.uba.fi.model.Event;
 import ar.uba.fi.model.Sport;
 import ar.uba.fi.model.Account;
 import ar.uba.fi.service.AccountService;
+import ar.uba.fi.service.EventService;
 import ar.uba.fi.service.SportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -32,9 +34,14 @@ public class DockerDemoApp {
 	@Autowired
 	private SportService sportService;
 
+	@Autowired
+	private EventService eventServices;
+
 	public static void main(String[] args) {
 		SpringApplication.run(DockerDemoApp.class, args);
 	}
+
+	///// Accounts
 
 	@PostMapping("/api/accounts")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -73,10 +80,23 @@ public class DockerDemoApp {
 
 	///// Sports
 	@GetMapping("/api/sports")
-	public Collection<Sport> getSport() {
+	public Collection<Sport> getSports() {
 		return sportService.getSports();
 	}
 
+
+
+	///// Events
+	@GetMapping("/api/events")
+	public Collection<Event> getEvents() {
+		return eventServices.getEvents();
+	}
+
+	@GetMapping("/api/events/{id}")
+	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
+		Optional<Event> event = eventServices.findById(id);
+		return ResponseEntity.of(event);
+	}
 
 
 	/*

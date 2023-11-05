@@ -1,17 +1,17 @@
 package ar.uba.fi.repository;
 
+import ar.uba.fi.model.Event;
 import ar.uba.fi.model.Sport;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-
 @RepositoryRestResource
-public interface SportRepository extends CrudRepository<Sport, Long> {
+public interface EventRepository extends CrudRepository<Event, Long> {
 
-    Sport findSportByName(Long id);
+    Event findEventById(Long id);
 
     @Override
-    List<Sport> findAll();
+    List<Event> findAll();
 }
