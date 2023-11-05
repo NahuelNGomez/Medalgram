@@ -19,7 +19,5 @@ export default function Page({params: {id}}: SportProps) {
             <PreviewEvent/>
             <PreviewEvent/>
         </main>
-
-
     );
 }
