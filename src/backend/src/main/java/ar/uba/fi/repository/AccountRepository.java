@@ -1,6 +1,6 @@
-package com.aninfo.repository;
+package ar.uba.fi.repository;
 
-import com.aninfo.model.Account;
+import ar.uba.fi.model.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

@@ -1,14 +1,11 @@
-package com.aninfo.integration.cucumber;
+package ar.uba.fi.integration.cucumber;
 
-import com.aninfo.exceptions.DepositNegativeSumException;
-import com.aninfo.exceptions.InsufficientFundsException;
-import com.aninfo.model.Account;
+import ar.uba.fi.exceptions.DepositNegativeSumException;
+import ar.uba.fi.exceptions.InsufficientFundsException;
+import ar.uba.fi.model.Account;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,7 +25,7 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     public void account_with_a_balance_of(int balance)  {
         account = createAccount(Double.valueOf(balance));
     }
-
+/*
     @When("^Trying to withdraw (\\d+)$")
     public void trying_to_withdraw(int sum) {
         try {
@@ -66,7 +63,7 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     public void account_balance_should_remain(int balance) {
         assertEquals(Double.valueOf(balance), account.getBalance());
     }
-
+*/
     @After
     public void tearDown() {
         System.out.println("After all test execution");

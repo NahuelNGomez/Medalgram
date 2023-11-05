@@ -1,4 +1,4 @@
-package com.aninfo.model;
+package ar.uba.fi.model;
 
 import javax.persistence.*;
 

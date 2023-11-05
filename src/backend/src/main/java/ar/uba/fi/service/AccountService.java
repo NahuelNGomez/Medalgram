@@ -1,7 +1,7 @@
-package com.aninfo.service;
+package ar.uba.fi.service;
 
-import com.aninfo.model.Account;
-import com.aninfo.repository.AccountRepository;
+import ar.uba.fi.repository.AccountRepository;
+import ar.uba.fi.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;

@@ -1,12 +1,12 @@
-package com.aninfo.exceptions;
+package ar.uba.fi.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class invalidTypeOfTransaction extends RuntimeException {
+public class InvalidTransactionTypeException extends RuntimeException {
 
-    public invalidTypeOfTransaction(String message) {
+    public InvalidTransactionTypeException(String message) {
         super(message);
     }
 }

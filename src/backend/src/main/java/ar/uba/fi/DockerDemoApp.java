@@ -1,11 +1,9 @@
-package com.aninfo;
+package ar.uba.fi;
 
-import com.aninfo.exceptions.invalidIdTransaction;
-import com.aninfo.exceptions.invalidTypeOfTransaction;
-import com.aninfo.model.Account;
-import com.aninfo.model.Transaction;
-import com.aninfo.service.AccountService;
-import com.aninfo.service.TransactionService;
+import ar.uba.fi.model.Sport;
+import ar.uba.fi.model.Account;
+import ar.uba.fi.service.AccountService;
+import ar.uba.fi.service.SportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -32,17 +29,20 @@ public class DockerDemoApp {
 	@Autowired
 	private AccountService accountService;
 
+	@Autowired
+	private SportService sportService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(DockerDemoApp.class, args);
 	}
 
-	@PostMapping("/accounts")
+	@PostMapping("/api/accounts")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Account createAccount(@RequestBody Account account) {
 		return accountService.createAccount(account);
 	}
 
-	@GetMapping("/accounts")
+	@GetMapping("/api/accounts")
 	public Collection<Account> getAccounts() {
 		return accountService.getAccounts();
 	}
@@ -53,7 +53,7 @@ public class DockerDemoApp {
 		return ResponseEntity.of(accountOptional);
 	}
 
-	@PutMapping("/accounts/{id}")
+	@PutMapping("/api/accounts/{id}")
 	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long id) {
 		Optional<Account> accountOptional = accountService.findById(id);
 
@@ -66,10 +66,18 @@ public class DockerDemoApp {
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping("/accounts/{id}")
+	@DeleteMapping("/api/accounts/{id}")
 	public void deleteAccount(@PathVariable Long id) {
 		accountService.deleteById(id);
 	}
+
+	///// Sports
+	@GetMapping("/api/sports")
+	public Collection<Sport> getSport() {
+		return sportService.getSports();
+	}
+
+
 
 	/*
 	@PutMapping("/accounts/{id}/withdraw")
