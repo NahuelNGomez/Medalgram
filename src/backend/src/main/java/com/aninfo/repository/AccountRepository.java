@@ -9,7 +9,7 @@ import java.util.List;
 @RepositoryRestResource
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
-    Account findAccountByCbu(Long cbu);
+    Account findAccountById(Long id);
 
     @Override
     List<Account> findAll();

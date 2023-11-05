@@ -31,8 +31,6 @@ public class DockerDemoApp {
 
 	@Autowired
 	private AccountService accountService;
-	@Autowired
-	private TransactionService transactionService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DockerDemoApp.class, args);
@@ -49,30 +47,32 @@ public class DockerDemoApp {
 		return accountService.getAccounts();
 	}
 
-	@GetMapping("/accounts/{cbu}")
-	public ResponseEntity<Account> getAccount(@PathVariable Long cbu) {
-		Optional<Account> accountOptional = accountService.findById(cbu);
+	@GetMapping("/accounts/{id}")
+	public ResponseEntity<Account> getAccount(@PathVariable Long id) {
+		Optional<Account> accountOptional = accountService.findById(id);
 		return ResponseEntity.of(accountOptional);
 	}
 
-	@PutMapping("/accounts/{cbu}")
-	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long cbu) {
-		Optional<Account> accountOptional = accountService.findById(cbu);
+	@PutMapping("/accounts/{id}")
+	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long id) {
+		Optional<Account> accountOptional = accountService.findById(id);
 
 		if (!accountOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		account.setCbu(cbu);
+		account.setId(id);
 		accountService.save(account);
+
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping("/accounts/{cbu}")
-	public void deleteAccount(@PathVariable Long cbu) {
-		accountService.deleteById(cbu);
+	@DeleteMapping("/accounts/{id}")
+	public void deleteAccount(@PathVariable Long id) {
+		accountService.deleteById(id);
 	}
 
-	@PutMapping("/accounts/{cbu}/withdraw")
+	/*
+	@PutMapping("/accounts/{id}/withdraw")
 	public Transaction withdraw(@PathVariable Long cbu, @RequestParam Double sum) {
 		Transaction transaction = new Transaction("withdraw", sum, cbu);
 		accountService.withdraw(cbu, transaction.getAmount());
@@ -122,7 +122,7 @@ public class DockerDemoApp {
 		}
 		transactionService.deleteTransaction(transaction);
 	}
-
+*/
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
