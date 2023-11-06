@@ -23,9 +23,8 @@ export default function Sports() {
   return (
     <main>
       <NavegationBar />
-      <Breadcrumbs items={breadcrumb} />
       <article className="col-span-1 border flex items-center justify-between outline-transparent border-transparent pt-6">
-        <div>Deportes / Iron man</div>
+        <Breadcrumbs items={breadcrumb} />
         <SearchBar
           placeholder="Buscar Evento"
           onChange={(e) => {
