@@ -9,7 +9,7 @@ interface EventProps {
 export default function Page({ params: { id } }: EventProps) {
 
     return (
-        <main className="flex flex-col justify-center items-center">
+        <section className="flex flex-col justify-center items-center">
             <NavegationBar />
             <div className="flex flex-wrap justify-between p-5 w-full ">
                 <p>Breadcrumbs/RUTA</p>
@@ -20,9 +20,11 @@ export default function Page({ params: { id } }: EventProps) {
                 <div className="absolute px-5 py-0.5 text-gray-300 text-xs bg-dark1 ml-4 bottom-0 right-0 rounded-br-3xl">Ed. 1</div>
             </article>
             <table className="w-4/5 mt-5">
-                <th className="bg-dark1 font-normal p-1">
-                    <td>Datos utiles</td>
-                </th>
+                <thead>
+                    <tr>
+                        <th className="bg-dark1 font-normal p-1">Datos útiles</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr className="bg-dark2/50 text-black font-semibold">
                         <td className="p-1">
@@ -60,7 +62,7 @@ export default function Page({ params: { id } }: EventProps) {
 
             </table>
 
-        </main>
+        </section>
 
 
 
