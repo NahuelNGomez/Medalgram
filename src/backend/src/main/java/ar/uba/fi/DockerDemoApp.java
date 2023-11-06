@@ -1,13 +1,7 @@
 package ar.uba.fi;
 
-import ar.uba.fi.model.Event;
-import ar.uba.fi.model.Sport;
-import ar.uba.fi.model.Account;
-import ar.uba.fi.model.Runner;
-import ar.uba.fi.service.AccountService;
-import ar.uba.fi.service.EventService;
-import ar.uba.fi.service.SportService;
-import ar.uba.fi.service.RunnerService;
+import ar.uba.fi.model.*;
+import ar.uba.fi.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,6 +35,9 @@ public class DockerDemoApp {
 
 	@Autowired
 	private RunnerService runnerService;
+
+	@Autowired
+	private CommentService commentService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DockerDemoApp.class, args);
@@ -134,6 +131,19 @@ public class DockerDemoApp {
 	public Event createEvent(@RequestBody Event event) {
 		return eventService.createEvent(event);
 	}
+
+	@GetMapping("/api/events/{id_event}/comments")
+	public Collection<Comment> getEventComments(@PathVariable Long id_event) {
+		return commentService.getEventComments(id_event);
+	}
+
+	@PostMapping("/api/events/{id_event}/comments")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Comment createComment(@RequestBody Comment comment, @PathVariable Long id_event) {
+		comment.setIdEvent(id_event);
+		return commentService.createComment(comment);
+	}
+
 
 
 	/*
