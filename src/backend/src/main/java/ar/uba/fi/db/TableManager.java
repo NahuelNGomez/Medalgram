@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Map;
 
 @Component
@@ -55,6 +56,13 @@ public class TableManager {
         Integer id = jdbcTemplate.queryForObject(sql, Integer.class, cols.values().toArray());
         return id != null ? id : -1;
     }
+
+
+    //////////////// Nuevo
+    //public Collection<T> getAllRecords(String tableName) {
+    //    String sql = "SELECT * FROM " + tableName;
+    //    return jdbcTemplate.queryForList(sql);
+    //}
 
     private String createInsertSql(String tableName, Map<String, Object> cols) {
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
