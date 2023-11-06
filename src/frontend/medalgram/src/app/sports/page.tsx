@@ -1,4 +1,5 @@
 "use client";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import NavegationBar from "@/components/NavegationBar";
 import SearchBar from "@/components/SearchBar";
 import Sport from "@/components/Sport";
@@ -12,9 +13,17 @@ export default function Sports() {
     { title: "Deporte 4", description: "Descripcion Deporte 4" },
   ];
   const [filterInput, setFilterInput] = useState("");
+
+  const breadcrumb = [
+    {
+      title: "Deportes",
+      url: "/sports",
+    },
+  ];
   return (
     <main>
       <NavegationBar />
+      <Breadcrumbs items={breadcrumb} />
       <article className="col-span-1 border flex items-center justify-between outline-transparent border-transparent pt-6">
         <div>Deportes / Iron man</div>
         <SearchBar
