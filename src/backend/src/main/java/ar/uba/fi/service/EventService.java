@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -28,6 +29,6 @@ public class EventService {
 
     public Collection<Event> filterBySport(Long id) {
         // TODO: filter by sport id.
-        return eventRepository.findAll();
+        return eventRepository.findAll().stream().filter(event -> event.getIdSport() == id).collect(Collectors.toList());
     }
 }
