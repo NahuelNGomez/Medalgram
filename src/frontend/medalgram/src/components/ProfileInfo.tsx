@@ -6,14 +6,16 @@ export default function ProfileInfo() {
   // Hacer get del perfil
   return (
     <main className="h-[25rem] rounded-2xl justify-self-center justify-center flex bg-dark2 start-36 relative top-[200px]">
-      <div className="flex flex-row	justify-around py-[8px] px-[12px]">
-        <div>
-          <Image
-            src="/sport1.jpg"
-            alt="Descripción de la imagen"
-            width={290}
-            height={290}
-          />
+      <div className="flex flex-row	justify-around py-[8px] px-[24px]">
+        <div className="align-middle flex pr-[24px]">
+          <div className="align-middle flex">
+            <Image
+              src="/avatar.svg"
+              alt="Descripción de la imagen"
+              width={200}
+              height={200}
+            />
+          </div>
         </div>
         <div className="flex flex-col justify-around">
           <div className="flex text-[48px] px-[12px]">
