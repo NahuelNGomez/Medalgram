@@ -13,9 +13,9 @@ public class Sport {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String description;
 
-    public Sport(String name){
-        this.name = name;
+    public Sport(){
     }
 
     public String getName() {
@@ -33,4 +33,13 @@ public class Sport {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

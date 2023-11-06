@@ -3,9 +3,11 @@ package ar.uba.fi;
 import ar.uba.fi.model.Event;
 import ar.uba.fi.model.Sport;
 import ar.uba.fi.model.Account;
+import ar.uba.fi.model.Runner;
 import ar.uba.fi.service.AccountService;
 import ar.uba.fi.service.EventService;
 import ar.uba.fi.service.SportService;
+import ar.uba.fi.service.RunnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,7 +37,10 @@ public class DockerDemoApp {
 	private SportService sportService;
 
 	@Autowired
-	private EventService eventServices;
+	private EventService eventService;
+
+	@Autowired
+	private RunnerService runnerService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DockerDemoApp.class, args);
@@ -78,23 +83,48 @@ public class DockerDemoApp {
 		accountService.deleteById(id);
 	}
 
+
+	// Runner
+
+	@PostMapping("/api/runners")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Runner createRunner(@RequestBody Runner runner) {
+		return runnerService.createRunner(runner);
+	}
+
+	@GetMapping("/api/runners/{id}")
+	public ResponseEntity<Runner> getRunner(@PathVariable Long id) {
+		Optional<Runner> runner = runnerService.findById(id);
+		return ResponseEntity.of(runner);
+	}
+
 	///// Sports
 	@GetMapping("/api/sports")
 	public Collection<Sport> getSports() {
 		return sportService.getSports();
 	}
 
+	@GetMapping("/api/sports/{id}/events")
+	public Collection<Event> getSportEvents(@PathVariable Long id) {
+		return eventService.filterBySport(id);
+	}
+
+	@PostMapping("/api/sports")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Sport createSport(@RequestBody Sport sport) {
+		return sportService.createSport(sport);
+	}
 
 
 	///// Events
 	@GetMapping("/api/events")
 	public Collection<Event> getEvents() {
-		return eventServices.getEvents();
+		return eventService.getEvents();
 	}
 
 	@GetMapping("/api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
-		Optional<Event> event = eventServices.findById(id);
+		Optional<Event> event = eventService.findById(id);
 		return ResponseEntity.of(event);
 	}
 
