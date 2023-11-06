@@ -1,3 +1,4 @@
+import Comments from "@/components/Comments";
 import NavegationBar from "@/components/NavegationBar";
 import PreviewEvent from "@/components/PreviewEvent";
 import Image from "next/image";
@@ -61,6 +62,9 @@ export default function Page({ params: { id } }: EventProps) {
                 </tbody>
 
             </table>
+            <section className="mt-4 w-4/5">
+                <Comments />
+            </section>
 
         </section>
 
