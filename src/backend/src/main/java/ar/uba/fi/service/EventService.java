@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -28,7 +27,7 @@ public class EventService {
     }
 
     public Collection<Event> filterBySport(Long id) {
-        // return eventRepository.findBySport(id);
-        return Collections.emptyList();
+        // TODO: filter by sport id.
+        return eventRepository.findAll();
     }
 }

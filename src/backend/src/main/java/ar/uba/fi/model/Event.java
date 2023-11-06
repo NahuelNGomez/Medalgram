@@ -17,4 +17,28 @@ public class Event {
 
     public Event(){
     }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getIdSport() {
+        return this.id_sport;
+    }
+
+    public void setIdSport(Long id_sport) {
+        this.id_sport = id_sport;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

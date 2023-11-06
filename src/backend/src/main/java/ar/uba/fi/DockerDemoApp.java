@@ -99,6 +99,7 @@ public class DockerDemoApp {
 	}
 
 	///// Sports
+
 	@GetMapping("/api/sports")
 	public Collection<Sport> getSports() {
 		return sportService.getSports();
@@ -126,6 +127,12 @@ public class DockerDemoApp {
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
 		Optional<Event> event = eventService.findById(id);
 		return ResponseEntity.of(event);
+	}
+
+	@PostMapping("/api/events")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Event createEvent(@RequestBody Event event) {
+		return eventService.createEvent(event);
 	}
 
 
