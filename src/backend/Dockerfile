@@ -1,17 +1,17 @@
 # Dockerfile
-# Stage 0: Create jar with JDK
-FROM maven:3.8.3-openjdk-17-slim AS build
+# Stage 0: Build the application with Gradle
+FROM gradle:7.3.2-jdk17 AS build
 
 WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:resolve dependency:resolve-plugins
+COPY build.gradle settings.gradle /app/
+COPY gradle /app/gradle
+COPY src /app/src
+RUN gradle build --no-daemon
 
-COPY . .
-RUN mvn package -DskipTests
+# Stage 1: Create a smaller image with the application JAR
+FROM adoptopenjdk:17-jre-hotspot-bionic AS deploy
 
+WORKDIR /app
+COPY --from=build /app/build/libs/your-app-name.jar main.jar
 
-# Stage 1: Run jar with JRE
-FROM eclipse-temurin:17-jre-focal AS deploy
-
-COPY --from=build /app/target/docker-demo-backend-0.0.1-SNAPSHOT.jar /app/main.jar
-CMD ["java", "-jar", "/app/main.jar"]
+CMD ["java", "-jar", "main.jar"]
