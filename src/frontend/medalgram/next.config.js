@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   distDir: "build",
-  output: "export",
+  images: {
+    domains: ['i.ibb.co'],
+  },
 };
+
 
 module.exports = nextConfig;
