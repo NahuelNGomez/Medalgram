@@ -9,9 +9,14 @@ COPY src /app/src
 RUN gradle build --no-daemon
 
 # Stage 1: Create a smaller image with the application JAR
-FROM adoptopenjdk:17-jre-hotspot-bionic AS deploy
+FROM eclipse-temurin:11 AS deploy
 
-WORKDIR /app
-COPY --from=build /app/build/libs/your-app-name.jar main.jar
+RUN mkdir /opt/app
+# COPY japp.jar /opt/app
+COPY --from=build /app/build/libs/*.jar /opt/app/app.jar
+CMD ["java", "-jar", "/opt/app/app.jar"]
 
-CMD ["java", "-jar", "main.jar"]
+#COPY --from=build /app/build/libs/your-app-name.jar main.jar
+
+#CMD ["java", "-jar", "main.jar"]
+
