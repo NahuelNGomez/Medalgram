@@ -27,16 +27,13 @@ stages:
 
 verify:
   stage: test
-  image: maven:3-openjdk-17
   cache:
-    - key:
-        files:
-          - src/backend/pom.xml
       paths:
-        - .m2/repository
+        - build
+        - .gradle
   script:
     - cd src/backend
-    - mvn $MAVEN_CLI_OPTS test
+    - gradlew check
   tags:
     - docker-runner
 
