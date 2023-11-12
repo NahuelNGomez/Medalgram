@@ -5,8 +5,8 @@ import Image from "next/image";
 export default function ProfileInfo() {
   // Hacer get del perfil
   return (
-    <main className="h-[25rem] rounded-2xl justify-self-center justify-center flex bg-dark2 relative">
-      <div className="flex flex-row	justify-around py-[8px] px-[24px]">
+    <main className="h-[25rem] rounded-2xl justify-self-center justify-center flex bg-dark2 relative w-full">
+      <div className="flex flex-row	justify-around py-[8px] px-[24px] w-full">
         <div className="align-middle flex pr-[24px]">
           <div className="align-middle flex">
             <Image
