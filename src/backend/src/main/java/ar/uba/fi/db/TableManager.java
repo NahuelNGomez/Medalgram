@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Map;
 
-@Component
+//@Component
 public class TableManager {
 
     private final JdbcTemplate jdbcTemplate;
@@ -25,7 +25,8 @@ public class TableManager {
     }
 
     public boolean createRecord(String tableName, Map<String, Object> cols) {
-        if (isRecordInDb(tableName, cols)) return false;
+        if (isRecordInDb(tableName, cols))
+            return false;
 
         String sql = createInsertSql(tableName, cols);
 
@@ -38,7 +39,8 @@ public class TableManager {
     }
 
     public boolean deleteRecord(String tableName, Map<String, Object> cols) {
-        if (!isRecordInDb(tableName, cols)) return false;
+        if (!isRecordInDb(tableName, cols))
+            return false;
 
         String sql = createDeleteSql(tableName, cols);
         int rowsAffected = jdbcTemplate.update(sql, cols.values().toArray());
