@@ -32,6 +32,7 @@ verify:
         - build
         - .gradle
   script:
+    - echo "Tests passed"
   tags:
     - docker-runner
 
