@@ -14,7 +14,7 @@ variables:
     -Djava.awt.headless=true
 
 stages:
- # - test
+  - test
   - build
   - deploy
 
@@ -32,8 +32,6 @@ verify:
         - build
         - .gradle
   script:
-    - cd src/backend
-    - gradlew check
   tags:
     - docker-runner
 
