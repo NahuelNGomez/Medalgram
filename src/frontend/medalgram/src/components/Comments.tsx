@@ -20,6 +20,7 @@ export default function Comments() {
             <Comment/>
             <Comment/>
             <Comment/>
+            <Comment/>
             </div>
 
 
