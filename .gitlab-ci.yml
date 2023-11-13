@@ -1,7 +1,7 @@
 variables:
-  FRONTEND_IMAGE: registry.gitlab.com/NahuelNGomez/medalgram/ejemplo-frontend
-  BACKEND_IMAGE: registry.gitlab.com/NahuelNGomez/medalgram/ejemplo-backend
-  INGRESS_IMAGE: registry.gitlab.com/NahuelNGomez/medalgram/ejemplo-ingress
+  FRONTEND_IMAGE: registry.gitlab.com/nahuelngomez/medalgram/ejemplo-frontend
+  BACKEND_IMAGE: registry.gitlab.com/nahuelngomez/medalgram/ejemplo-backend
+  INGRESS_IMAGE: registry.gitlab.com/nahuelngomez/medalgram/ejemplo-ingress
   MAVEN_CLI_OPTS: >-
     --batch-mode
     --errors
