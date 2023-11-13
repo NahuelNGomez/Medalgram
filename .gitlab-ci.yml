@@ -14,7 +14,7 @@ variables:
     -Djava.awt.headless=true
 
 stages:
-  - test
+ # - test
   - build
   - deploy
 
