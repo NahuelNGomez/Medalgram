@@ -25,7 +25,8 @@ public class TableManager {
     }
 
     public boolean createRecord(String tableName, Map<String, Object> cols) {
-        if (isRecordInDb(tableName, cols)) return false;
+        if (isRecordInDb(tableName, cols))
+            return false;
 
         String sql = createInsertSql(tableName, cols);
 
@@ -38,7 +39,8 @@ public class TableManager {
     }
 
     public boolean deleteRecord(String tableName, Map<String, Object> cols) {
-        if (!isRecordInDb(tableName, cols)) return false;
+        if (!isRecordInDb(tableName, cols))
+            return false;
 
         String sql = createDeleteSql(tableName, cols);
         int rowsAffected = jdbcTemplate.update(sql, cols.values().toArray());
@@ -57,12 +59,11 @@ public class TableManager {
         return id != null ? id : -1;
     }
 
-
     //////////////// Nuevo
-    //public Collection<T> getAllRecords(String tableName) {
-    //    String sql = "SELECT * FROM " + tableName;
-    //    return jdbcTemplate.queryForList(sql);
-    //}
+    // public Collection<T> getAllRecords(String tableName) {
+    // String sql = "SELECT * FROM " + tableName;
+    // return jdbcTemplate.queryForList(sql);
+    // }
 
     private String createInsertSql(String tableName, Map<String, Object> cols) {
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
