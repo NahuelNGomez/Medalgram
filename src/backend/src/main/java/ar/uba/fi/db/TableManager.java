@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Map;
 
-@Component
+//@Component
 public class TableManager {
 
     private final JdbcTemplate jdbcTemplate;
