@@ -1,60 +1,66 @@
 package ar.uba.fi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Table(name = "Comments")
 public class Comment {
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private Long id;
-        private Long id_runner;
-        private Long id_event;
-        private String content;
-        private String date;
 
-        public Comment(){
-        }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        public Long getId() {
-            return this.id;
-        }
+    @Column(name = "id_event")
+    private Integer idEvent;
 
-        public void setId(Long id) {
-            this.id = id;
-        }
+    @Column(name = "id_runner")
+    private Integer idRunner;
 
-        public Long getIdRunner() {
-            return this.id_runner;
-        }
+    @Column(name = "content")
+    private String content;
 
-        public void setIdRunner(Long id_runner) {
-            this.id_runner = id_runner;
-        }
+    @Column(name = "date")
+    private Date date;
 
-        public Long getIdEvent() {
-            return this.id_event;
-        }
+    // getters and setters
+    public Long getId() {
+        return id;
+    }
 
-        public void setIdEvent(Long id_event) {
-            this.id_event = id_event;
-        }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-        public String getContent() {
-            return this.content;
-        }
+    public Integer getIdEvent() {
+        return idEvent;
+    }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
+    public void setIdEvent(Integer idEvent) {
+        this.idEvent = idEvent;
+    }
 
-        public String getDate() {
-            return this.date;
-        }
+    public Integer getIdRunner() {
+        return idRunner;
+    }
 
-        public void setDate(String date) {
-            this.date = date;
-        }
+    public void setIdRunner(Integer idRunner) {
+        this.idRunner = idRunner;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

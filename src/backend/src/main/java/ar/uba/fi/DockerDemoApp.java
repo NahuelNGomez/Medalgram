@@ -158,7 +158,7 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/events/{id_event}/comments")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Comment createComment(@RequestBody Comment comment, @PathVariable Long id_event) {
+	public Comment createComment(@RequestBody Comment comment, @PathVariable Integer id_event) {
 		comment.setIdEvent(id_event);
 		return commentService.createComment(comment);
 	}

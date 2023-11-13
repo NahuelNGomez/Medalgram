@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TableManagerTest {
 
     private TableManager tableManager;
-    private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     public void setUp() {
@@ -25,7 +24,7 @@ public class TableManagerTest {
         dataSource.setUsername("dbmedalgram_user");
         dataSource.setPassword("fyghQWdDao2q9NUat6qloUEzWP1jOWwa");
 
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         tableManager = new TableManager(jdbcTemplate);
     }
 

@@ -1,67 +1,65 @@
 package ar.uba.fi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
-
+import javax.persistence.*;
+import java.sql.Time;
 
 @Entity
+@Table(name = "Results")
 public class Result {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long id_runner;
-    private Long id_event;
-    private int status;
-    private LocalDateTime race_time;
 
-    public Result(){
-    }
+    @Column(name = "id_runner")
+    private Integer idRunner;
+
+    @Column(name = "id_event")
+    private Integer idEvent;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "time")
+    private Time time;
 
     public Long getId() {
-        return this.id;
+        return id;
+    }
+
+    public Integer getIdRunner() {
+        return idRunner;
+    }
+
+    public Integer getIdEvent() {
+        return idEvent;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Time getTime() {
+        return time;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getIdRunner() {
-        return this.id_runner;
+    public void setIdRunner(Integer idRunner) {
+        this.idRunner = idRunner;
     }
 
-    public void setIdRunner(Long id_runner) {
-        this.id_runner = id_runner;
+    public void setIdEvent(Integer idEvent) {
+        this.idEvent = idEvent;
     }
 
-    public Long getIdEvent() {
-        return this.id_event;
-    }
-    
-    public void setIdEvent(Long id_event) {
-        this.id_event = id_event;
-    }
-
-    public int getStatus() {
-        return this.status;
-    }
-    
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public LocalDateTime getRaceTime() {
-        return this.race_time;
+    public void setTime(Time time) {
+        this.time = time;
     }
-    
-    public void setRaceTime(LocalDateTime race_time) {
-        this.race_time = race_time;
-    }
-
-
 }
-
-

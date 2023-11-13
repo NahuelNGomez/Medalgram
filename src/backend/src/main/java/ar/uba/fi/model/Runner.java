@@ -1,76 +1,83 @@
 package ar.uba.fi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "Runners")
 public class Runner {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "email")
     private String email;
-    private String encrypted_pass;
+
+    @Column(name = "encrypted_pass")
+    private String encryptedPass;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "username")
     private String username;
-    private int age;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "location")
     private String location;
 
-    public Runner(){
+    public Long getId() {
+        return id;
     }
 
-    public Long getId() {
-        return this.id;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getEncryptedPass() {
+        return encryptedPass;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getEmail() {
-        return this.email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getEncryptedPass() {
-        return this.encrypted_pass;
-    }
-
-    public void setEncryptedPass(String encrypted_pass) {
-        this.encrypted_pass = encrypted_pass;
-    }
-
-    public String getName() {
-        return this.name;
+    public void setEncryptedPass(String encryptedPass) {
+        this.encryptedPass = encryptedPass;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getUsername() {
-        return this.username;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public int getAge() {
-        return this.age;
-    }
-
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public String getLocation() {
-        return this.location;
     }
 
     public void setLocation(String location) {
