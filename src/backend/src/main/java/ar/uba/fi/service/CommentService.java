@@ -5,6 +5,8 @@ import ar.uba.fi.repository.AccountRepository;
 import ar.uba.fi.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 import java.util.Optional;
 
 import java.util.Collection;
@@ -32,6 +34,6 @@ public class CommentService {
     }
 
     public Collection<Comment> getEventComments(Long id_event) {
-        return commentRepository.findAll().stream().filter(comment -> comment.getIdEvent() == id_event).collect(java.util.stream.Collectors.toList());
+        return commentRepository.findAll().stream().filter(comment -> comment.getIdEvent().longValue() == id_event).collect(java.util.stream.Collectors.toList());
     }
 }

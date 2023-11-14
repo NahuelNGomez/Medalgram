@@ -29,6 +29,6 @@ public class EventService {
 
     public Collection<Event> filterBySport(Long id) {
         // TODO: filter by sport id.
-        return eventRepository.findAll().stream().filter(event -> event.getIdSport() == id).collect(Collectors.toList());
+        return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList());
     }
 }

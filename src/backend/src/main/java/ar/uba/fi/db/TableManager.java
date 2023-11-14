@@ -59,23 +59,17 @@ public class TableManager {
         return id != null ? id : -1;
     }
 
-    //////////////// Nuevo
-    // public Collection<T> getAllRecords(String tableName) {
-    // String sql = "SELECT * FROM " + tableName;
-    // return jdbcTemplate.queryForList(sql);
-    // }
-
     private String createInsertSql(String tableName, Map<String, Object> cols) {
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
         for (String col : cols.keySet()) {
             sql.append(col).append(", ");
         }
+
         // Remove the last ", "
         sql.setLength(sql.length() - 2);
         sql.append(") VALUES (");
-        for (int i = 0; i < cols.size(); i++) {
-            sql.append("?, ");
-        }
+        sql.append("?, ".repeat(cols.size()));
+
         // Remove the last ", "
         sql.setLength(sql.length() - 2);
         sql.append(")");
@@ -87,6 +81,7 @@ public class TableManager {
         for (String col : cols.keySet()) {
             sql.append(col).append(" = ? AND ");
         }
+
         // Remove the last " AND "
         sql.setLength(sql.length() - 5);
         return sql.toString();
@@ -97,6 +92,7 @@ public class TableManager {
         for (String col : cols.keySet()) {
             sql.append(col).append(" = ? AND ");
         }
+
         // Remove the last " AND "
         sql.setLength(sql.length() - 5);
         return sql.toString();
@@ -107,6 +103,7 @@ public class TableManager {
         for (String col : cols.keySet()) {
             sql.append(col).append(" = ? AND ");
         }
+
         // Remove the last " AND "
         sql.setLength(sql.length() - 5);
         return sql.toString();
