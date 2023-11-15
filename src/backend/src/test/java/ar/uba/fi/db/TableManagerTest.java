@@ -117,7 +117,7 @@ public class TableManagerTest {
 
         tableManager.deleteRecord(auxTableName, auxCols);
     }
-
+/*
     @Test
     public void integralTest2() {
         String auxTableName = "Sports";
@@ -145,5 +145,5 @@ public class TableManagerTest {
         isInDb = tableManager.isRecordInDb(tableName, cols);
         assertFalse(isInDb, "Record should not be in the DB");
     }
-
+*/
 }

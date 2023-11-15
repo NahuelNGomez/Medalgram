@@ -3,11 +3,11 @@ import NavegationBar from "@/components/NavegationBar";
 import PreviewEvent from "@/components/PreviewEvent";
 import Image from "next/image";
 
-interface EventProps {
-    params: { id: number }
-}
 
-export default function Page({ params: { id } }: EventProps) {
+
+export default function Page({ params } :any) {
+
+    const {slug} = params;
 
     return (
         <section className="flex flex-col justify-center items-center">
