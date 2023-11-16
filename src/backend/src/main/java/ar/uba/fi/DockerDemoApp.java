@@ -185,8 +185,6 @@ public class DockerDemoApp {
 			}
 		};
 	}
-
-
 /*
 	@Bean
 	public CorsFilter corsFilter() {
