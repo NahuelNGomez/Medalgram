@@ -10,12 +10,6 @@ public class Runner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "encrypted_pass")
-    private String encryptedPass;
-
     @Column(name = "name")
     private String name;
 
@@ -30,14 +24,6 @@ public class Runner {
 
     public Long getId() {
         return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getEncryptedPass() {
-        return encryptedPass;
     }
 
     public String getName() {
@@ -58,14 +44,6 @@ public class Runner {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setEncryptedPass(String encryptedPass) {
-        this.encryptedPass = encryptedPass;
     }
 
     public void setName(String name) {
