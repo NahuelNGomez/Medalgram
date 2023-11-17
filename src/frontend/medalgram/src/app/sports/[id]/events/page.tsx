@@ -4,6 +4,7 @@ import PreviewEvent from "@/components/PreviewEvent";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import { useEffect, useState } from "react";
+import { eventsMock } from "@/objects/mocks/mock";
 
 interface SportProps {
     params: { id: number }
@@ -12,6 +13,8 @@ interface SportProps {
 export default function Page({ params: { id } }: SportProps) {
 
     const [logged, setLogged] = useState(false);
+
+    const events = eventsMock();
 
     const breadcrumb = [
         {
@@ -27,9 +30,9 @@ export default function Page({ params: { id } }: SportProps) {
     useEffect(() => {
         if (document === undefined) return;
         if (document.cookie === 'username=True') {
-          setLogged(true);
+            setLogged(true);
         }
-      },[])
+    }, [])
 
     return (
         <main className="flex flex-col">
@@ -40,10 +43,17 @@ export default function Page({ params: { id } }: SportProps) {
             <div className="flex flex-wrap justify-between p-10">
                 <div className="border p-2 px-40">Buscador</div>
             </div>
-            <PreviewEvent />
-            <PreviewEvent />
-            <PreviewEvent />
-            <PreviewEvent />
+            {events.map((event: any) => {
+                return (
+                    <PreviewEvent
+                        key={event.id}
+                        id={event.id}
+                        name={event.name}
+                        location={event.location}
+                        date={event.date}
+                    />
+                );
+            })}
         </main>
     );
 }

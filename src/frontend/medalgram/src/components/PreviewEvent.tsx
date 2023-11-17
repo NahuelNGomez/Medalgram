@@ -3,17 +3,17 @@ import Breadcrumbs from "./Breadcrumbs";
 
 
 
-export default function PreviewEvent() {
+export default function PreviewEvent({ id, name, location, date }: any) {
 
     return (
 
         <main className="flex flex-wrap w-full my-4 px-10">
 
-            <div className="border bg-dark3 w-1/5 py-2 flex align-content justify-center items-center">Fecha</div>
+            <div className="border bg-dark3 w-1/5 py-2 flex align-content justify-center items-center text-dark1 font-bold">{date}</div>
             <div className="bg-dark2 w-4/5 text-white grid grid-cols-2 bg-gradient-to-r from-dark1 to-dark2">
                 <div className="col-span-1 flex flex-wrap flex-col justify-center pl-4 ">
-                    <p>Titulo</p>
-                    <p>Lugar: Lugar X</p>
+                    <p>{name}</p>
+                    <p>Lugar: {location}</p>
                 </div>
                 <div className="flex justify-center items-center py-4">
                     <Link href={`/sports/` + 2 + '/events/' + 1} className="nav-link link-body-emphasis active" aria-current="page">
