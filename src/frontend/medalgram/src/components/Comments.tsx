@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Comment from "@/components/Comment";
+import { commentsMock } from "@/objects/mocks/mock";
 
 export default function Comments() {
 
+    const comments = commentsMock();
 
 
     return (
@@ -16,11 +18,13 @@ export default function Comments() {
             <div className="border my-6 w-[60%]"></div>
             </div>
             <div className="flex flex-col gap-8 text-xs">
-            <Comment/>
-            <Comment/>
-            <Comment/>
-            <Comment/>
-            <Comment/>
+                {
+                    comments.map((comment:any) => {
+                        return (
+                            <Comment key={comment.id} content={comment.content} date={comment.date} idRunner={comment.idRunner}/>
+                        )
+                    })
+                }
             </div>
 
 

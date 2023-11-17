@@ -22,8 +22,8 @@ export default function Page({ params: { id } }: SportProps) {
             url: '/sports'
         },
         {
-            title: 1 + ' / Eventos',
-            url: '/sports/' + 1 + '/events'
+            title: id + ' / Eventos',
+            url: '/sports/' + id + '/events'
         }
     ];
 
@@ -47,6 +47,7 @@ export default function Page({ params: { id } }: SportProps) {
                 return (
                     <PreviewEvent
                         key={event.id}
+                        idSport={id}
                         id={event.id}
                         name={event.name}
                         location={event.location}

@@ -61,6 +61,7 @@ export default function Sports() {
             return (
               <Sport
                 key={sport.id}
+                id={sport.id}
                 title={sport.name}
                 description={sport.description}
               />
