@@ -1,13 +1,17 @@
+"use client"
 import NavegationBar from "@/components/NavegationBar";
 import PreviewEvent from "@/components/PreviewEvent";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
+import { useEffect, useState } from "react";
 
 interface SportProps {
     params: { id: number }
 }
 
 export default function Page({ params: { id } }: SportProps) {
+
+    const [logged, setLogged] = useState(false);
 
     const breadcrumb = [
         {
@@ -20,10 +24,17 @@ export default function Page({ params: { id } }: SportProps) {
         }
     ];
 
+    useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie === 'username=True') {
+          setLogged(true);
+        }
+      },[])
+
     return (
         <main className="flex flex-col">
             {
-                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+                logged === true ? <NavegationBarLogged /> : <NavegationBar />
             }
             <Breadcrumbs items={breadcrumb} />
             <div className="flex flex-wrap justify-between p-10">

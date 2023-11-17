@@ -4,21 +4,21 @@ import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import SearchBar from "@/components/SearchBar";
 import Sport from "@/components/Sport";
+import { sportMock } from "@/objects/mocks/mock";
 import { useEffect, useState } from "react";
 
 export default function Sports() {
   const [sports, setSports] = useState<Array<any>>([]);
-  useEffect(() => {
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/sports")
-      .then((response) => response.json())
-      .then((data) => setSports(data));
-  }, []);
-  /* const sports = [
-    { title: "Deporte 1", description: "Descripcion Deporte 1" },
-    { title: "Deporte 2", description: "Descripcion Deporte 2" },
-    { title: "Deporte 3", description: "Descripcion Deporte 3" },
-    { title: "Deporte 4", description: "Descripcion Deporte 4" },
-  ]; */
+  // useEffect(() => {
+  //   fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/sports")
+  //     .then((response) => response.json())
+  //     .then((data) => setSports(data));
+  // }, []);
+
+  useEffect(()=>{
+    setSports(sportMock())
+  }, [])
+  
   const [filterInput, setFilterInput] = useState("");
   const [logged, setLogged] = useState(false);
 
