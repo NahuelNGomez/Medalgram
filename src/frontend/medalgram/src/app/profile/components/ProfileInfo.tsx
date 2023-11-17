@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProfileInfo() {
   // Hacer get del perfil
@@ -12,32 +13,36 @@ export default function ProfileInfo() {
             <Image
               src="/avatar.svg"
               alt="Descripción de la imagen"
-              width={200}
-              height={200}
+              width={150}
+              height={150}
             />
           </div>
         </div>
         <div className="flex flex-col justify-around">
-          <div className="flex text-[48px] px-[12px]">
+          <div className="flex text-text-3xl px-[12px]">
             Información de perfil
           </div>
           <div>
-            <div className="flex text-[48px] px-[12px]">Lionel Messi</div>
-            <div className="flex text-[48px] px-[12px]">23 años</div>
-            <div className="flex text-[48px] px-[12px]">
+            <div className="flex text-xl px-[12px]">Lionel Messi</div>
+            <div className="flex text-xl px-[12px]">23 años</div>
+            <div className="flex text-xl px-[12px]">
               Buenos Aires, Argentina
             </div>
           </div>
         </div>
         <div className="flex flex-col w-[340px]">
           <div className="py-[30px]">
-            <button className="text-[30px] bg-dark3 rounded-3xl text-black w-[340px]">
+            <button className="text-[20px] bg-dark3 rounded-3xl text-black w-[300px]">
               Editar Perfil
             </button>
           </div>
-          <button className="text-[30px] bg-dark3 rounded-3xl text-black">
-            Ver Estadísticas
-          </button>
+          <div className="w-[300px]">
+            <Link href="/stats">
+              <button className="text-[20px] bg-dark3 rounded-3xl text-black w-full">
+                Ver Estadísticas
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </main>

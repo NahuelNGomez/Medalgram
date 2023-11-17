@@ -22,9 +22,9 @@ export default function Sports() {
       {
         logged === true ? <NavegationBarLogged /> : <NavegationBar />
       }
-      <EditProfileModal />
+      {/*<EditProfileModal />*/ }
       <div className="flex flex-col">
-        <div className="pt-[50px] pl-[130px] text-[64px]">
+        <div className="pt-[50px] pl-[130px] text-3xl">
           Perfil del corredor 0001
         </div>
         <div className="grid grid-cols-6 pl-[130px] pr-[30px] gap-[30px]">
