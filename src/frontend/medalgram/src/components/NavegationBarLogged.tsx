@@ -1,11 +1,11 @@
+import { logoutMock } from "@/objects/mocks/mock";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 export default function NavegationBarLogged() {
     const router = useRouter();
 
     const handleLogOut = () => {
-        document.cookie = "username=False";
-        router.push("/")
+        logoutMock(router);
     }
 
     return (

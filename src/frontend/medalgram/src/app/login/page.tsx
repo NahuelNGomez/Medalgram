@@ -3,6 +3,7 @@ import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
+import { loginMock } from "@/objects/mocks/mock";
 
 export default function Login() {
     const [formData, setFormData] = useState({ username: '', password: '' });
@@ -17,8 +18,7 @@ export default function Login() {
     const handleLogin = () => {
         if (formData.username && formData.password) {
             setNotification('Se enviaría una request.')
-            document.cookie = "username=True";
-            router.push('/profile')
+            loginMock(router)
         } else {
             setNotification('Por favor, complete todos los campos.')
         }
