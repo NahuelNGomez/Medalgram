@@ -20,6 +20,7 @@ export default function Sports() {
     { title: "Deporte 4", description: "Descripcion Deporte 4" },
   ]; */
   const [filterInput, setFilterInput] = useState("");
+  const [logged, setLogged] = useState(false);
 
   const breadcrumb = [
     {
@@ -27,10 +28,18 @@ export default function Sports() {
       url: "/sports",
     },
   ];
+
+  useEffect(() => {
+    if (document === undefined) return;
+    if (document.cookie === 'username=True') {
+      setLogged(true);
+    }
+  },[])
+
   return (
     <main>
       {
-        document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+        logged === true ? <NavegationBarLogged /> : <NavegationBar />
       }
       <article className="col-span-1 border flex items-center justify-between outline-transparent border-transparent pt-6">
         <Breadcrumbs items={breadcrumb} />

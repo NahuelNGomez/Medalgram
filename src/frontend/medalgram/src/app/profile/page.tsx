@@ -4,15 +4,23 @@ import ProfileInfo from "@/app/profile/components/ProfileInfo";
 import ConfirmResults from "@/app/profile/components/ConfirmResults";
 import LastResults from "@/app/profile/components/LastResults";
 import EditProfileModal from "./components/EditProfileModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 
 export default function Sports() {
   // Hacer get del perfil
+  const [logged, setLogged] = useState(false);
+  useEffect(() => {
+    if (document === undefined) return;
+    if (document.cookie === 'username=True') {
+      setLogged(true);
+    }
+  },[])
+
   return (
     <main>
       {
-        document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+        logged === true ? <NavegationBarLogged /> : <NavegationBar />
       }
       <EditProfileModal />
       <div className="flex flex-col">

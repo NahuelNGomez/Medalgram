@@ -8,6 +8,7 @@ import { loginMock } from "@/objects/mocks/mock";
 export default function Login() {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [notification, setNotification] = useState('')
+    const [logged, setLogged] = useState(false);
     const router = useRouter()
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,10 +25,17 @@ export default function Login() {
         }
     };
 
+    useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie === 'username=True') {
+          setLogged(true);
+        }
+      },[])
+
     return (
         <main className="flex flex-col justify-center items-center">
             {
-                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+                logged === true ? <NavegationBarLogged /> : <NavegationBar />
             }
             <div className="w-full max-w-xl mt-4">
                 <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4 " >

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavegationBar from "@/components/NavegationBar";
 import { useRef, useState } from "react";
 import NavegationBarLogged from '@/components/NavegationBarLogged';
@@ -9,6 +9,7 @@ export default function CreateProfile() {
 
     const [formData, setFormData] = useState({ username: '', location: '', name: '', image: '', age: '' });
     const [notification, setNotification] = useState('')
+    const [logged, setLogged] = useState(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -24,12 +25,19 @@ export default function CreateProfile() {
         }
     };
 
+    useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie === 'username=True') {
+          setLogged(true);
+        }
+      },[])
+
     return (
 
 
         <main className="flex flex-col justify-center items-center">
             {
-                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+                logged === true ? <NavegationBarLogged /> : <NavegationBar />
             }
             <div className="w-[75%] mt-4">
                 <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4">

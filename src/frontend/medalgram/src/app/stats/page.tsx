@@ -1,9 +1,12 @@
+"use client"
 import Breadcrumbs from "@/components/Breadcrumbs";
 import MedalList from "@/components/MedalList";
 import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
+import { useEffect, useState } from "react";
 
 export default function Stats(){
+    const [logged, setLogged] = useState(false);
 
     const breadcrumb = [
         {
@@ -16,11 +19,18 @@ export default function Stats(){
         }
     ];
 
+    useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie === 'username=True') {
+          setLogged(true);
+        }
+      },[])
+
 
     return (
         <main>
             {
-                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+                logged === true ? <NavegationBarLogged /> : <NavegationBar />
             }
             <Breadcrumbs items={breadcrumb}/>
             <section>

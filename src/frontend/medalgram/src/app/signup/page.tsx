@@ -7,6 +7,7 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 export default function Signup() {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [notification, setNotification] = useState('')
+    const [logged, setLogged] = useState(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -21,10 +22,18 @@ export default function Signup() {
         }
     };
 
+
+    useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie === 'username=True') {
+          setLogged(true);
+        }
+      },[])
+
     return (
         <main className="flex flex-col justify-center items-center">
             {
-                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+                logged === true ? <NavegationBarLogged /> : <NavegationBar />
             }
             <div className="w-full max-w-xl mt-4">
 
