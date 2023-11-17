@@ -1,6 +1,7 @@
 "use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import NavegationBar from "@/components/NavegationBar";
+import NavegationBarLogged from "@/components/NavegationBarLogged";
 import SearchBar from "@/components/SearchBar";
 import Sport from "@/components/Sport";
 import { useEffect, useState } from "react";
@@ -28,7 +29,9 @@ export default function Sports() {
   ];
   return (
     <main>
-      <NavegationBar />
+      {
+        document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+      }
       <article className="col-span-1 border flex items-center justify-between outline-transparent border-transparent pt-6">
         <Breadcrumbs items={breadcrumb} />
         <SearchBar

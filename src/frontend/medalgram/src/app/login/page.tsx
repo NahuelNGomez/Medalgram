@@ -1,11 +1,13 @@
-'use client';
-
+"use client";
 import NavegationBar from "@/components/NavegationBar";
+import NavegationBarLogged from "@/components/NavegationBarLogged";
 import React, { SyntheticEvent, useEffect, useState } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function Login() {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [notification, setNotification] = useState('')
+    const router = useRouter()
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -15,6 +17,8 @@ export default function Login() {
     const handleLogin = () => {
         if (formData.username && formData.password) {
             setNotification('Se enviaría una request.')
+            document.cookie = "username=True";
+            router.push('/profile')
         } else {
             setNotification('Por favor, complete todos los campos.')
         }
@@ -22,7 +26,9 @@ export default function Login() {
 
     return (
         <main className="flex flex-col justify-center items-center">
-            <NavegationBar />
+            {
+                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+            }
             <div className="w-full max-w-xl mt-4">
                 <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4 " >
                     <div className="flex justify-center items-center">
@@ -64,13 +70,13 @@ export default function Login() {
                             Recuperar contraseña
                         </a>
                     </div>
-                    { notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
+                    {notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
                     <div className="w-full pt-5">
                         <button onClick={handleLogin} className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline" type="button" >
                             Iniciar Sesión
                         </button>
                     </div>
-                    
+
                 </form>
                 <p className="text-center text-gray-500 text-xs">
                     &copy;2023 BugHunters. All rights reserved.

@@ -1,6 +1,7 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import MedalList from "@/components/MedalList";
 import NavegationBar from "@/components/NavegationBar";
+import NavegationBarLogged from "@/components/NavegationBarLogged";
 
 export default function Stats(){
 
@@ -18,7 +19,9 @@ export default function Stats(){
 
     return (
         <main>
-            <NavegationBar/>
+            {
+                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+            }
             <Breadcrumbs items={breadcrumb}/>
             <section>
                 <div className='flex flex-wrap items-center justify-items-start border justify-between px-10'>

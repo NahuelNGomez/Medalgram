@@ -5,12 +5,15 @@ import ConfirmResults from "@/app/profile/components/ConfirmResults";
 import LastResults from "@/app/profile/components/LastResults";
 import EditProfileModal from "./components/EditProfileModal";
 import { useState } from "react";
+import NavegationBarLogged from "@/components/NavegationBarLogged";
 
 export default function Sports() {
   // Hacer get del perfil
   return (
     <main>
-      <NavegationBar />
+      {
+        document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+      }
       <EditProfileModal />
       <div className="flex flex-col">
         <div className="pt-[50px] pl-[130px] text-[64px]">

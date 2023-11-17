@@ -1,6 +1,7 @@
 'use client';
 
 import NavegationBar from "@/components/NavegationBar";
+import NavegationBarLogged from "@/components/NavegationBarLogged";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 
 export default function Signup() {
@@ -22,7 +23,9 @@ export default function Signup() {
 
     return (
         <main className="flex flex-col justify-center items-center">
-            <NavegationBar />
+            {
+                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+            }
             <div className="w-full max-w-xl mt-4">
 
                 <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4">
@@ -65,7 +68,7 @@ export default function Signup() {
                             Términos y Condiciones
                         </a>
                     </div>
-                    { notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
+                    {notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
                     <div className="w-full pt-5"><button onClick={handleLogin} className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline" type="button">
                         Iniciar Sesión
                     </button></div>

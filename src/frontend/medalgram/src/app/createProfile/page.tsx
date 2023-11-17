@@ -3,6 +3,7 @@
 import React from 'react';
 import NavegationBar from "@/components/NavegationBar";
 import { useRef, useState } from "react";
+import NavegationBarLogged from '@/components/NavegationBarLogged';
 
 export default function CreateProfile() {
 
@@ -27,7 +28,9 @@ export default function CreateProfile() {
 
 
         <main className="flex flex-col justify-center items-center">
-            <NavegationBar />
+            {
+                document.cookie === 'username=True' ? <NavegationBarLogged /> : <NavegationBar />
+            }
             <div className="w-[75%] mt-4">
                 <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4">
                     <div className="flex justify-center items-center">
