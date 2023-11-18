@@ -106,6 +106,8 @@ public class DockerDemoApp {
 		return resultService.getResults();
 	}
 
+	// TO DO: Put for /api/results
+
 
 	// Runner
 
@@ -115,11 +117,57 @@ public class DockerDemoApp {
 		return runnerService.createRunner(runner);
 	}
 
+	// api/runners?top=5
+
 	@GetMapping("/api/runners/{id}")
 	public ResponseEntity<Runner> getRunner(@PathVariable Long id) {
 		Optional<Runner> runner = runnerService.findById(id);
 		return ResponseEntity.of(runner);
 	}
+
+	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
+	@GetMapping("/api/runners/{id}/stats")
+	public ResponseEntity<Runner> getRunnerStats(@PathVariable Long id) {
+		Optional<Runner> runner = runnerService.findById(id);
+		return ResponseEntity.of(runner);
+	}
+
+	///// Me
+
+	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
+	@GetMapping("/api/me/stats")
+	public ResponseEntity<Runner> getMeStats(@RequestBody String token) {
+		// Optional<Runner> runner = runnerService.getStats(id);
+		// return ResponseEntity.of(runner);
+		return null;
+	}
+
+	// GET api/me  /*Muestra datos del runner*/
+	@GetMapping("/api/me")
+	public ResponseEntity<Runner> getMe(@RequestBody String token) {
+		// Optional<Runner> runner = runnerService.findById(id);
+		// return ResponseEntity.of(runner);
+		return null;
+	}
+	
+    // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
+	@GetMapping("/api/me/results")
+	public ResponseEntity<Runner> getMeResults(@RequestBody String token) {
+		// Optional<Runner> runner = runnerService.findById(id);
+		// return ResponseEntity.of(runner);
+		return null;
+	}
+
+
+	// PUT api/me *editar datos runner*
+
+	// POST api/me/results/     /*permite subir resultados*/
+	@PostMapping("/api/me/results")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Result createResult(@RequestBody Result result) {
+		return resultService.createResult(result);
+	}
+
 
 	///// Sports
 
@@ -127,6 +175,8 @@ public class DockerDemoApp {
 	public Collection<Sport> getSports() {
 		return sportService.getSports();
 	}
+
+	// api/sports/{id_sport}/events?top=10
 
 	@GetMapping("/api/sports/{id}/events")
 	public Collection<Event> getSportEvents(@PathVariable Long id) {
@@ -145,6 +195,7 @@ public class DockerDemoApp {
 	public Collection<Event> getEvents() {
 		return eventService.getEvents();
 	}
+	// api/events?top=5
 
 	@GetMapping("/api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
@@ -170,21 +221,21 @@ public class DockerDemoApp {
 		return commentService.createComment(comment);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("*")
-					.allowedMethods("GET", "POST", "PUT", "DELETE")
-					.allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-						"Access-Control-Request-Headers")
-					.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-					.allowCredentials(true);
-			}
-		};
-	}
+	// @Bean
+	// public WebMvcConfigurer corsConfigurer() {
+	// 	return new WebMvcConfigurerAdapter() {
+	// 		@Override
+	// 		public void addCorsMappings(CorsRegistry registry) {
+	// 			registry.addMapping("/**")
+	// 					.allowedOrigins("*")
+	// 				.allowedMethods("GET", "POST", "PUT", "DELETE")
+	// 				.allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
+	// 					"Access-Control-Request-Headers")
+	// 				.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+	// 				.allowCredentials(true);
+	// 		}
+	// 	};
+	// }
 /*
 	@Bean
 	public CorsFilter corsFilter() {
