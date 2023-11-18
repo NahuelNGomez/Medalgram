@@ -20,4 +20,8 @@ public class ResultService {
     public Collection<Result> getResults() {
         return resultRepository.findAll();
     }
+
+    public Collection<Result> getResultsForRunner(Integer id_runner) {
+        return resultRepository.findResultByIdRunner(id_runner);
+    }
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -136,10 +137,11 @@ public class DockerDemoApp {
 
 	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
 	@GetMapping("/api/me/stats")
-	public ResponseEntity<Runner> getMeStats(@RequestBody String token) {
-		// Optional<Runner> runner = runnerService.getStats(id);
+	public Collection<Result> getMeStats(@RequestHeader Integer token) {
+		// logica para obtener el id con el token
+		Collection<Result> results = resultService.getResultsForRunner(token);
 		// return ResponseEntity.of(runner);
-		return null;
+		return results;
 	}
 
 	// GET api/me  /*Muestra datos del runner*/
