@@ -19,15 +19,33 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public Collection<Event> getEvents() {
-        return eventRepository.findAll();
+    public Collection<Event> getEvents(Integer top) {
+        if (top != 0 && top != null) {
+            //return first {top} results
+            if (top > eventRepository.count()) {
+                return eventRepository.findAll().subList(0, (int) eventRepository.count());
+            }
+            return eventRepository.findAll().subList(0, top);
+        } else {
+            return eventRepository.findAll();
+        }
+        
     }
 
     public Optional<Event> findById(Long id) {
         return eventRepository.findById(id);
     }
 
-    public Collection<Event> filterBySport(Long id) {
-        return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList());
+    public Collection<Event> filterBySport(Long id, Integer top) {
+        if (top != 0 && top != null) {
+            //return first {top} results
+            if (top > eventRepository.count()) {
+                return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList()).subList(0, (int) eventRepository.count());
+            }
+            return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList()).subList(0, top);
+        } else {
+            return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList());
+            //return eventRepository.findByIdSport(id);
+        }
     }
 }

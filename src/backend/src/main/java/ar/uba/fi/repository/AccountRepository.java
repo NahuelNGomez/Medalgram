@@ -11,6 +11,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Account findAccountById(Long id);
 
+    Account findByToken(String token);
+
     @Override
     List<Account> findAll();
 }

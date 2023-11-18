@@ -13,7 +13,12 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
-    public Result createResult(Result result) {
+    public Result createResult(Result result, String mode) {
+        if (mode.equals("Admin")) {
+            result.setStatus("Confirmed");
+        } else {
+            result.setStatus("Pending");
+        }
         return resultRepository.save(result);
     }
 
