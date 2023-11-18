@@ -13,11 +13,20 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
-    public Result createResult(Result result) {
+    public Result createResult(Result result, String mode) {
+        if (mode.equals("Admin")) {
+            result.setStatus("Confirmed");
+        } else {
+            result.setStatus("Pending");
+        }
         return resultRepository.save(result);
     }
 
     public Collection<Result> getResults() {
         return resultRepository.findAll();
+    }
+
+    public Collection<Result> getResultsForRunner(Integer id_runner) {
+        return resultRepository.findResultByIdRunner(id_runner);
     }
 }

@@ -1,15 +1,5 @@
 package ar.uba.fi;
 
-import ar.uba.fi.model.Event;
-import ar.uba.fi.model.Sport;
-import ar.uba.fi.model.Account;
-import ar.uba.fi.model.Runner;
-import ar.uba.fi.model.Result;
-import ar.uba.fi.service.AccountService;
-import ar.uba.fi.service.EventService;
-import ar.uba.fi.service.SportService;
-import ar.uba.fi.service.RunnerService;
-import ar.uba.fi.service.ResultService;
 import ar.uba.fi.model.*;
 import ar.uba.fi.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -106,6 +97,8 @@ public class DockerDemoApp {
 		return resultService.getResults();
 	}
 
+	// TO DO: Put for /api/results
+
 
 	// Runner
 
@@ -115,11 +108,64 @@ public class DockerDemoApp {
 		return runnerService.createRunner(runner);
 	}
 
+	// api/runners?top=5
+
 	@GetMapping("/api/runners/{id}")
 	public ResponseEntity<Runner> getRunner(@PathVariable Long id) {
 		Optional<Runner> runner = runnerService.findById(id);
 		return ResponseEntity.of(runner);
 	}
+
+	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
+	@GetMapping("/api/runners/{id}/stats")
+	public Collection<Result> getRunnerStats(@PathVariable Integer id, @RequestHeader Integer token) {
+		// Fijarse si el id runner me compartio el medallero a mi
+		// comparando el token con la tabla de shared
+		Collection<Result> results = resultService.getResultsForRunner(id);
+		return results;
+	}
+
+	///// Me
+
+	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
+	@GetMapping("/api/me/stats")
+	public Collection<Result> getMeStats(@RequestHeader Integer token) {
+		// logica para obtener el id con el token
+		Collection<Result> results = resultService.getResultsForRunner(token);
+		return results;
+	}
+
+	// GET api/me  /*Muestra datos del runner*/
+	@GetMapping("/api/me")
+	public ResponseEntity<Runner> getMe(@RequestHeader Long token) {
+		// Hay que hacer la conversion de token a id
+		Optional<Runner> runner = runnerService.findById(token);
+		return ResponseEntity.of(runner);
+	}
+	
+    // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
+	@GetMapping("/api/me/results")
+	public Collection<Result> getMeResults(@RequestHeader Integer token) {
+		// Hay que hacer la conversion de token a id
+		// Pedirle a account el id del runner segun token
+		Collection<Result> results = resultService.getResultsForRunner(token);
+		return results;
+	}
+
+
+	// PUT api/me *editar datos runner*
+
+	// POST api/me/results/     /*permite subir resultados*/
+	/* @PostMapping("/api/me/results")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Result createResult(@RequestBody Result result,  @RequestHeader String token) {
+		// Segun el token me fijo si es admin o no y creo un resultado
+		// No verificado o verificado segun corresponda
+		// mapear token -> modo : admin o runner
+		String mode = accountService.getMode(token);
+		return resultService.createResult(result, mode);
+	} */
+
 
 	///// Sports
 
@@ -128,9 +174,11 @@ public class DockerDemoApp {
 		return sportService.getSports();
 	}
 
+	// api/sports/{id_sport}/events?top=10
+
 	@GetMapping("/api/sports/{id}/events")
-	public Collection<Event> getSportEvents(@PathVariable Long id) {
-		return eventService.filterBySport(id);
+	public Collection<Event> getSportEvents(@PathVariable Long id, @RequestParam(required = false) Integer top) {
+		return eventService.filterBySport(id, top);
 	}
 
 	@PostMapping("/api/sports")
@@ -142,9 +190,10 @@ public class DockerDemoApp {
 
 	///// Events
 	@GetMapping("/api/events")
-	public Collection<Event> getEvents() {
-		return eventService.getEvents();
+	public Collection<Event> getEvents(@RequestParam(required = false) Integer top) {
+		return eventService.getEvents(top);
 	}
+	// api/events?top=5
 
 	@GetMapping("/api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
@@ -170,21 +219,21 @@ public class DockerDemoApp {
 		return commentService.createComment(comment);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("*")
-					.allowedMethods("GET", "POST", "PUT", "DELETE")
-					.allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-						"Access-Control-Request-Headers")
-					.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-					.allowCredentials(true);
-			}
-		};
-	}
+	// @Bean
+	// public WebMvcConfigurer corsConfigurer() {
+	// 	return new WebMvcConfigurerAdapter() {
+	// 		@Override
+	// 		public void addCorsMappings(CorsRegistry registry) {
+	// 			registry.addMapping("/**")
+	// 					.allowedOrigins("*")
+	// 				.allowedMethods("GET", "POST", "PUT", "DELETE")
+	// 				.allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
+	// 					"Access-Control-Request-Headers")
+	// 				.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+	// 				.allowCredentials(true);
+	// 		}
+	// 	};
+	// }
 /*
 	@Bean
 	public CorsFilter corsFilter() {

@@ -25,6 +25,11 @@ public class AccountService {
         return accountRepository.findById(id);
     }
 
+    public String getMode(String token) {
+        Account account =  accountRepository.findByToken(token);
+        return account.getMode();
+    }
+
     public void save(Account account) {
         accountRepository.save(account);
     }
