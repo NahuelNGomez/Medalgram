@@ -42,7 +42,7 @@ export default function Page({ params: { id, id2 } }: SportProps) {
 
     useEffect(() => {
         if (document === undefined) return;
-        if (document.cookie === 'username=True') {
+        if (document.cookie !== 'token=null' && document.cookie !== '') {
             setLogged(true);
         }
     }, [])

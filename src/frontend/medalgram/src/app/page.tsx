@@ -5,8 +5,11 @@ import NavegationBar from '../components/NavegationBar'
 import Presentation from '../components/Presentation'
 import FeaturedTournaments from '../components/FeaturedTournaments'
 import NavegationBarLogged from '@/components/NavegationBarLogged';
+import { useRouter } from 'next/navigation';
+
 export default function Home() {
   const [backendPetitionState, setBackendPetitionState] = useState('Loading');
+  const router = useRouter();
 
   const [logged, setLogged] = useState(false);
   const handleClick = async () => {
@@ -18,7 +21,7 @@ export default function Home() {
   }
   useEffect(() => {
     if (document === undefined) return;
-    if (document.cookie === 'username=True') {
+    if (document.cookie !== 'token=null' && document.cookie !== '') {
       setLogged(true);
     }
   },[])

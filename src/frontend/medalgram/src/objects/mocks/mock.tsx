@@ -1,14 +1,17 @@
+import { UserCredential } from "firebase/auth";
 
-export function loginMock (router: any) {
-    if (document === undefined) return;
-    document.cookie = "username=True; path=/";
+export function loginMock (router: any, result: UserCredential | null) {
+    if (document === undefined || result === null) return;
+    
+    document.cookie = "token="+  result.user.uid +"; path=/";
     router.push('/profile')
 }
 
 export function logoutMock (router: any) {
     if (document === undefined) return;
-    document.cookie = "username=False; path=/";
+    document.cookie = "token=null; path=/";
     router.push("/")
+    window.location.reload();
 }
 
 export function sportMock () {

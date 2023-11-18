@@ -4,9 +4,10 @@ import NavegationBarLogged from "@/components/NavegationBarLogged";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
 import { loginMock } from "@/objects/mocks/mock";
+import signIn, { getUserFromDb } from "@/firebase/auth/signIn";
 
 export default function Login() {
-    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [notification, setNotification] = useState('')
     const [logged, setLogged] = useState(false);
     const router = useRouter()
@@ -16,18 +17,35 @@ export default function Login() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleLogin = () => {
-        if (formData.username && formData.password) {
-            setNotification('Se enviaría una request.')
-            loginMock(router)
-        } else {
+    const handleLogin = async ( event: { preventDefault: () => void } ) => {
+        event.preventDefault();
+        if (!formData.email || !formData.password) {
             setNotification('Por favor, complete todos los campos.')
+            return
         }
+
+        const { result, error } = await signIn(formData.email, formData.password);
+
+        if ( error ) { 
+            //if (error.code === 'auth/invalid-login-credentials'){
+              alert( 'Invalid Login Credentials' );
+            return;
+        }
+
+        // Hacemos un post al db con Email y UID para obtener el usuario.
+
+        // if (result !== null){
+        //     const user = await getUserFromDb(formData.email, result?.user.uid);
+        // }
+
+        loginMock(router, result)
+
+      
     };
 
     useEffect(() => {
         if (document === undefined) return;
-        if (document.cookie === 'username=True') {
+        if (document.cookie !== 'token=null' && document.cookie !== '') {
           setLogged(true);
         }
       },[])
@@ -43,15 +61,15 @@ export default function Login() {
                         <h2 className="text-white my-4 text-3xl">Inicio de Sesión</h2>
                     </div>
                     <div className="mb-4 px-8 ">
-                        <label className="block text-white text-sm font-bold mb-2" htmlFor="username">
+                        <label className="block text-white text-sm font-bold mb-2" htmlFor="email">
                             Email
                         </label>
                         <input
-                            value={formData.username}
+                            value={formData.email}
                             onChange={handleInputChange}
-                            name="username"
+                            name="email"
                             className="required shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200"
-                            id="username"
+                            id="email"
                             type="text"
                             placeholder="Introduce tu email"
                         />
