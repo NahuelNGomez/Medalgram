@@ -8,10 +8,10 @@ export default function ProfileInfo() {
   return (
     <main className="h-[25rem] rounded-2xl bg-dark2 relative px-[20px] w-full">
       <div className="flex flex-col py-[20px]">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex text-[48px]">Ultimos resultados</div>
-          <button className="bg-dark0 text-[30px] px-[20px]">
-            Ver todos los resultados
+        <div className="flex justify-between items-center">
+          <h3 className="text-2xl font-bold underline">Información de perfil</h3>
+          <button className=" bg-dark3 rounded-3xl text-black w-[150px] 2xl:w-[300px] 2xl:text-[20px] hover:bg-dark0 hover:text-white transition duration-3 00">
+            Ver Todos los resultados
           </button>
         </div>
         <PreviewResult />

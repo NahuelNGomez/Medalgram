@@ -10,6 +10,18 @@ import NavegationBarLogged from "@/components/NavegationBarLogged";
 export default function Sports() {
   // Hacer get del perfil
   const [logged, setLogged] = useState(false);
+
+
+  const [modal, setModal] = useState(false);
+
+  const closeEditProfile = () => {
+    setModal(false);
+  }
+
+  const editProfile = () => {
+    setModal(true);
+  }
+
   useEffect(() => {
     if (document === undefined) return;
     if (document.cookie !== 'token=null' && document.cookie !== '') {
@@ -29,12 +41,17 @@ export default function Sports() {
         </div>
         <div className="grid grid-cols-6 pl-[130px] pr-[30px] gap-[30px]">
           <div className="col-span-4 grid grid-rows-2 gap-[30px]">
-            <ProfileInfo />
+            <ProfileInfo editProfile={editProfile} closeEditProfile={closeEditProfile}/>
             <LastResults />
           </div>
           <ConfirmResults />
         </div>
       </div>
+      {
+        modal === true &&( 
+        <EditProfileModal cancelFunction={closeEditProfile}/>
+        ) 
+      }
     </main>
   );
 }
