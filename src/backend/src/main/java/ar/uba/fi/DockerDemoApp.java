@@ -234,7 +234,7 @@ public class DockerDemoApp {
 	// 		}
 	// 	};
 	// }
-/*
+	
 	@Bean
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -249,7 +249,6 @@ public class DockerDemoApp {
 		source.registerCorsConfiguration("/api", config);
 		return new CorsFilter(source);
 	}
-*/
 
 	/*
 	@PutMapping("/accounts/{id}/withdraw")

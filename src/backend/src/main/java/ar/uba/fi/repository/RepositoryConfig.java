@@ -13,22 +13,22 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
-    @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        config.exposeIdsFor(Account.class);
-        config.getCorsRegistry()
-                .addMapping("/**")
-                .allowedOrigins("http://localhost:33000");
-    }
+    // @Override
+    // public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+    //     config.exposeIdsFor(Account.class);
+    //     config.getCorsRegistry()
+    //             .addMapping("/**")
+    //             .allowedOrigins("http://localhost:33000");
+    // }
 
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("");
-        config.addAllowedMethod("");
-        config.addAllowedHeader("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
+    // @Bean
+    // public CorsFilter corsFilter() {
+    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     CorsConfiguration config = new CorsConfiguration();
+    //     config.addAllowedOrigin("");
+    //     config.addAllowedMethod("");
+    //     config.addAllowedHeader("*");
+    //     source.registerCorsConfiguration("/**", config);
+    //     return new CorsFilter(source);
+    // }
 }
