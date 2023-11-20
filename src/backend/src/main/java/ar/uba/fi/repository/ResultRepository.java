@@ -11,7 +11,7 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
 
     Result findResultById(Long id);
 
-    List<Result> findResultByIdRunner(Integer idRunner);
+    List<Result> findResultByTokenRunner(String tokenRunner);
 
     @Override
     List<Result> findAll();

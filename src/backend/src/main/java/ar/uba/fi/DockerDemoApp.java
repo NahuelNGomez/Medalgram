@@ -67,28 +67,28 @@ public class DockerDemoApp {
 		return accountService.getAccounts();
 	}
 
-	@GetMapping("/accounts/{id}")
-	public ResponseEntity<Account> getAccount(@PathVariable Long id) {
-		Optional<Account> accountOptional = accountService.findById(id);
+	@GetMapping("/accounts/{token}")
+	public ResponseEntity<Account> getAccount(@PathVariable String token) {
+		Optional<Account> accountOptional = accountService.findById(token);
 		return ResponseEntity.of(accountOptional);
 	}
 
-	@PutMapping("/api/accounts/{id}")
-	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long id) {
-		Optional<Account> accountOptional = accountService.findById(id);
+	@PutMapping("/api/accounts/{token}")
+	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable String token) {
+		Optional<Account> accountOptional = accountService.findById(token);
 
 		if (!accountOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		account.setId(id);
+		account.setToken(token);
 		accountService.save(account);
 
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping("/api/accounts/{id}")
-	public void deleteAccount(@PathVariable Long id) {
-		accountService.deleteById(id);
+	@DeleteMapping("/api/accounts/{token}")
+	public void deleteAccount(@PathVariable String token) {
+		accountService.deleteById(token);
 	}
 
 	// Results
@@ -110,18 +110,18 @@ public class DockerDemoApp {
 
 	// api/runners?top=5
 
-	@GetMapping("/api/runners/{id}")
-	public ResponseEntity<Runner> getRunner(@PathVariable Long id) {
-		Optional<Runner> runner = runnerService.findById(id);
+	@GetMapping("/api/runners/{token}")
+	public ResponseEntity<Runner> getRunner(@PathVariable String token) {
+		Optional<Runner> runner = runnerService.findById(token);
 		return ResponseEntity.of(runner);
 	}
 
 	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
 	@GetMapping("/api/runners/{id}/stats")
-	public Collection<Result> getRunnerStats(@PathVariable Integer id, @RequestHeader Integer token) {
+	public Collection<Result> getRunnerStats(@PathVariable String token) {
 		// Fijarse si el id runner me compartio el medallero a mi
 		// comparando el token con la tabla de shared
-		Collection<Result> results = resultService.getResultsForRunner(id);
+		Collection<Result> results = resultService.getResultsForRunner(token);
 		return results;
 	}
 
@@ -129,15 +129,16 @@ public class DockerDemoApp {
 
 	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
 	@GetMapping("/api/me/stats")
-	public Collection<Result> getMeStats(@RequestHeader Integer token) {
-		// logica para obtener el id con el token
+	public Collection<Result> getMeStats(@RequestHeader String token) {
+		// logica para obtener el id con el token UUID
+		// accountService.getIDByToken(token);
 		Collection<Result> results = resultService.getResultsForRunner(token);
 		return results;
 	}
 
 	// GET api/me  /*Muestra datos del runner*/
 	@GetMapping("/api/me")
-	public ResponseEntity<Runner> getMe(@RequestHeader Long token) {
+	public ResponseEntity<Runner> getMe(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
 		Optional<Runner> runner = runnerService.findById(token);
 		return ResponseEntity.of(runner);
@@ -145,7 +146,7 @@ public class DockerDemoApp {
 	
     // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
 	@GetMapping("/api/me/results")
-	public Collection<Result> getMeResults(@RequestHeader Integer token) {
+	public Collection<Result> getMeResults(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
 		// Pedirle a account el id del runner segun token
 		Collection<Result> results = resultService.getResultsForRunner(token);

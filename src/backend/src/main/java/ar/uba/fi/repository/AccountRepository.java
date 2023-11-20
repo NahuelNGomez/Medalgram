@@ -7,9 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource
-public interface AccountRepository extends JpaRepository<Account, Long> {
-
-    Account findAccountById(Long id);
+public interface AccountRepository extends JpaRepository<Account, String> {
 
     Account findByToken(String token);
 

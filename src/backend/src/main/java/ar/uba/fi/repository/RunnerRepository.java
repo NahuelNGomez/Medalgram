@@ -7,9 +7,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource
-public interface RunnerRepository extends JpaRepository<Runner, Long> {
+public interface RunnerRepository extends JpaRepository<Runner, String> {
 
-    Runner findRunnerById(Long id);
+    Runner findRunnerById(String tokenRunner);
 
     @Override
     List<Runner> findAll();

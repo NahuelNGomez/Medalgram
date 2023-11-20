@@ -7,8 +7,7 @@ import javax.persistence.*;
 public class Runner {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -22,7 +21,7 @@ public class Runner {
     @Column(name = "location")
     private String location;
 
-    public Long getId() {
+    public String getTokenRunner() {
         return id;
     }
 
@@ -42,7 +41,7 @@ public class Runner {
         return location;
     }
 
-    public void setId(Long id) {
+    public void setTokenRunner(String id) {
         this.id = id;
     }
 
