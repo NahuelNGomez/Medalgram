@@ -100,13 +100,13 @@ export default function CreateProfile() {
                                 name="age"
                                 className="required shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200"
                                 id="age"
-                                type="password"
+                                type="text"
                             />
                         </div>
                     </div>
                     {notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
                     <div className="w-full pt-5"><button onClick={handleLogin} className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline" type="button">
-                        Iniciar Sesión
+                        Crear
                     </button></div>
                 </form>
                 <p className="text-center text-gray-500 text-xs">

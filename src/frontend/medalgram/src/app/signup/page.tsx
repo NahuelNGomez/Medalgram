@@ -3,7 +3,7 @@
 import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import signUp, { registerInDb } from "@/firebase/auth/signUp";
-import { loginMock } from "@/objects/mocks/mock";
+import { loginMock, signUpMock } from "@/objects/mocks/mock";
 import { useRouter } from 'next/navigation'
 import React, { SyntheticEvent, useEffect, useState } from "react";
 
@@ -39,7 +39,7 @@ export default function Signup() {
         // const user = await registerInDb(formData.email, result.user.uid);
         // }
 
-        loginMock(router, result)
+        signUpMock(router, result)
     };
 
 

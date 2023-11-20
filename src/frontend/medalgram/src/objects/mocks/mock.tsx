@@ -7,12 +7,23 @@ export function loginMock (router: any, result: UserCredential | null) {
     router.push('/profile')
 }
 
+export function signUpMock (router: any, result: UserCredential | null) {
+    if (document === undefined || result === null) return;
+    
+    document.cookie = "token="+  result.user.uid +"; path=/";
+    router.push('/createProfile')
+}
+
+
 export function logoutMock (router: any) {
     if (document === undefined) return;
     document.cookie = "token=null; path=/";
     router.push("/")
     window.location.reload();
 }
+
+
+
 
 export function sportMock () {
     return [
@@ -29,6 +40,15 @@ export function eventsMock() {
         { idSport: "22", id: "2",name: "10 kms - Oslo", location: "Oslo, Noruega", date: "2023-11-09" },
         { idSport: "32", id: "3",name: "12 Kms - San Francisco", location: "San francisco, EEUU", date: "2024-5-20" },
         { idSport: "42", id: "4",name: "15 Kms - Madrid", location: "Madrid, España", date: "2021-10-10" },
+      ]
+}
+
+export function listResultMock() {
+    return [
+        { idEvent: "12", id: "1",status: 1, raceTime: "01:25:03", position: 3 },
+        { idEvent: "22", id: "2",status: 2, raceTime: "02:05:15", position: 8 },
+        { idEvent: "32", id: "3",status: 2, raceTime: "02:01:10", position: 10 },
+        { idEvent: "42", id: "4",status: 1, raceTime: "01:57:01", position: 25 },
       ]
 }
 
