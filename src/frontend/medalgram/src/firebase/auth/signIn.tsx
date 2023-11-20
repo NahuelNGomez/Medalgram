@@ -1,9 +1,12 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-import firebase_app from '../config';
+import firebase_app from "../config";
 
 // Get the authentication instance using the Firebase app
 const auth = getAuth(firebase_app);
+
+const BASE_URL = "http://localhost:8080/api/";
+const endPoint = "user";
 
 export default async function signIn(email: string, password: string) {
   let result = null;
@@ -19,41 +22,43 @@ export default async function signIn(email: string, password: string) {
 }
 
 // Obtengo el usuario desde el back
-// 
-const getFromDb = async (email:string, token:string)=>{
-  let res = null
+//
+const getFromDb = async (email: string, token: string) => {
+  let res = null;
 
-  const url = ""; // TODO: Pegarle al back aca
-  
+  const url = BASE_URL + endPoint;
+
   try {
-      res = await fetch(url);
-    }
-  catch (err) {
-  console.error(err);
+    res = await fetch(url);
+  } catch (err) {
+    console.error(err);
   }
-  
+
   return res;
-}
+};
 
-export async function getUserFromDb(email:string, token: string | undefined){
+export async function getUserFromDb(email: string, token: string | undefined) {
+  if (token === undefined) return null;
 
-  if (token ===undefined)
-    return null;
-  
-  let result = null;
-  
-  try{
-      const result = await getFromDb(email, token);
-      
-      if(result !== null && result.status === 200){
-        console.log("User accessed from DB");
-      }else{
-        console.error(result?.status !== 200 ? "Error in DB: Response status != 200" : "Error in SignUp: Call a Dev!");
-      }
+  try {
+    let result = await getFromDb(email, token);
+
+    if (result !== null && result.status === 200) {
+      console.log("User accessed from DB");
+
+      let json = await result.json();
+
+      return json;
+    } else {
+      console.error(
+        result?.status !== 200
+          ? "Error in DB: Response status != 200"
+          : "Error in SignUp: Call a Dev!"
+      );
+    }
+  } catch (err) {
+    console.error(err);
   }
-  catch(err){
-      console.error(err);
-  }
 
-  return result;
+  return null;
 }
