@@ -21,7 +21,7 @@ public class Runner {
     @Column(name = "location")
     private String location;
 
-    public String getTokenRunner() {
+    public String getId() {
         return id;
     }
 
@@ -41,7 +41,7 @@ public class Runner {
         return location;
     }
 
-    public void setTokenRunner(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 

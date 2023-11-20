@@ -162,15 +162,16 @@ public class DockerDemoApp {
 	// PUT api/me *editar datos runner*
 
 	// POST api/me/results/     /*permite subir resultados*/
-	/* @PostMapping("/api/me/results")
+	@PostMapping("/api/me/results")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Result createResult(@RequestBody Result result,  @RequestHeader String token) {
 		// Segun el token me fijo si es admin o no y creo un resultado
 		// No verificado o verificado segun corresponda
 		// mapear token -> modo : admin o runner
-		String mode = accountService.getMode(token);
+		// String mode = accountService.getMode(token);
+		String mode = "Admin";
 		return resultService.createResult(result, mode);
-	} */
+	}
 
 
 	///// Sports
@@ -191,6 +192,27 @@ public class DockerDemoApp {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Sport createSport(@RequestBody Sport sport) {
 		return sportService.createSport(sport);
+	}
+
+
+	///// Shares
+
+	@PostMapping("/api/shares")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Share createShare(@RequestHeader String token, @RequestBody String runnerUserName) {
+		Optional<Runner> runnerToShare = runnerService.findByUsername(runnerUserName);
+
+		if (runnerToShare.isPresent()) {
+			Runner runner = runnerToShare.get();
+
+			Share share = new Share();
+			share.setTokenRunner1(token);
+			share.setTokenRunner2(runner.getId());
+
+			return shareService.createShare(share);
+		}
+
+		return new Share();
 	}
 
 

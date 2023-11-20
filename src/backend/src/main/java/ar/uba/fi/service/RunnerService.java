@@ -20,4 +20,8 @@ public class RunnerService {
     public Optional<Runner> findById(String token) {
         return runnerRepository.findById(token);
     }
+
+    public Optional<Runner> findByUsername(String username) {
+        return runnerRepository.findRunnerByUsername(username);
+    }
 }
