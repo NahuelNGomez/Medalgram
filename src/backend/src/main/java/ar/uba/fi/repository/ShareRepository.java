@@ -11,6 +11,8 @@ public interface ShareRepository extends JpaRepository<Share, Long> {
 
     Share findShareById(Long id);
 
+    List<Share> findShareByTokenRunner1(String tokenRunner1);
+
     @Override
     List<Share> findAll();
 }

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
+@Service
 public class ShareService {
 
     @Autowired
@@ -18,5 +20,14 @@ public class ShareService {
 
     public Collection<Share> getShares() {
         return shareRepository.findAll();
+    }
+
+    public Boolean areStatsSharedForRunnner(String token, String tokenRunner) {
+        List<Share> shareForRunner = shareRepository.findShareByTokenRunner1(tokenRunner);
+        if (shareForRunner.stream().filter(share -> share.getTokenRunner2() == token).count() ==  1) {
+            return true;
+        };
+
+        return false;
     }
 }

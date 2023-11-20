@@ -26,7 +26,7 @@ public class AccountService {
     }
 
     public String getMode(String token) {
-        Account account =  accountRepository.findByToken(token);
+        Account account =  accountRepository.findAccountById(token);
         return account.getMode();
     }
 

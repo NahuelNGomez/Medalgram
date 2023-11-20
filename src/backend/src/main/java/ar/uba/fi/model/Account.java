@@ -17,7 +17,7 @@ public class Account {
     @Column(name = "encrypted_pass")
     private String encryptedPass;
 
-    public String getToken() { return id; }
+    public String getId() { return id; }
 
     public String getMode() { return mode; }
 
@@ -25,7 +25,7 @@ public class Account {
 
     public void setEmail(String email) { this.email = email; }
 
-    public String setToken(String token) { return this.id = token; }
+    public String setId(String token) { return this.id = token; }
 
     public String setMode(String mode) { return this.mode = mode; }
 

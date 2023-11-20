@@ -9,7 +9,7 @@ import java.util.List;
 @RepositoryRestResource
 public interface AccountRepository extends JpaRepository<Account, String> {
 
-    Account findByToken(String token);
+    Account findAccountById(String id);
 
     @Override
     List<Account> findAll();

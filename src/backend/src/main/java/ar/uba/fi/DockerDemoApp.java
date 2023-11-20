@@ -50,6 +50,9 @@ public class DockerDemoApp {
 	@Autowired
 	private CommentService commentService;
 
+	@Autowired
+	private ShareService shareService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(DockerDemoApp.class, args);
 	}
@@ -80,7 +83,7 @@ public class DockerDemoApp {
 		if (!accountOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		account.setToken(token);
+		account.setId(token);
 		accountService.save(account);
 
 		return ResponseEntity.ok().build();
@@ -117,11 +120,13 @@ public class DockerDemoApp {
 	}
 
 	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
-	@GetMapping("/api/runners/{id}/stats")
-	public Collection<Result> getRunnerStats(@PathVariable String token) {
-		// Fijarse si el id runner me compartio el medallero a mi
-		// comparando el token con la tabla de shared
-		Collection<Result> results = resultService.getResultsForRunner(token);
+	@GetMapping("/api/runners/{token}/stats")
+	public Collection<Result> getRunnerStats(@RequestHeader String token, @PathVariable String tokenRunner) {
+		//  si el id runner me compartio el medallero a mi
+		if (! shareService.areStatsSharedForRunnner(token, tokenRunner)) {
+			return resultService.getResultsForRunner(token);
+		}
+		Collection<Result> results = resultService.getResultsForRunner(tokenRunner);
 		return results;
 	}
 

@@ -11,20 +11,20 @@ public class Share {
     private Long id;
 
     @Column(name = "id_runner1")
-    private Long tokenRunner1;
+    private String tokenRunner1;
 
     @Column(name = "id_runner2")
-    private Long tokenRunner2;
+    private String tokenRunner2;
 
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
 
-    public Long getTokenRunner1() { return tokenRunner1; }
+    public String getTokenRunner1() { return tokenRunner1; }
 
-    public void setTokenRunner1(Long idRunner1) { this.tokenRunner1 = idRunner1; }
+    public void setTokenRunner1(String idRunner1) { this.tokenRunner1 = idRunner1; }
 
-    public Long getTokenRunner2() { return tokenRunner2; }
+    public String getTokenRunner2() { return tokenRunner2; }
 
-    public void setTokenRunner2(Long idRunner2) { this.tokenRunner2 = idRunner2; }
+    public void setTokenRunner2(String idRunner2) { this.tokenRunner2 = idRunner2; }
 }
