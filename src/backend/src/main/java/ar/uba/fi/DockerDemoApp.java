@@ -59,7 +59,7 @@ public class DockerDemoApp {
 		return accountService.getAccounts();
 	}
 
-	@GetMapping("/accounts/{token}")
+	@GetMapping("api/accounts/{token}")
 	public ResponseEntity<Account> getAccount(@PathVariable String token) {
 		Optional<Account> accountOptional = accountService.findByToken(token);
 		return ResponseEntity.of(accountOptional);
