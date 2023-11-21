@@ -110,11 +110,11 @@ public class DockerDemoApp {
 	}
 
 	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
-	@GetMapping("/api/runners/{id}/stats")
-	public Collection<Result> getRunnerStats(@PathVariable Integer id, @RequestHeader Integer _token) {
+	@GetMapping("/api/runners/{token}/stats")
+	public Collection<Result> getRunnerStats(@PathVariable String token, @RequestHeader Integer _token) {
 		// Fijarse si el id runner me compartio el medallero a mi
 		// comparando el token con la tabla de shared
-        return resultService.getResultsForRunner(id);
+        return resultService.getResultsForRunner(token);
 	}
 
 	///// Me
