@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Runner {
 
     @Id
+    @Column(name = "token")
     private String token;
 
     @Column(name = "name")

@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Account {
 
     @Id
+    @Column(name = "token")
     private String token;
 
     @Column(name = "mode")
