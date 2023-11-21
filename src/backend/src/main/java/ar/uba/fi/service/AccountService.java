@@ -22,7 +22,7 @@ public class AccountService {
     }
 
     public Optional<Account> findByToken(String token) {
-        return Optional.ofNullable(accountRepository.findAccountByToken(token));
+        return accountRepository.findById(token);
     }
 
     public String getMode(String token) {

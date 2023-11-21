@@ -2,8 +2,9 @@ import { use, useEffect, useState } from "react";
 import firebaseApp from "../config";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
-const BASE_URL = "http://localhost:8080/api/";
-const endPoint = "accounts";
+const TEST_BASE_URL = "http://localhost:8080/";
+const BASE_URL = "https://grupo-3.2023.tecnicasdedisenio.com.ar/api/";
+const endPoint = "api/accounts";
 
 // Get the authentication instance using the Firebase app
 const auth = getAuth(firebaseApp);
@@ -11,17 +12,17 @@ const auth = getAuth(firebaseApp);
 const registerIntoDb = async (
   name = "ANONIM_ADMIN",
   email: string,
-  id: string
+  token: string
 ) => {
   const url = BASE_URL + endPoint;
 
   console.log("URL es: " + url);
 
   const datos = {
-    id: 2,
+    token: token,
     name: name,
     email: email,
-    encryptedPass: id,
+    encryptedPass: token,
   };
 
   try {

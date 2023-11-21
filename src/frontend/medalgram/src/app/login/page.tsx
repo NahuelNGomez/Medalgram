@@ -36,6 +36,8 @@ export default function Login() {
 
     if (result !== null) {
       const user = await getUserFromDb(formData.email, result?.user.uid);
+
+      console.log("El usuario obtenido es: ", user);
     }
 
     loginMock(router, result);
