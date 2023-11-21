@@ -5,8 +5,8 @@ import firebase_app from "../config";
 // Get the authentication instance using the Firebase app
 const auth = getAuth(firebase_app);
 
-const BASE_URL = "http://localhost:8080/api/";
-const endPoint = "user";
+const BASE_URL = "https://grupo-3.2023.tecnicasdedisenio.com.ar/api/";
+const endPoint = "api/accounts";
 
 export default async function signIn(email: string, password: string) {
   let result = null;
@@ -26,7 +26,9 @@ export default async function signIn(email: string, password: string) {
 const getFromDb = async (email: string, token: string) => {
   let res = null;
 
-  const url = BASE_URL + endPoint;
+  const url = BASE_URL + endPoint + "/" + token;
+
+  console.log("URL es: " + url);
 
   try {
     res = await fetch(url);
@@ -47,6 +49,8 @@ export async function getUserFromDb(email: string, token: string | undefined) {
       console.log("User accessed from DB");
 
       let json = await result.json();
+
+      console.log("El usuario obtenido es: ", json);
 
       return json;
     } else {
