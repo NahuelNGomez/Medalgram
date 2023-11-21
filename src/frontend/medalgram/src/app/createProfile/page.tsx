@@ -1,13 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavegationBar from "@/components/NavegationBar";
 import { useRef, useState } from "react";
+import NavegationBarLogged from '@/components/NavegationBarLogged';
 
 export default function CreateProfile() {
 
     const [formData, setFormData] = useState({ username: '', location: '', name: '', image: '', age: '' });
     const [notification, setNotification] = useState('')
+    const [logged, setLogged] = useState(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -23,11 +25,20 @@ export default function CreateProfile() {
         }
     };
 
+    useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie !== 'token=null' && document.cookie !== '') {
+          setLogged(true);
+        }
+      },[])
+
     return (
 
 
         <main className="flex flex-col justify-center items-center">
-            <NavegationBar />
+            {
+                logged === true ? <NavegationBarLogged /> : <NavegationBar />
+            }
             <div className="w-[75%] mt-4">
                 <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4">
                     <div className="flex justify-center items-center">
@@ -89,13 +100,13 @@ export default function CreateProfile() {
                                 name="age"
                                 className="required shadow appearance-none bg-dark3/80 rounded-lg w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-200"
                                 id="age"
-                                type="password"
+                                type="text"
                             />
                         </div>
                     </div>
                     {notification === '' ? '' : <div className="alert alert-danger text-red-500 text-xs italic pt-2 mx-8" role="alert" dangerouslySetInnerHTML={{ __html: notification }} />}
                     <div className="w-full pt-5"><button onClick={handleLogin} className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline" type="button">
-                        Iniciar Sesión
+                        Crear
                     </button></div>
                 </form>
                 <p className="text-center text-gray-500 text-xs">

@@ -11,9 +11,9 @@ export default function FeaturedTournament({ image }: componentsArgs) {
                 <Image
                     src={image}
                     alt="Descripción de la imagen"
-                    layout="responsive"
                     width={300}
                     height={200}
+                    
                 />
             </div>
         </article>
