@@ -7,12 +7,12 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, String> {
 
-    Account findAccountById(Long id);
-
-    Account findByToken(String token);
+    Account findAccountByToken(String token);
 
     @Override
     List<Account> findAll();
+
+    void deleteByToken(String token);
 }

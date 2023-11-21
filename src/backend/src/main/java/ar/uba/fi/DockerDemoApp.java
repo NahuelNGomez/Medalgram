@@ -35,7 +35,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @SpringBootApplication
@@ -77,35 +76,33 @@ public class DockerDemoApp {
 		return accountService.getAccounts();
 	}
 
-	@GetMapping("/accounts/{id}")
-	public ResponseEntity<Account> getAccount(@PathVariable Long id) {
-		Optional<Account> accountOptional = accountService.findById(id);
+	@GetMapping("api/accounts/{token}")
+	public ResponseEntity<Account> getAccount(@PathVariable String token) {
+		Optional<Account> accountOptional = accountService.findByToken(token);
 		return ResponseEntity.of(accountOptional);
 	}
 
-	@PutMapping("/api/accounts/{id}")
-	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long id) {
-		Optional<Account> accountOptional = accountService.findById(id);
+	@PutMapping("/api/accounts/{token}")
+	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable String token) {
+		Optional<Account> accountOptional = accountService.findByToken(token);
 
-		if (!accountOptional.isPresent()) {
+		//if (!accountOptional.isPresent()) {
+		if (accountOptional.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		account.setId(id);
+		account.setToken(token);
 		accountService.save(account);
 
 		return ResponseEntity.ok().build();
 	}
-
-	@DeleteMapping("/api/accounts/{id}")
-	public void deleteAccount(@PathVariable Long id) {
-		accountService.deleteById(id);
-	}
-
+	
 	// Results
 	@GetMapping("/api/results")
 	public Collection<Result> getResults() {
 		return resultService.getResults();
 	}
+
+	// TO DO: Put for /api/results
 
 
 	// Runner
@@ -116,11 +113,61 @@ public class DockerDemoApp {
 		return runnerService.createRunner(runner);
 	}
 
-	@GetMapping("/api/runners/{id}")
-	public ResponseEntity<Runner> getRunner(@PathVariable Long id) {
-		Optional<Runner> runner = runnerService.findById(id);
+	// api/runners?top=5
+
+	@GetMapping("/api/runners/{token}")
+	public ResponseEntity<Runner> getRunner(@PathVariable String token) {
+		Optional<Runner> runner = runnerService.findByToken(token);
 		return ResponseEntity.of(runner);
 	}
+
+	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
+	@GetMapping("/api/runners/{token}/stats")
+	public Collection<Result> getRunnerStats(@PathVariable String token, @RequestHeader Integer _token) {
+		// Fijarse si el id runner me compartio el medallero a mi
+		// comparando el token con la tabla de shared
+        return resultService.getResultsForRunner(token);
+	}
+
+	///// Me
+
+	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
+	@GetMapping("/api/me/stats")
+	public Collection<Result> getMeStats(@RequestHeader String token) {
+		// logica para obtener el id con el token
+        return resultService.getResultsForRunner(token);
+	}
+
+	// GET api/me  /*Muestra datos del runner*/
+	@GetMapping("/api/me")
+	public ResponseEntity<Runner> getMe(@RequestHeader String token) {
+		// Hay que hacer la conversion de token a id
+		Optional<Runner> runner = runnerService.findByToken(token);
+		return ResponseEntity.of(runner);
+	}
+	
+    // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
+	@GetMapping("/api/me/results")
+	public Collection<Result> getMeResults(@RequestHeader String token) {
+		// Hay que hacer la conversion de token a id
+		// Pedirle a account el id del runner segun token
+        return resultService.getResultsForRunner(token);
+	}
+
+
+	// PUT api/me *editar datos runner*
+
+	// POST api/me/results/     /*permite subir resultados*/
+	/* @PostMapping("/api/me/results")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Result createResult(@RequestBody Result result,  @RequestHeader String token) {
+		// Segun el token me fijo si es admin o no y creo un resultado
+		// No verificado o verificado segun corresponda
+		// mapear token -> modo : admin o runner
+		String mode = accountService.getMode(token);
+		return resultService.createResult(result, mode);
+	} */
+
 
 	///// Sports
 
@@ -129,9 +176,11 @@ public class DockerDemoApp {
 		return sportService.getSports();
 	}
 
+	// api/sports/{id_sport}/events?top=10
+
 	@GetMapping("/api/sports/{id}/events")
-	public Collection<Event> getSportEvents(@PathVariable Long id) {
-		return eventService.filterBySport(id, 10);
+	public Collection<Event> getSportEvents(@PathVariable Long id, @RequestParam(required = false) Integer top) {
+		return eventService.filterBySport(id, top);
 	}
 
 	@PostMapping("/api/sports")
@@ -143,9 +192,10 @@ public class DockerDemoApp {
 
 	///// Events
 	@GetMapping("/api/events")
-	public Collection<Event> getEvents() {
-		return eventService.getEvents(1);
+	public Collection<Event> getEvents(@RequestParam(required = false) Integer top) {
+		return eventService.getEvents(top);
 	}
+	// api/events?top=5
 
 	@GetMapping("/api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {

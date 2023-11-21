@@ -12,7 +12,7 @@ public class Result {
     private Long id;
 
     @Column(name = "id_runner")
-    private Integer idRunner;
+    private String idRunner;
 
     @Column(name = "id_event")
     private Integer idEvent;
@@ -27,7 +27,7 @@ public class Result {
         return id;
     }
 
-    public Integer getIdRunner() {
+    public String getIdRunner() {
         return idRunner;
     }
 
@@ -47,7 +47,7 @@ public class Result {
         this.id = id;
     }
 
-    public void setIdRunner(Integer idRunner) {
+    public void setIdRunner(String idRunner) {
         this.idRunner = idRunner;
     }
 

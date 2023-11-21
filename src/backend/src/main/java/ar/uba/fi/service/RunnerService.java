@@ -17,7 +17,7 @@ public class RunnerService {
         return runnerRepository.save(runner);
     }
     
-    public Optional<Runner> findById(Long id) {
-        return runnerRepository.findById(id);
+    public Optional<Runner> findByToken(String token) {
+        return Optional.ofNullable(runnerRepository.findRunnerByToken(token));
     }
 }

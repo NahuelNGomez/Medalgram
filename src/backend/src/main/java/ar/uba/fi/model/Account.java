@@ -7,11 +7,10 @@ import javax.persistence.*;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "token")
     private String token;
 
+    @Column(name = "mode")
     private String mode;
 
     @Column(name = "email")
@@ -20,19 +19,17 @@ public class Account {
     @Column(name = "encrypted_pass")
     private String encryptedPass;
 
-    public Long getId() { return id; }
-
     public String getToken() { return token; }
 
     public String getMode() { return mode; }
-
-    public void setId(Long id) { this.id = id; }
 
     public String getEmail() { return email; }
 
     public void setEmail(String email) { this.email = email; }
 
-    public String setToken(String token) { return this.token = token; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String setMode(String mode) { return this.mode = mode; }
 

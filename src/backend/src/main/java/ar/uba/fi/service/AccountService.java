@@ -21,12 +21,12 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Optional<Account> findById(Long id) {
-        return accountRepository.findById(id);
+    public Optional<Account> findByToken(String token) {
+        return Optional.ofNullable(accountRepository.findAccountByToken(token));
     }
 
     public String getMode(String token) {
-        Account account =  accountRepository.findByToken(token);
+        Account account =  accountRepository.findAccountByToken(token);
         return account.getMode();
     }
 
@@ -34,8 +34,8 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public void deleteById(Long id) {
-        accountRepository.deleteById(id);
+    public void deleteByToken(String token) {
+        accountRepository.deleteByToken(token);
     }
 
 }
