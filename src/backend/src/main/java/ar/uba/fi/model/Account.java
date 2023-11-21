@@ -26,7 +26,9 @@ public class Account {
 
     public void setEmail(String email) { this.email = email; }
 
-    public String setToken(String token) { return this.token = token; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String setMode(String mode) { return this.mode = mode; }
 
