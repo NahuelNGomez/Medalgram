@@ -78,12 +78,7 @@ public class DockerDemoApp {
 
 		return ResponseEntity.ok().build();
 	}
-
-	@DeleteMapping("/api/accounts/{token}")
-	public void deleteAccount(@PathVariable String token) {
-		accountService.deleteByToken(token);
-	}
-
+	
 	// Results
 	@GetMapping("/api/results")
 	public Collection<Result> getResults() {
