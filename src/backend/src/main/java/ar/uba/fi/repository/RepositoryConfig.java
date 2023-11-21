@@ -17,18 +17,18 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Account.class);
         config.getCorsRegistry()
-                .addMapping("/**")
-                .allowedOrigins("http://localhost:33000");
+                .addMapping("/api/**")
+                .allowedOrigins("*");
     }
 
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("");
-        config.addAllowedMethod("");
+        config.addAllowedOrigin("*");
+        config.addAllowedMethod("*");
         config.addAllowedHeader("*");
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
     }
 }

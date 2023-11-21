@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
+<<<<<<< HEAD
+=======
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,11 +31,13 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+>>>>>>> main
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -102,8 +106,6 @@ public class DockerDemoApp {
 		return resultService.getResults();
 	}
 
-	// TO DO: Put for /api/results
-
 
 	// Runner
 
@@ -113,6 +115,7 @@ public class DockerDemoApp {
 		return runnerService.createRunner(runner);
 	}
 
+<<<<<<< HEAD
 	// api/runners?top=5
 
 	@GetMapping("/api/runners/{token}")
@@ -169,6 +172,14 @@ public class DockerDemoApp {
 	} */
 
 
+=======
+	@GetMapping("/api/runners/{id}")
+	public ResponseEntity<Runner> getRunner(@PathVariable Long id) {
+		Optional<Runner> runner = runnerService.findById(id);
+		return ResponseEntity.of(runner);
+	}
+
+>>>>>>> main
 	///// Sports
 
 	@GetMapping("/api/sports")
@@ -176,11 +187,9 @@ public class DockerDemoApp {
 		return sportService.getSports();
 	}
 
-	// api/sports/{id_sport}/events?top=10
-
 	@GetMapping("/api/sports/{id}/events")
-	public Collection<Event> getSportEvents(@PathVariable Long id, @RequestParam(required = false) Integer top) {
-		return eventService.filterBySport(id, top);
+	public Collection<Event> getSportEvents(@PathVariable Long id) {
+		return eventService.filterBySport(id, 10);
 	}
 
 	@PostMapping("/api/sports")
@@ -192,10 +201,9 @@ public class DockerDemoApp {
 
 	///// Events
 	@GetMapping("/api/events")
-	public Collection<Event> getEvents(@RequestParam(required = false) Integer top) {
-		return eventService.getEvents(top);
+	public Collection<Event> getEvents() {
+		return eventService.getEvents(1);
 	}
-	// api/events?top=5
 
 	@GetMapping("/api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
