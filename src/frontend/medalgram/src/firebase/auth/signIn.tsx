@@ -5,6 +5,7 @@ import firebase_app from "../config";
 // Get the authentication instance using the Firebase app
 const auth = getAuth(firebase_app);
 
+const TEST_BASE_URL = "http://localhost:8080/";
 const BASE_URL = "https://grupo-3.2023.tecnicasdedisenio.com.ar/api/";
 const endPoint = "api/accounts";
 
