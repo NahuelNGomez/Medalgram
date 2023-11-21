@@ -121,7 +121,7 @@ public class DockerDemoApp {
 
 	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
 	@GetMapping("/api/me/stats")
-	public Collection<Result> getMeStats(@RequestHeader Integer token) {
+	public Collection<Result> getMeStats(@RequestHeader String token) {
 		// logica para obtener el id con el token
         return resultService.getResultsForRunner(token);
 	}
@@ -136,7 +136,7 @@ public class DockerDemoApp {
 	
     // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
 	@GetMapping("/api/me/results")
-	public Collection<Result> getMeResults(@RequestHeader Integer token) {
+	public Collection<Result> getMeResults(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
 		// Pedirle a account el id del runner segun token
         return resultService.getResultsForRunner(token);
