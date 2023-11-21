@@ -35,7 +35,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.servlet.http.Cookie;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -171,6 +170,7 @@ public class DockerDemoApp {
 		comment.setIdEvent(id_event);
 		return commentService.createComment(comment);
 	}
+
 
 
 	/*

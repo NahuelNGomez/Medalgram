@@ -10,6 +10,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String token;
+
+    private String mode;
+
     @Column(name = "email")
     private String email;
 
@@ -18,11 +22,19 @@ public class Account {
 
     public Long getId() { return id; }
 
+    public String getToken() { return token; }
+
+    public String getMode() { return mode; }
+
     public void setId(Long id) { this.id = id; }
 
     public String getEmail() { return email; }
 
     public void setEmail(String email) { this.email = email; }
+
+    public String setToken(String token) { return this.token = token; }
+
+    public String setMode(String mode) { return this.mode = mode; }
 
     public String getEncryptedPass() { return encryptedPass; }
 

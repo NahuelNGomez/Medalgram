@@ -11,6 +11,8 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
 
     Result findResultById(Long id);
 
+    List<Result> findResultByIdRunner(Integer id);
+
     @Override
     List<Result> findAll();
 }
