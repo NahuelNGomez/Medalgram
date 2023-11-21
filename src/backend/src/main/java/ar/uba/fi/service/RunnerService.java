@@ -18,6 +18,6 @@ public class RunnerService {
     }
     
     public Optional<Runner> findByToken(String token) {
-        return Optional.ofNullable(runnerRepository.findRunnerByToken(token));
+        return runnerRepository.findById(token);
     }
 }
