@@ -19,6 +19,7 @@ export default function Sports() {
   const [modalNewResult, setModalNewResult] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [token, setToken] = useState<any>(null);
   const router = useRouter();
 
   const closeEditProfile = () => {
@@ -42,6 +43,7 @@ export default function Sports() {
     };
     if (verifyToken(document.cookie)) {
       setLogged(true);
+      setToken(verifyToken(document.cookie))
     } else {
       router.push("/login")
     }
@@ -52,8 +54,12 @@ export default function Sports() {
       setLoading(false)
       return
     };
-    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners/' + verifyToken(document.cookie))
-      .then(response => response.json()).then(data => setUserData(data))
+    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me', {
+      method: 'GET',
+      headers: {
+        'token': token
+      }
+    }).then(response => response.json()).then(data => setUserData(data))
       .catch(error => {
         router.push("/createProfile")
         console.log("No hay datos del usuario - debe crearse un perfil")
