@@ -45,8 +45,12 @@ export default function CreateProfile() {
 
     useEffect(() => {
         if (document === undefined) return;
-        if ((document.cookie !== 'token=null' && document.cookie !== '')) {
+        if (verifyToken(document.cookie) != false) {
+            console.log("logged")
             setLogged(true);
+        } else {
+            console.log("not logged")
+            router.push("/login")
         }
     }, [])
 

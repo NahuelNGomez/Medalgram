@@ -9,6 +9,7 @@ import NavegationBarLogged from "@/components/NavegationBarLogged";
 import AddResultModal from "./components/AddResultModal";
 import { useRouter } from "next/navigation";
 import { verifyToken } from "@/objects/mocks/functions";
+import { data } from "autoprefixer";
 
 export default function Sports() {
   // Hacer get del perfil
@@ -17,6 +18,7 @@ export default function Sports() {
   const [modalProfile, setModalProfile] = useState(false);
   const [modalNewResult, setModalNewResult] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
   const router = useRouter();
 
   const closeEditProfile = () => {
@@ -36,9 +38,12 @@ export default function Sports() {
   }
 
   useEffect(() => {
-    if (document === undefined) return;
+    if (document === undefined) {
+    };
     if (verifyToken(document.cookie)) {
       setLogged(true);
+    } else {
+      router.push("/login")
     }
   }, [])
 
@@ -48,7 +53,7 @@ export default function Sports() {
       return
     };
     fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners/' + verifyToken(document.cookie))
-      .then(response => response.json())
+      .then(response => response.json()).then(data => setUserData(data))
       .catch(error => {
         router.push("/createProfile")
         console.log("No hay datos del usuario - debe crearse un perfil")
@@ -69,7 +74,7 @@ export default function Sports() {
             </div>
             <div className="grid grid-cols-6 pl-[130px] pr-[30px] gap-[30px]">
               <div className="col-span-4 grid grid-rows-2 gap-[30px]">
-                <ProfileInfo editProfile={editProfile} closeEditProfile={closeEditProfile} />
+                <ProfileInfo editProfile={editProfile} closeEditProfile={closeEditProfile} userData={userData} />
                 <LastResults newResult={newResult} closeNewResult={closeNewResult} />
               </div>
               <ConfirmResults />

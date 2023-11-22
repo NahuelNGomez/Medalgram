@@ -10,7 +10,8 @@ export function verifyToken(string : String) {
         if (name !== null) {
             token = value;
             console.log(token)
-            return token
+            if (token !== "null" && token !== "")
+                return token
         }
       }
     return false;
