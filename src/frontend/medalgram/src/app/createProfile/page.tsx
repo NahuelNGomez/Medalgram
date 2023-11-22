@@ -1,11 +1,14 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import NavegationBar from "@/components/NavegationBar";
 import { useRef, useState } from "react";
 import NavegationBarLogged from '@/components/NavegationBarLogged';
+import { useRouter } from 'next/navigation';
+import { verifyToken } from '@/objects/mocks/functions';
 
 export default function CreateProfile() {
+    const router = useRouter();
 
     const [formData, setFormData] = useState({ username: '', location: '', name: '', image: '', age: '' });
     const [notification, setNotification] = useState('')
@@ -19,18 +22,37 @@ export default function CreateProfile() {
     const handleLogin = () => {
         if (formData.username && formData.location && formData.name && formData.image && formData.age) {
             setNotification('Se enviaría una request.')
-            console.log(formData)
-        } else {
+            fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                token: verifyToken(document.cookie),
+                name: formData.name,
+                username: formData.username,
+                age: formData.age,
+                location: formData.location
+                //image: formData.image
+            })
+        }).then((response) => {
+            if(response.ok) router.push("/profile")
+            return response.json();
+        }).catch((error) => {
+            console.error('Error al cargar el proyecto:', error);
+        })} else {
             setNotification('Por favor, complete todos los campos.')
         }
     };
 
     useEffect(() => {
         if (document === undefined) return;
-        if (document.cookie !== 'token=null' && document.cookie !== '') {
-          setLogged(true);
+        if (verifyToken(document.cookie) != false) {
+            console.log("logged")
+            setLogged(true);
+        } else {
+            console.log("not logged")
+            router.push("/login")
         }
-      },[])
+    }, [])
 
     return (
 

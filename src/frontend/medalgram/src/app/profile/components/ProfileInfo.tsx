@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import EditProfileModal from "./EditProfileModal";
 
-export default function ProfileInfo({editProfile, closeEditProfile}: any) {
+export default function ProfileInfo({editProfile, closeEditProfile, userData}: any) {
   
   // Hacer get del perfil
   return (
@@ -22,10 +22,10 @@ export default function ProfileInfo({editProfile, closeEditProfile}: any) {
           Información de perfil
         </h3>
         <div>
-          <p className="text-xl">Lionel Messi</p>
-          <p className="text-xl">23 años</p>
+          <p className="text-xl">{userData !== null ? userData.name : "Cargando"}</p>
+          <p className="text-xl">{userData !== null ? userData.age + " años": "Cargando"}</p>
           <p className="text-xl">
-            Buenos Aires, Argentina
+          {userData !== null ? userData.location : "Cargando"}
           </p>
         </div>
       </div>
