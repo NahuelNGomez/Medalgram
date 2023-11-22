@@ -7,6 +7,13 @@ export function loginMock (router: any, result: UserCredential | null) {
     router.push('/profile')
 }
 
+export function loginAdminMock (router: any, result: UserCredential | null) {
+    if (document === undefined || result === null) return;
+    
+    document.cookie = "token="+  result.user.uid +"; path=/";
+    router.push('/admin')
+}
+
 export function signUpMock (router: any, result: UserCredential | null) {
     if (document === undefined || result === null) return;
     
@@ -14,12 +21,20 @@ export function signUpMock (router: any, result: UserCredential | null) {
     router.push('/createProfile')
 }
 
+export function signUpAdminMock (router: any, result: UserCredential | null) {
+    if (document === undefined || result === null) return;
+    
+    document.cookie = "token="+  result.user.uid +"; path=/";
+    router.push('/admin')
+}
+
+
 
 export function logoutMock (router: any) {
     if (document === undefined) return;
     document.cookie = "token=null; path=/";
     router.push("/")
-    window.location.reload();
+    //window.location.reload();
 }
 
 

@@ -13,7 +13,8 @@ const auth = getAuth(firebaseApp);
 const registerIntoDb = async (
   name = "ANONIM_ADMIN",
   email: string,
-  token: string
+  token: string,
+  mode: string
 ) => {
   const url = BASE_URL + endPoint;
 
@@ -21,7 +22,7 @@ const registerIntoDb = async (
 
   const datos = {
     token: token,
-    mode: MODE,
+    mode: mode,
     email: email,
     encryptedPass: token,
   };
@@ -44,10 +45,10 @@ const registerIntoDb = async (
   console.log("No se pudo conectar con el back");
 };
 
-export async function registerInDb(email: string, id: string) {
+export async function registerInDb(email: string, id: string, mode: string) {
   try {
     console.log("Antes de pegarle");
-    const result = await registerIntoDb(email.split("@")[0], email, id);
+    const result = await registerIntoDb(email.split("@")[0], email, id, mode);
 
     console.log(result);
     console.log("Despues de pegarle");

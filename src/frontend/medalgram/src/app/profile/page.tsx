@@ -18,7 +18,7 @@ export default function Sports() {
   const [modalProfile, setModalProfile] = useState(false);
   const [modalNewResult, setModalNewResult] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<any>(null);
   const [token, setToken] = useState<any>(null);
   const router = useRouter();
 
@@ -59,8 +59,10 @@ export default function Sports() {
       headers: {
         'token': token
       }
-    }).then(response => response.json()).then(data => setUserData(data))
-      .catch(error => {
+    }).then(response => {
+      if (!response.ok) { throw new Error('Something went wrong');}
+      response.json()
+    }).then(data => setUserData(data)).catch(error => {
         router.push("/createProfile")
         console.log("No hay datos del usuario - debe crearse un perfil")
       }
