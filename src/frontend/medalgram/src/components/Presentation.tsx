@@ -1,5 +1,10 @@
 import Image from 'next/image'
 export default function NavegationBar() {
+
+    const loaderProp =({ src } : any) => {
+        return src;
+    }
+
     return (
         <section className="flex flex-col justify-center items-center bg-dark2/50 w-4/5 my-4 rounded-xl">
             <div className="flex items-center justify-between w-1/5 align-items justify-content opacity-50">
@@ -8,6 +13,7 @@ export default function NavegationBar() {
                     alt="Descripción de la imagen"
                     width={300}
                     height={200}
+                    loader={loaderProp}
                 />
             </div>
             <div>
