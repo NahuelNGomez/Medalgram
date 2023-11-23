@@ -6,12 +6,12 @@ import PendingResult from "@/app/profile/components/PendingResult";
 export default function ProfileInfo() {
   // Hacer get del perfil
   return (
-    <main className="h-full rounded-2xl flex bg-dark2 col-span-2">
-      <div className="flex flex-col">
-        <div className="flex text-[48px] px-[12px] justify-center justify-self-center">
+    <main className="rounded-2xl bg-dark2 col-span-2">
+      <div className="flex flex-col items-center justify-center pt-10">
+        <strong className="text-3xl px-[12px]">
           Resultados sin confirmar
-        </div>
-        <PendingResult />
+        </strong>
+       <PendingResult />
       </div>
     </main>
   );

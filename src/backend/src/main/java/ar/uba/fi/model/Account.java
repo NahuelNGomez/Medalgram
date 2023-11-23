@@ -9,6 +9,7 @@ public class Account {
     @Id
     private String id;
 
+    @Column(name = "mode")
     private String mode;
 
     @Column(name = "email")

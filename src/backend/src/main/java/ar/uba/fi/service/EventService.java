@@ -20,32 +20,22 @@ public class EventService {
     }
 
     public Collection<Event> getEvents(Integer top) {
-        if (top != 0 && top != null) {
-            //return first {top} results
-            if (top > eventRepository.count()) {
-                return eventRepository.findAll().subList(0, (int) eventRepository.count());
-            }
-            return eventRepository.findAll().subList(0, top);
-        } else {
-            return eventRepository.findAll();
-        }
-        
+       if (top == 0) {
+           return eventRepository.findAll();
+       } else {
+           return eventRepository.findAll().subList(0, top);
+       }
     }
 
     public Optional<Event> findById(Long id) {
         return eventRepository.findById(id);
     }
 
-    public Collection<Event> filterBySport(Long id, Integer top) {
-        if (top != 0 && top != null) {
-            //return first {top} results
-            if (top > eventRepository.count()) {
-                return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList()).subList(0, (int) eventRepository.count());
-            }
-            return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList()).subList(0, top);
+    public Collection<Event> filterBySport(Integer id, Integer top) {
+        if (top == 0) {
+            return eventRepository.findAll().stream().filter(event -> event.getIdSport().equals(id)).collect(Collectors.toList());
         } else {
-            return eventRepository.findAll().stream().filter(event -> event.getIdSport().longValue() == id).collect(Collectors.toList());
-            //return eventRepository.findByIdSport(id);
+            return eventRepository.findAll().stream().filter(event -> event.getIdSport().equals(id)).collect(Collectors.toList()).subList(0, top);
         }
     }
 }
