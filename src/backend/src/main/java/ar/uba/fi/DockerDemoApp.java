@@ -225,6 +225,11 @@ public class DockerDemoApp {
 	@GetMapping("/api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
 		Optional<Event> event = eventService.findById(id);
+
+		if (!event.isPresent()) {
+			throw new ResourceNotFoundException("Event not found");
+		}
+
 		return ResponseEntity.of(event);
 	}
 
