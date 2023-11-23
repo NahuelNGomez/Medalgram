@@ -22,10 +22,10 @@ export default function ProfileInfo({editProfile, closeEditProfile, userData}: a
           Información de perfil
         </h3>
         <div>
-          <p className="text-xl">{userData !== null ? userData.name : "Cargando"}</p>
-          <p className="text-xl">{userData !== null ? userData.age + " años": "Cargando"}</p>
+          <p className="text-xl">{userData !== null && userData !== undefined ? userData.name : "Cargando"}</p>
+          <p className="text-xl">{userData !== null && userData !== undefined ? userData.age + " años": "Cargando"}</p>
           <p className="text-xl">
-          {userData !== null ? userData.location : "Cargando"}
+          {userData !== null && userData !== undefined ? userData.location : "Cargando"}
           </p>
         </div>
       </div>

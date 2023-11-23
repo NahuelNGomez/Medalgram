@@ -1,38 +1,40 @@
 const BASE_URL = "https://grupo-3.2023.tecnicasdedisenio.com.ar/api/";
-export function verifyToken(string : String) {
-    
+export function verifyToken(string: String) {
+
     const cookies = string.split(';');
-    
+
     let token = null
 
     for (const cookie of cookies) {
         const [name, value] = cookie.trim().split('=');
-      
+
         if (name !== null) {
             token = value;
             console.log(token)
             if (token !== "null" && token !== "")
                 return token
         }
-      }
+    }
     return false;
 }
 
-export const viewProfiles = (token: any) => {
-    console.log("se corre viewProfiles")
-    let res = null;
-
-    const url = BASE_URL+ "api/accounts"
-
+export const viewProfiles = async (token: any) => {
+    const url = BASE_URL + "api/accounts";
+  
     console.log("URL es: " + url);
-
+  
     try {
-        fetch(url, {headers: {token: token}}).then(response => response.json()).then(data => {console.log(data) 
-            return data});
+      const response = await fetch(url, { headers: { token: token } });
+  
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      return data;
     } catch (err) {
-        console.error(err);
+      console.error(err);
+      throw err; // Re-throw the error to handle it outside this function if needed
     }
-    console.log(res)
-
-    return res;
-}
+  };

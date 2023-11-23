@@ -60,14 +60,28 @@ export default function Sports() {
         'token': token
       }
     }).then(response => {
-      if (!response.ok) { throw new Error('Something went wrong');}
-      response.json()
-    }).then(data => setUserData(data)).catch(error => {
-        router.push("/createProfile")
-        console.log("No hay datos del usuario - debe crearse un perfil")
+      if (!response.ok) {
+        throw new Error('Something went wrong');
       }
-      )
+      return response.json()
+    }).then(data => setUserData(data)).catch(error => {
+      router.push("/createProfile")
+      console.log("No hay datos del usuario - debe crearse un perfil")
+    }
+    )
   }, [logged])
+
+  if (userData == null) {
+    return (<div className="container text-center">
+      <div className="row align-items-center">
+        <div className="col my-4">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>)
+  }
 
   return (
     <main>

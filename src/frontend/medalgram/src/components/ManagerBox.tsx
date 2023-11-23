@@ -1,6 +1,6 @@
-export default function ManagerBox({ description, action }: any) {
+export default function ManagerBox({ description, action, token }: any) {
     const handleClick = () => {
-        action();
+        action(token);
     }
     return (
         <div className="flex flex-wrap justify-center">
