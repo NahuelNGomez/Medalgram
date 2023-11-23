@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -140,10 +141,14 @@ public class DockerDemoApp {
 
 	// GET api/me  /*Muestra datos del runner*/
 	@GetMapping("/api/me")
-	public ResponseEntity<Runner> getMe(@RequestHeader String token) {
+	public ResponseEntity<Pair<Account, Runner>> getMe(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
 		Optional<Runner> runner = runnerService.findByToken(token);
-		return ResponseEntity.of(runner);
+		Optional<Account> account = accountService.findByToken(token);
+		if (runner.isPresent() && account.isPresent()) {
+			return ResponseEntity.ok(Pair.of(account.get(), runner.get()));
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
     // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
