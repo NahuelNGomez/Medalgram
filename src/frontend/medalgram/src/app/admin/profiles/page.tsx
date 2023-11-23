@@ -39,7 +39,7 @@ export default function Profiles(token: any) {
             <h1 className="text-white text-4xl font-bold">Gestion de usuarios</h1>
             {
                 profiles.map((profile: any) => (
-                    <div className="flex flex-col items-center justify-center border py-8 my-8">
+                    <div key={profile.token} className="flex flex-col items-center justify-center border py-8 my-8">
                         <h1 className="text-white text-2xl font-bold">Nombre: {profile.email}</h1>
                         <h1 className="text-white text-2xl font-bold">Token: {profile.token}</h1>
                         <h1 className="text-white text-2xl font-bold">Mode: {profile.mode}</h1>

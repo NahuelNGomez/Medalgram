@@ -28,7 +28,7 @@ export default function Admin(){
             <h1 className="text-white text-4xl font-bold">Gestion de página</h1>
             <ManagerBox token={token} description= "Ver perfiles" action={() => router.push("/admin/profiles")} />
             <ManagerBox token={token} description= "Agregar deporte" action={() => router.push("/admin/addSport")}/>
-            <ManagerBox token={token} description= "Agregar Evento" action="null"/>
+            <ManagerBox token={token} description= "Agregar Evento" action={() => router.push("/admin/addEvent")}/>
             <ManagerBox token={token} description= "Ver pedidos de validación" action="null"/>
             <ManagerBox token={token} description= "Agregar resultados" action="null"/>
 
