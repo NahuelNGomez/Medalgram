@@ -15,7 +15,7 @@ public class Comment {
     private Integer idEvent;
 
     @Column(name = "id_runner")
-    private Integer idRunner;
+    private String tokenRunner;
 
     @Column(name = "content")
     private String content;
@@ -40,12 +40,12 @@ public class Comment {
         this.idEvent = idEvent;
     }
 
-    public Integer getIdRunner() {
-        return idRunner;
+    public String getTokenRunner() {
+        return tokenRunner;
     }
 
-    public void setIdRunner(Integer idRunner) {
-        this.idRunner = idRunner;
+    public void setTokenRunner(String tokenRunner) {
+        this.tokenRunner = tokenRunner;
     }
 
     public String getContent() {

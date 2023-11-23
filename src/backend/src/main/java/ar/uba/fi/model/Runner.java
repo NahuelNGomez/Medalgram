@@ -7,8 +7,7 @@ import javax.persistence.*;
 public class Runner {
 
     @Id
-    @Column(name = "token")
-    private String token;
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -22,8 +21,8 @@ public class Runner {
     @Column(name = "location")
     private String location;
 
-    public String getToken() {
-        return token;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -42,8 +41,8 @@ public class Runner {
         return location;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {

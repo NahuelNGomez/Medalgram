@@ -26,7 +26,7 @@ public class ResultService {
         return resultRepository.findAll();
     }
 
-    public Collection<Result> getResultsForRunner(String token_runner) {
-        return resultRepository.findResultByIdRunner(token_runner);
+    public Collection<Result> getResultsForRunner(String tokenRunner) {
+        return resultRepository.findResultByTokenRunner(tokenRunner);
     }
 }

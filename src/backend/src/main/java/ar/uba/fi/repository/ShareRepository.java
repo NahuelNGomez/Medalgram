@@ -1,19 +1,18 @@
 package ar.uba.fi.repository;
 
-import ar.uba.fi.model.Sport;
+import ar.uba.fi.model.Share;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
-import java.util.Optional;
 
 @RepositoryRestResource
-public interface SportRepository extends JpaRepository<Sport, Long> {
+public interface ShareRepository extends JpaRepository<Share, Long> {
 
-    Sport findSportById(Long id);
+    Share findShareById(Long id);
 
-    Optional<Sport> findSportByName(String name);
+    List<Share> findShareByTokenRunner1(String tokenRunner1);
 
     @Override
-    List<Sport> findAll();
+    List<Share> findAll();
 }
