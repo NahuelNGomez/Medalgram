@@ -117,9 +117,13 @@ public class DockerDemoApp {
 	// api/runners?top=5
 
 	@GetMapping("/api/runners/{token}")
-	public ResponseEntity<Runner> getRunner(@PathVariable String token) {
-		Optional<Runner> runner = runnerService.findByToken(token);
-		return ResponseEntity.of(runner);
+	public ResponseEntity<Runner> getRunner(@PathVariable String token, @RequestHeader String admin_token) {
+		Optional<Account> account = accountService.findByToken(admin_token);
+		if (account.isPresent() && account.get().getMode().equals("ADMIN")) {
+			Optional<Runner> runner = runnerService.findByToken(token);
+			return ResponseEntity.of(runner);
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
@@ -184,7 +188,10 @@ public class DockerDemoApp {
 	// api/sports/{id_sport}/events?top=10
 
 	@GetMapping("/api/sports/{id}/events")
-	public Collection<Event> getSportEvents(@PathVariable Long id, @RequestParam(required = false) Integer top) {
+	public Collection<Event> getSportEvents(@PathVariable Integer id, @RequestParam(required = false) Integer top) {
+		if (top == null) {
+			top = 0;
+		}
 		return eventService.filterBySport(id, top);
 	}
 
@@ -198,7 +205,10 @@ public class DockerDemoApp {
 	///// Events
 	@GetMapping("/api/events")
 	public Collection<Event> getEvents(@RequestParam(required = false) Integer top) {
-		return eventService.getEvents(top);
+		if (top == null) {
+			top = 0;
+		}
+	 	return eventService.getEvents(top);
 	}
 	// api/events?top=5
 
