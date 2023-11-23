@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -102,7 +103,6 @@ public class DockerDemoApp {
 
 	// TO DO: Put for /api/results
 
-
 	// Runner
 
 	@PostMapping("/api/runners")
@@ -119,11 +119,12 @@ public class DockerDemoApp {
 		return ResponseEntity.of(runner);
 	}
 
-	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
+	// api/runners/{id_runner}/stats muestra el medallero compartido con un runner.
 	@GetMapping("/api/runners/{token}/stats")
 	public Collection<Result> getRunnerStats(@RequestHeader String token, @PathVariable String tokenRunner) {
-		//  si el id runner me compartio el medallero a mi
-		if (! shareService.areStatsSharedForRunnner(token, tokenRunner)) {
+		// si el id runner me compartio el medallero a mi
+		if (!shareService.areStatsSharedForRunnner(token, tokenRunner)
+				|| !shareService.areStatsSharedForRunnner(tokenRunner, token)) {
 			return resultService.getResultsForRunner(token);
 		}
 		Collection<Result> results = resultService.getResultsForRunner(tokenRunner);
@@ -132,7 +133,7 @@ public class DockerDemoApp {
 
 	///// Me
 
-	//  GET api/me/stats /* Muestra el medallero del runner logueado. */
+	// GET api/me/stats /* Muestra el medallero del runner logueado. */
 	@GetMapping("/api/me/stats")
 	public Collection<Result> getMeStats(@RequestHeader String token) {
 		// logica para obtener el id con el token UUID
@@ -141,15 +142,15 @@ public class DockerDemoApp {
 		return results;
 	}
 
-	// GET api/me  /*Muestra datos del runner*/
+	// GET api/me /*Muestra datos del runner*/
 	@GetMapping("/api/me")
 	public ResponseEntity<Runner> getMe(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
 		Optional<Runner> runner = runnerService.findById(token);
 		return ResponseEntity.of(runner);
 	}
-	
-    // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
+
+	// GET api/me/results/ /*Muestra resultados (checked & pending) del runner*/
 	@GetMapping("/api/me/results")
 	public Collection<Result> getMeResults(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
@@ -158,21 +159,19 @@ public class DockerDemoApp {
 		return results;
 	}
 
-
 	// PUT api/me *editar datos runner*
 
-	// POST api/me/results/     /*permite subir resultados*/
+	// POST api/me/results/ /*permite subir resultados*/
 	@PostMapping("/api/me/results")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Result createResult(@RequestBody Result result,  @RequestHeader String token) {
+	public Result createResult(@RequestBody Result result, @RequestHeader String token) {
 		// Segun el token me fijo si es admin o no y creo un resultado
 		// No verificado o verificado segun corresponda
 		// mapear token -> modo : admin o runner
-		// String mode = accountService.getMode(token);
-		String mode = "Admin";
+		String mode = accountService.getMode(token);
+		// String mode = "Admin";
 		return resultService.createResult(result, mode);
 	}
-
 
 	///// Sports
 
@@ -194,27 +193,27 @@ public class DockerDemoApp {
 		return sportService.createSport(sport);
 	}
 
-
 	///// Shares
+
+	@GetMapping("/api/shares")
+	public Collection<Share> getShares() {
+		return shareService.getShares();
+	}
 
 	@PostMapping("/api/shares")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Share createShare(@RequestHeader String token, @RequestBody String runnerUserName) {
-		Optional<Runner> runnerToShare = runnerService.findByUsername(runnerUserName);
-
+	public Share createShare(@RequestHeader String token, @RequestBody String username) {
+		Optional<Runner> runnerToShare = runnerService.findByUsername(username);
 		if (runnerToShare.isPresent()) {
-			Runner runner = runnerToShare.get();
-
 			Share share = new Share();
+			Runner runner = runnerToShare.get();
 			share.setTokenRunner1(token);
 			share.setTokenRunner2(runner.getId());
-
 			return shareService.createShare(share);
+		} else {
+			throw new ResourceNotFoundException("Runner not found");
 		}
-
-		return new Share();
 	}
-
 
 	///// Events
 	@GetMapping("/api/events")
@@ -249,20 +248,22 @@ public class DockerDemoApp {
 
 	// @Bean
 	// public WebMvcConfigurer corsConfigurer() {
-	// 	return new WebMvcConfigurerAdapter() {
-	// 		@Override
-	// 		public void addCorsMappings(CorsRegistry registry) {
-	// 			registry.addMapping("/**")
-	// 					.allowedOrigins("*")
-	// 				.allowedMethods("GET", "POST", "PUT", "DELETE")
-	// 				.allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-	// 					"Access-Control-Request-Headers")
-	// 				.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-	// 				.allowCredentials(true);
-	// 		}
-	// 	};
+	// return new WebMvcConfigurerAdapter() {
+	// @Override
+	// public void addCorsMappings(CorsRegistry registry) {
+	// registry.addMapping("/**")
+	// .allowedOrigins("*")
+	// .allowedMethods("GET", "POST", "PUT", "DELETE")
+	// .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin",
+	// "Access-Control-Request-Method",
+	// "Access-Control-Request-Headers")
+	// .exposedHeaders("Access-Control-Allow-Origin",
+	// "Access-Control-Allow-Credentials")
+	// .allowCredentials(true);
 	// }
-	
+	// };
+	// }
+
 	@Bean
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -279,63 +280,67 @@ public class DockerDemoApp {
 	}
 
 	/*
-	@PutMapping("/accounts/{id}/withdraw")
-	public Transaction withdraw(@PathVariable Long cbu, @RequestParam Double sum) {
-		Transaction transaction = new Transaction("withdraw", sum, cbu);
-		accountService.withdraw(cbu, transaction.getAmount());
-		return transactionService.withdraw(transaction);
-	}
-
-	@PutMapping("/accounts/{cbu}/deposit")
-	public Transaction deposit(@PathVariable Long cbu, @RequestParam Double sum) {
-		Transaction transaction = new Transaction("deposit", sum, cbu);
-		accountService.deposit(cbu, transaction.getAmount());
-		return transactionService.deposit(transaction);
-	}
-
-	 @PostMapping("/transactions")
-	 @ResponseStatus(HttpStatus.CREATED)
-	 public Transaction createTransaction(@RequestBody Transaction transaction) {
-
-		if(transaction.getType().equals("deposit")) {
-			accountService.deposit(transaction.getCbu(), transaction.getAmount());
-			return transactionService.deposit(transaction);
-		} else if (transaction.getType().equals("withdraw")) {
-			accountService.withdraw(transaction.getCbu(), transaction.getAmount());
-			return transactionService.withdraw(transaction);
-		}
-
-		throw new invalidTypeOfTransaction("Invalid type of transaction");
-
-	 }
-
-	 @GetMapping("/accounts/transactions")
-	 public List<Transaction> getTransactions(@RequestParam Long cbu) {
-		return transactionService.getTransactionsByCbu(cbu);
-	 }
-
-	@GetMapping("/transactions/{transactionID}")
-	public Transaction getTransaction(@PathVariable Long transactionID) {
-		return transactionService.findTransactionByID(transactionID);
-
-	}
-
-	@DeleteMapping("/transactions/{transactionID}")
-	public void deleteTransaction(@PathVariable Long transactionID) {
-		Transaction transaction = transactionService.findTransactionByID(transactionID);
-
-		if (transaction == null) {
-			throw new invalidIdTransaction("Invalid ID of the transaction");
-		}
-		transactionService.deleteTransaction(transaction);
-	}
-*/
+	 * @PutMapping("/accounts/{id}/withdraw")
+	 * public Transaction withdraw(@PathVariable Long cbu, @RequestParam Double sum)
+	 * {
+	 * Transaction transaction = new Transaction("withdraw", sum, cbu);
+	 * accountService.withdraw(cbu, transaction.getAmount());
+	 * return transactionService.withdraw(transaction);
+	 * }
+	 * 
+	 * @PutMapping("/accounts/{cbu}/deposit")
+	 * public Transaction deposit(@PathVariable Long cbu, @RequestParam Double sum)
+	 * {
+	 * Transaction transaction = new Transaction("deposit", sum, cbu);
+	 * accountService.deposit(cbu, transaction.getAmount());
+	 * return transactionService.deposit(transaction);
+	 * }
+	 * 
+	 * @PostMapping("/transactions")
+	 * 
+	 * @ResponseStatus(HttpStatus.CREATED)
+	 * public Transaction createTransaction(@RequestBody Transaction transaction) {
+	 * 
+	 * if(transaction.getType().equals("deposit")) {
+	 * accountService.deposit(transaction.getCbu(), transaction.getAmount());
+	 * return transactionService.deposit(transaction);
+	 * } else if (transaction.getType().equals("withdraw")) {
+	 * accountService.withdraw(transaction.getCbu(), transaction.getAmount());
+	 * return transactionService.withdraw(transaction);
+	 * }
+	 * 
+	 * throw new invalidTypeOfTransaction("Invalid type of transaction");
+	 * 
+	 * }
+	 * 
+	 * @GetMapping("/accounts/transactions")
+	 * public List<Transaction> getTransactions(@RequestParam Long cbu) {
+	 * return transactionService.getTransactionsByCbu(cbu);
+	 * }
+	 * 
+	 * @GetMapping("/transactions/{transactionID}")
+	 * public Transaction getTransaction(@PathVariable Long transactionID) {
+	 * return transactionService.findTransactionByID(transactionID);
+	 * 
+	 * }
+	 * 
+	 * @DeleteMapping("/transactions/{transactionID}")
+	 * public void deleteTransaction(@PathVariable Long transactionID) {
+	 * Transaction transaction =
+	 * transactionService.findTransactionByID(transactionID);
+	 * 
+	 * if (transaction == null) {
+	 * throw new invalidIdTransaction("Invalid ID of the transaction");
+	 * }
+	 * transactionService.deleteTransaction(transaction);
+	 * }
+	 */
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
-			.select()
-			.apis(RequestHandlerSelectors.any())
-			.paths(PathSelectors.any())
-			.build();
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any())
+				.build();
 	}
 }

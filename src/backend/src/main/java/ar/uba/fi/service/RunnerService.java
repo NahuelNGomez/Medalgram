@@ -5,7 +5,7 @@ import ar.uba.fi.repository.RunnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
-
+import java.util.Collection;
 
 @Service
 public class RunnerService {
@@ -16,9 +16,13 @@ public class RunnerService {
     public Runner createRunner(Runner runner) {
         return runnerRepository.save(runner);
     }
-    
+
     public Optional<Runner> findById(String token) {
         return runnerRepository.findById(token);
+    }
+
+    public Collection<Runner> findAll() {
+        return runnerRepository.findAll();
     }
 
     public Optional<Runner> findByUsername(String username) {
