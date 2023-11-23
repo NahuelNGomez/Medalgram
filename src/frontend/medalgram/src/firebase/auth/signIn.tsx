@@ -7,7 +7,7 @@ const auth = getAuth(firebase_app);
 
 const TEST_BASE_URL = "http://localhost:8080/";
 const BASE_URL = "https://grupo-3.2023.tecnicasdedisenio.com.ar/api/";
-const endPoint = "api/accounts";
+const endPoint = "api/me";
 
 export default async function signIn(email: string, password: string) {
   let result = null;
@@ -27,12 +27,12 @@ export default async function signIn(email: string, password: string) {
 const getFromDb = async (email: string, token: string) => {
   let res = null;
 
-  const url = BASE_URL + endPoint + "/" + token;
+  const url = BASE_URL + endPoint + "/";
 
   console.log("URL es: " + url);
 
   try {
-    res = await fetch(url);
+    res = await fetch(url, {headers: {token: token}});
   } catch (err) {
     console.error(err);
   }

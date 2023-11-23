@@ -1,13 +1,12 @@
 "use client";
-
 import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
-import signUp, { registerInDb } from "@/firebase/auth/signUp";
-import { loginMock, signUpMock } from "@/objects/mocks/mock";
-import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { loginAdminMock, loginMock } from "@/objects/mocks/mock";
+import signIn, { getUserFromDb } from "@/firebase/auth/signIn";
 
-export default function Signup() {
+export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [notification, setNotification] = useState("");
   const [logged, setLogged] = useState(false);
@@ -18,34 +17,30 @@ export default function Signup() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSignUp = async (event: { preventDefault: () => void }) => {
+  const handleLogin = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
     if (!formData.email || !formData.password) {
       setNotification("Por favor, complete todos los campos.");
       return;
     }
 
-    const { result, error } = await signUp(formData.email, formData.password);
-
-    console.log("signUp desde firebase");
-    console.log(result);
+    const { result, error } = await signIn(formData.email, formData.password);
 
     if (error) {
-      // Display and log any sign-up errors
-      console.log(error);
-      // alert(error.code);
+      //if (error.code === 'auth/invalid-login-credentials'){
+      alert("Invalid Login Credentials");
       return;
     }
 
-    if (result !== null) {
-      const user = await registerInDb(formData.email, result.user.uid, "RUNNER");
+    // Hacemos un post al db con Email y UID para obtener el usuario.
 
-      console.log("Conecto con el back - signUp");
-      console.log(user);
+    if (result !== null) {
+      const user = await getUserFromDb(formData.email, result?.user.uid);
+
+      console.log("El usuario obtenido es: ", user);
     }
 
-    signUpMock(router, result);
+    loginAdminMock(router, result);
   };
 
   useEffect(() => {
@@ -59,9 +54,9 @@ export default function Signup() {
     <main className="flex flex-col justify-center items-center">
       {logged === true ? <NavegationBarLogged /> : <NavegationBar />}
       <div className="w-full max-w-xl mt-4">
-        <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4">
+        <form className="bg-dark2/50 shadow-md rounded-3xl pt-6 mb-4 ">
           <div className="flex justify-center items-center">
-            <h2 className="text-white my-4 text-3xl">Crear Cuenta</h2>
+            <h2 className="text-white my-4 text-3xl">Inicio de Sesión</h2>
           </div>
           <div className="mb-4 px-8 ">
             <label
@@ -100,15 +95,15 @@ export default function Signup() {
           <div className="flex items-center justify-between px-8">
             <a
               className="inline-block align-baseline text-sm underline text-gray-400 hover:text-white"
-              href="/login"
+              href="/signup"
             >
-              Iniciar Sesión
+              Registrarse
             </a>
             <a
               className="inline-block align-baseline underline text-sm text-gray-400 hover:text-white"
               href="#"
             >
-              Términos y Condiciones
+              Recuperar contraseña
             </a>
           </div>
           {notification === "" ? (
@@ -122,7 +117,7 @@ export default function Signup() {
           )}
           <div className="w-full pt-5">
             <button
-              onClick={handleSignUp}
+              onClick={handleLogin}
               className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
               type="button"
             >

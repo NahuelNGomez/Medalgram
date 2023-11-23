@@ -18,7 +18,8 @@ export default function Sports() {
   const [modalProfile, setModalProfile] = useState(false);
   const [modalNewResult, setModalNewResult] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [token, setToken] = useState<any>(null);
   const router = useRouter();
 
   const closeEditProfile = () => {
@@ -42,6 +43,7 @@ export default function Sports() {
     };
     if (verifyToken(document.cookie)) {
       setLogged(true);
+      setToken(verifyToken(document.cookie))
     } else {
       router.push("/login")
     }
@@ -52,14 +54,34 @@ export default function Sports() {
       setLoading(false)
       return
     };
-    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners/' + verifyToken(document.cookie))
-      .then(response => response.json()).then(data => setUserData(data))
-      .catch(error => {
-        router.push("/createProfile")
-        console.log("No hay datos del usuario - debe crearse un perfil")
+    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me', {
+      method: 'GET',
+      headers: {
+        'token': token
       }
-      )
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      return response.json()
+    }).then(data => setUserData(data)).catch(error => {
+      router.push("/createProfile")
+      console.log("No hay datos del usuario - debe crearse un perfil")
+    }
+    )
   }, [logged])
+
+  if (userData == null) {
+    return (<div className="container text-center">
+      <div className="row align-items-center">
+        <div className="col my-4">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>)
+  }
 
   return (
     <main>
@@ -85,13 +107,13 @@ export default function Sports() {
       }
       {
         modalProfile === true && (
-          <EditProfileModal cancelFunction={closeEditProfile} />
+          <EditProfileModal cancelFunction={closeEditProfile} userData={userData} token={token} />
         )
       }
 
       {
         modalNewResult === true && (
-          <AddResultModal cancelFunction={closeNewResult} />
+          <AddResultModal cancelFunction={closeNewResult}/>
         )
       }
     </main >

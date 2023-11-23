@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -116,9 +117,13 @@ public class DockerDemoApp {
 	// api/runners?top=5
 
 	@GetMapping("/api/runners/{token}")
-	public ResponseEntity<Runner> getRunner(@PathVariable String token) {
-		Optional<Runner> runner = runnerService.findByToken(token);
-		return ResponseEntity.of(runner);
+	public ResponseEntity<Runner> getRunner(@PathVariable String token, @RequestHeader String admin_token) {
+		Optional<Account> account = accountService.findByToken(admin_token);
+		if (account.isPresent() && account.get().getMode().equals("ADMIN")) {
+			Optional<Runner> runner = runnerService.findByToken(token);
+			return ResponseEntity.of(runner);
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	// api/runners/{id_runner}/stats  muestra el medallero compartido con un runner.
@@ -140,10 +145,14 @@ public class DockerDemoApp {
 
 	// GET api/me  /*Muestra datos del runner*/
 	@GetMapping("/api/me")
-	public ResponseEntity<Runner> getMe(@RequestHeader String token) {
+	public ResponseEntity<Pair<Account, Runner>> getMe(@RequestHeader String token) {
 		// Hay que hacer la conversion de token a id
 		Optional<Runner> runner = runnerService.findByToken(token);
-		return ResponseEntity.of(runner);
+		Optional<Account> account = accountService.findByToken(token);
+		if (runner.isPresent() && account.isPresent()) {
+			return ResponseEntity.ok(Pair.of(account.get(), runner.get()));
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
     // GET api/me/results/     /*Muestra resultados (checked & pending) del runner*/
@@ -179,7 +188,10 @@ public class DockerDemoApp {
 	// api/sports/{id_sport}/events?top=10
 
 	@GetMapping("/api/sports/{id}/events")
-	public Collection<Event> getSportEvents(@PathVariable Long id, @RequestParam(required = false) Integer top) {
+	public Collection<Event> getSportEvents(@PathVariable Integer id, @RequestParam(required = false) Integer top) {
+		if (top == null) {
+			top = 0;
+		}
 		return eventService.filterBySport(id, top);
 	}
 
@@ -193,7 +205,10 @@ public class DockerDemoApp {
 	///// Events
 	@GetMapping("/api/events")
 	public Collection<Event> getEvents(@RequestParam(required = false) Integer top) {
-		return eventService.getEvents(top);
+		if (top == null) {
+			top = 0;
+		}
+	 	return eventService.getEvents(top);
 	}
 	// api/events?top=5
 
@@ -206,6 +221,18 @@ public class DockerDemoApp {
 	@PostMapping("/api/events")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Event createEvent(@RequestBody Event event) {
+		if (event.getIdSport() == null) {
+			throw new IllegalArgumentException("Event must have a sport");
+		}
+		if (event.getName() == null) {
+			throw new IllegalArgumentException("Event must have a name");
+		}
+		if (event.getLocation() == null) {
+			throw new IllegalArgumentException("Event must have a location");
+		}
+		if (event.getDate() == null) {
+			throw new IllegalArgumentException("Event must have a date");
+		}
 		return eventService.createEvent(event);
 	}
 

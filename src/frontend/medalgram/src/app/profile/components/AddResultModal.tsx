@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function AddResultModal({ cancelFunction }: any) {
+export default function AddResultModal({ cancelFunction}: any) {
   // Hacer get del perfil
   return (
     <section className='absolute grid place-items-center w-[100%] h-[100%] bg-[#111]/70 bottom-0 left-0'>
