@@ -21,7 +21,7 @@ export default function AddSport(token: any) {
         }
         fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports', {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "token": token },
             body: JSON.stringify({
                 name: title.value
                 //description: description.value,

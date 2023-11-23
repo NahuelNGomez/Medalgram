@@ -44,14 +44,14 @@ export default function EditProfileModal({ cancelFunction, userData, token }: an
           <div className="text-[64px] justify-left flex">Editar Perfil</div>
           <div className="grid grid-cols-2 gap-[30px]">
             <div className="flex flex-row">
-              <label className="px-[30px]">Nombre: <input className="text-black" type="text" id="name" name="name" defaultValue={userData.name || ''}></input></label>
+              <label className="px-[30px]">Nombre: <input className="text-black" type="text" id="name" name="name" defaultValue={userData.second.name || ''}></input></label>
             </div>
             <div className="flex flex-row ">
-              <label className="px-[30px]">Edad: <input className="text-black" type="text" id="age" name="age" defaultValue={userData.age || ''}></input></label>
+              <label className="px-[30px]">Edad: <input className="text-black" type="text" id="age" name="age" defaultValue={userData.second.age || ''}></input></label>
 
             </div>
             <div className="flex flex-row">
-              <label className="px-[23px]">Ubicacion: <input className="text-black" type="text" id="location" name="location" defaultValue={userData.location || ''}></input></label>
+              <label className="px-[23px]">Ubicacion: <input className="text-black" type="text" id="location" name="location" defaultValue={userData.second.location || ''}></input></label>
 
             </div>
             <div className="flex flex-row ">

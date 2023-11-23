@@ -16,23 +16,27 @@ export default function AddEvent(token: any) {
         const description = elements.namedItem('description') as HTMLInputElement
         const date = elements.namedItem('date') as HTMLInputElement
         const location = elements.namedItem('location') as HTMLInputElement
+        const url = elements.namedItem('url') as HTMLInputElement
+        const edition = elements.namedItem('edition') as HTMLInputElement
 
 
 
-        if (!name || !description ||!idSport || !date || !location || name.value == "" || description.value == "" || idSport.value == "" || date.value == "" || location.value == "") {
+        if (!name || !description ||!idSport || !date || !location || !edition || !url || name.value == "" || description.value == "" || idSport.value == "" || date.value == "" || location.value == "" || edition.value == "" || url.value == "" ) {
             console.error("Por favor, complete todos los campos.")
             return
         }
         
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/event', {
+        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events', {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "token": token },
             body: JSON.stringify({
                 name: name.value,
-                //description: description.value,
-                idSport: idSport.value
-                //date: date.value,
-                //location: location.value,
+                description: description.value,
+                idSport: idSport.value,
+                date: date.value,
+                location: location.value,
+                url: url.value,
+                edition: edition.value
             })
         }).then((response) => {
             if (response.ok) window.location.reload();
@@ -69,6 +73,8 @@ export default function AddEvent(token: any) {
                     <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Descripción del evento<input type="text" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" /></label>
                     <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Fecha del evento<input type="date" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="date" name="date" /></label>
                     <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Lugar del evento<input type="text" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="location" name="location" /></label>
+                    <label className="block text-gray-200 text-sm font-bold mb-2 w-full">URL del evento<input type="text" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="url" name="url" /></label>
+                    <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Edicion del evento<input type="number" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="edition" name="edition" min="1"/></label>
                     <button className="border text-white px-6 bg-dark3/20 rounded hover:bg-white hover:text-black transition duration-500">Cargar Evento</button>
 
                 </form>

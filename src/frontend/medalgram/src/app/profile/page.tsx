@@ -71,6 +71,15 @@ export default function Sports() {
     )
   }, [logged])
 
+  useEffect(() => {
+    if (userData == null) {
+      return
+    }
+    if (userData.first.mode === "ADMIN") {
+      router.push("/admin")
+    }
+  }, [userData])
+
   if (userData == null) {
     return (<div className="container text-center">
       <div className="row align-items-center">
