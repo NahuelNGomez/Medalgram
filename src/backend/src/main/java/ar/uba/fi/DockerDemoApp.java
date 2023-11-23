@@ -221,6 +221,18 @@ public class DockerDemoApp {
 	@PostMapping("/api/events")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Event createEvent(@RequestBody Event event) {
+		if (event.getIdSport() == null) {
+			throw new IllegalArgumentException("Event must have a sport");
+		}
+		if (event.getName() == null) {
+			throw new IllegalArgumentException("Event must have a name");
+		}
+		if (event.getLocation() == null) {
+			throw new IllegalArgumentException("Event must have a location");
+		}
+		if (event.getDate() == null) {
+			throw new IllegalArgumentException("Event must have a date");
+		}
 		return eventService.createEvent(event);
 	}
 
