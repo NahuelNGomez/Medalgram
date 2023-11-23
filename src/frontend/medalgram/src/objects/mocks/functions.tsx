@@ -31,7 +31,6 @@ export const viewProfiles = async (token: any) => {
       }
   
       const data = await response.json();
-      console.log(data);
       return data;
     } catch (err) {
       console.error(err);
