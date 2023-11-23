@@ -124,8 +124,8 @@ public class DockerDemoApp {
 	public Collection<Result> getRunnerStats(@RequestHeader String token, @PathVariable String tokenRunner) {
 		// si el id runner me compartio el medallero a mi
 		if (!shareService.areStatsSharedForRunnner(token, tokenRunner)
-				|| !shareService.areStatsSharedForRunnner(tokenRunner, token)) {
-			return resultService.getResultsForRunner(token);
+				&& !shareService.areStatsSharedForRunnner(tokenRunner, token)) {
+			throw new ResourceNotFoundException("Runner hasn't shared its profile");
 		}
 		Collection<Result> results = resultService.getResultsForRunner(tokenRunner);
 		return results;
