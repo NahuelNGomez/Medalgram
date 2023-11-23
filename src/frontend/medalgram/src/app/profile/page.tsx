@@ -107,13 +107,13 @@ export default function Sports() {
       }
       {
         modalProfile === true && (
-          <EditProfileModal cancelFunction={closeEditProfile} />
+          <EditProfileModal cancelFunction={closeEditProfile} userData={userData} token={token} />
         )
       }
 
       {
         modalNewResult === true && (
-          <AddResultModal cancelFunction={closeNewResult} />
+          <AddResultModal cancelFunction={closeNewResult}/>
         )
       }
     </main >
