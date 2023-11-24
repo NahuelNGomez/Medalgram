@@ -17,7 +17,7 @@ export default function EditProfileModal({ cancelFunction, userData, token }: an
       console.error("Por favor, complete todos los campos.")
       return
     }
-    /*
+    /* Cambiarlo a /api/me
     fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners/'+ token, {
       method: 'PUT',
       headers: { "Content-Type": "application/json" },

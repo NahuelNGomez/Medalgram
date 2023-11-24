@@ -9,15 +9,18 @@ import { useEffect, useState } from "react";
 
 export default function Sports() {
   const [sports, setSports] = useState<Array<any>>([]);
-  // useEffect(() => {
-  //   fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/sports")
-  //     .then((response) => response.json())
-  //     .then((data) => setSports(data));
-  // }, []);
 
-  useEffect(()=>{
-    setSports(sportMock())
-  }, [])
+  useEffect(() => {
+    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports")
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => setSports(data));
+  }, []);
+
+  // useEffect(()=>{
+  //   setSports(sportMock())
+  // }, [])
   
   const [filterInput, setFilterInput] = useState("");
   const [logged, setLogged] = useState(false);
@@ -63,7 +66,7 @@ export default function Sports() {
                 key={sport.id}
                 id={sport.id}
                 title={sport.name}
-                description={sport.description}
+                //description={sport.description}
               />
             );
           })}
