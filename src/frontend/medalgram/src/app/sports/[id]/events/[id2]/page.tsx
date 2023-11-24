@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { oneEventMock } from "@/objects/mocks/mock";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
+import { verifyToken } from "@/objects/mocks/functions";
 
 interface SportProps {
     params: { id: number, id2: number }
@@ -16,6 +17,7 @@ interface SportProps {
 export default function Page({ params: { id, id2 } }: SportProps) {
     const [event, setEvent] = useState<any>([]);
     const [logged, setLogged] = useState(false);
+    const [token, setToken] = useState<any>(null);
     // Params -> id de evento
     // fetch events/{id_event}
     // fetch events/{id_event}/comments
@@ -28,7 +30,6 @@ export default function Page({ params: { id, id2 } }: SportProps) {
             })
             .then((data) => setEvent(data));
     }, [])
-    if (event === null) return <div>loading...</div>;
 
     const breadcrumb = [
         {
@@ -49,6 +50,7 @@ export default function Page({ params: { id, id2 } }: SportProps) {
         if (document === undefined) return;
         if (document.cookie !== 'token=null' && document.cookie !== '') {
             setLogged(true);
+            setToken(verifyToken(document.cookie))
         }
     }, [])
     return (
@@ -106,7 +108,7 @@ export default function Page({ params: { id, id2 } }: SportProps) {
 
                 </table>
                 <section className="mt-4 w-4/5">
-                    <Comments />
+                    <Comments token={token} logged={logged} id2={id2}/>
                 </section>
 
             </section>
