@@ -27,4 +27,8 @@ public class SportService {
         return sportRepository.findAll();
     }
 
+    public Optional<Sport> findById(int id) {
+        return sportRepository.findById((long) id);
+    }
+
 }

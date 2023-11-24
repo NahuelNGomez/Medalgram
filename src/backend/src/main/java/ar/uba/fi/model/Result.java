@@ -23,6 +23,9 @@ public class Result {
     @Column(name = "time")
     private Time time;
 
+    @Column(name = "position")
+    private Integer position;
+
     public Long getId() {
         return id;
     }
@@ -43,6 +46,10 @@ public class Result {
         return time;
     }
 
+    public Integer getPosition() {
+        return position;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -61,5 +68,9 @@ public class Result {
 
     public void setTime(Time time) {
         this.time = time;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

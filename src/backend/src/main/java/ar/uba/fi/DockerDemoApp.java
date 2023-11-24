@@ -1,15 +1,5 @@
 package ar.uba.fi;
 
-import ar.uba.fi.model.Event;
-import ar.uba.fi.model.Sport;
-import ar.uba.fi.model.Account;
-import ar.uba.fi.model.Runner;
-import ar.uba.fi.model.Result;
-import ar.uba.fi.service.AccountService;
-import ar.uba.fi.service.EventService;
-import ar.uba.fi.service.SportService;
-import ar.uba.fi.service.RunnerService;
-import ar.uba.fi.service.ResultService;
 import ar.uba.fi.model.*;
 import ar.uba.fi.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,14 +80,13 @@ public class DockerDemoApp {
 	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable String token) {
 		Optional<Account> accountOptional = accountService.findById(token);
 
-		//if (!accountOptional.isPresent()) {
-		if (accountOptional.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		account.setId(token);
-		accountService.save(account);
+		if (accountOptional.isPresent()) {
+			account.setId(token);
+			accountService.save(account);
 
-		return ResponseEntity.ok().build();
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/api/accounts/{token}")
@@ -115,6 +104,20 @@ public class DockerDemoApp {
 
 	// Runner
 
+	/*
+	 * @PostMapping("/api/runners")
+	 * 
+	 * @ResponseStatus(HttpStatus.CREATED)
+	 * public ResponseEntity<Runner> createRunner(@RequestHeader String
+	 * token, @RequestBody Runner runner) {
+	 * Optional<Account> account = accountService.findById(token);
+	 * if (account.isPresent()) {
+	 * runner.setId(token);
+	 * return ResponseEntity.ok(runnerService.createRunner(runner));
+	 * }
+	 * return ResponseEntity.notFound().build();
+	 * }
+	 */
 	@PostMapping("/api/runners")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Runner createRunner(@RequestBody Runner runner) {
@@ -148,13 +151,6 @@ public class DockerDemoApp {
 	///// Me
 
 	// GET api/me/stats /* Muestra el medallero del runner logueado. */
-	@GetMapping("/api/me/stats")
-	public Collection<Result> getMeStats(@RequestHeader String token) {
-		// logica para obtener el id con el token UUID
-		// accountService.getIDByToken(token);
-		Collection<Result> results = resultService.getResultsForRunner(token);
-		return results;
-	}
 
 	// GET api/me /*Muestra datos del runner*/
 	@GetMapping("/api/me")
@@ -169,10 +165,13 @@ public class DockerDemoApp {
 
 	// GET api/me/results/ /*Muestra resultados (checked & pending) del runner*/
 	@GetMapping("/api/me/results")
-	public Collection<Result> getMeResults(@RequestHeader String token) {
-		// Hay que hacer la conversion de token a id
-		// Pedirle a account el id del runner segun token
-        return resultService.getResultsForRunner(token);
+	public ResponseEntity<Collection<Result>> getMeResults(@RequestHeader String token) {
+		Optional<Runner> runner = runnerService.findById(token);
+		if (runner.isPresent()) {
+			return ResponseEntity.ok(resultService.getResultsForRunner(token));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 	// PUT api/me *editar datos runner*
@@ -180,13 +179,13 @@ public class DockerDemoApp {
 	// POST api/me/results/ /*permite subir resultados*/
 	@PostMapping("/api/me/results")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Result createResult(@RequestBody Result result, @RequestHeader String token) {
-		// Segun el token me fijo si es admin o no y creo un resultado
-		// No verificado o verificado segun corresponda
-		// mapear token -> modo : admin o runner
-		String mode = accountService.getMode(token);
-		// String mode = "Admin";
-		return resultService.createResult(result, mode);
+	public ResponseEntity<Result> createResult(@RequestBody Result result, @RequestHeader String token) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent()) {
+			String mode = accountService.getMode(token);
+			return ResponseEntity.ok(resultService.createResult(result, mode));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	///// Sports
@@ -222,12 +221,13 @@ public class DockerDemoApp {
 	@PostMapping("/api/shares")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Share createShare(@RequestHeader String token, @RequestBody String username) {
+		Optional<Runner> runner = runnerService.findById(token);
 		Optional<Runner> runnerToShare = runnerService.findByUsername(username);
-		if (runnerToShare.isPresent()) {
+		if (runnerToShare.isPresent() && runner.isPresent()) {
 			Share share = new Share();
-			Runner runner = runnerToShare.get();
+			Runner runnerToShareFound = runnerToShare.get();
 			share.setTokenRunner1(token);
-			share.setTokenRunner2(runner.getId());
+			share.setTokenRunner2(runnerToShareFound.getId());
 			return shareService.createShare(share);
 		} else {
 			throw new ResourceNotFoundException("Runner not found");
@@ -240,7 +240,7 @@ public class DockerDemoApp {
 		if (top == null) {
 			top = 0;
 		}
-	 	return eventService.getEvents(top);
+		return eventService.getEvents(top);
 	}
 	// api/events?top=5
 
@@ -257,20 +257,38 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/events")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Event createEvent(@RequestBody Event event) {
-		return eventService.createEvent(event);
+	public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+		Optional<Sport> sport = sportService.findById(event.getIdSport());
+		if (sport.isPresent()) {
+			return ResponseEntity.ok(eventService.createEvent(event));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 	@GetMapping("/api/events/{id_event}/comments")
-	public Collection<Comment> getEventComments(@PathVariable Long id_event) {
-		return commentService.getEventComments(id_event);
+	public ResponseEntity<Collection<Comment>> getEventComments(@PathVariable Long id_event) {
+		Optional<Event> event = eventService.findById(id_event);
+		if (event.isPresent()) {
+			return ResponseEntity.ok(commentService.getEventComments(id_event));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping("/api/events/{id_event}/comments")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Comment createComment(@RequestBody Comment comment, @PathVariable Integer id_event) {
-		comment.setIdEvent(id_event);
-		return commentService.createComment(comment);
+	public ResponseEntity<Pair<Runner, Comment>> createComment(@RequestHeader String token,
+			@RequestBody Comment comment, @PathVariable Integer id_event) {
+		Optional<Runner> runner = runnerService.findById(token);
+		Optional<Event> event = eventService.findById((long) id_event);
+		if (runner.isPresent() && event.isPresent()) {
+			comment.setIdEvent(id_event);
+			comment.setTokenRunner(token);
+
+			return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 	// @Bean
@@ -293,17 +311,18 @@ public class DockerDemoApp {
 
 	// @Bean
 	// public CorsFilter corsFilter() {
-	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// UrlBasedCorsConfigurationSource source = new
+	// UrlBasedCorsConfigurationSource();
 
-	// 	// Allow anyone and anything access. Probably ok for Swagger spec
-	// 	CorsConfiguration config = new CorsConfiguration();
-	// 	config.setAllowCredentials(true);
-	// 	config.addAllowedOrigin("*");
-	// 	config.addAllowedHeader("*");
-	// 	config.addAllowedMethod("*");
+	// // Allow anyone and anything access. Probably ok for Swagger spec
+	// CorsConfiguration config = new CorsConfiguration();
+	// config.setAllowCredentials(true);
+	// config.addAllowedOrigin("*");
+	// config.addAllowedHeader("*");
+	// config.addAllowedMethod("*");
 
-	// 	source.registerCorsConfiguration("/api", config);
-	// 	return new CorsFilter(source);
+	// source.registerCorsConfiguration("/api", config);
+	// return new CorsFilter(source);
 	// }
 
 	/*
