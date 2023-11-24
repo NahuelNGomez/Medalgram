@@ -10,16 +10,16 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "id_sport")
+    @Column(name = "id_sport", nullable = false)
     private Integer idSport;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "location")
+    @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private String date;
 
     @Column(name = "url")

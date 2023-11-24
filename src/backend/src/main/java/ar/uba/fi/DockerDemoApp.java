@@ -24,13 +24,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
-
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+// import org.springframework.web.cors.CorsConfiguration;
+// import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+// import org.springframework.web.filter.CorsFilter;
+// import org.springframework.web.servlet.config.annotation.CorsRegistry;
+// import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+// import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -259,18 +258,6 @@ public class DockerDemoApp {
 	@PostMapping("/api/events")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Event createEvent(@RequestBody Event event) {
-		if (event.getIdSport() == null) {
-			throw new IllegalArgumentException("Event must have a sport");
-		}
-		if (event.getName() == null) {
-			throw new IllegalArgumentException("Event must have a name");
-		}
-		if (event.getLocation() == null) {
-			throw new IllegalArgumentException("Event must have a location");
-		}
-		if (event.getDate() == null) {
-			throw new IllegalArgumentException("Event must have a date");
-		}
 		return eventService.createEvent(event);
 	}
 
@@ -304,20 +291,20 @@ public class DockerDemoApp {
 	// };
 	// }
 
-	@Bean
-	public CorsFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// @Bean
+	// public CorsFilter corsFilter() {
+	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-		// Allow anyone and anything access. Probably ok for Swagger spec
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*");
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
+	// 	// Allow anyone and anything access. Probably ok for Swagger spec
+	// 	CorsConfiguration config = new CorsConfiguration();
+	// 	config.setAllowCredentials(true);
+	// 	config.addAllowedOrigin("*");
+	// 	config.addAllowedHeader("*");
+	// 	config.addAllowedMethod("*");
 
-		source.registerCorsConfiguration("/api", config);
-		return new CorsFilter(source);
-	}
+	// 	source.registerCorsConfiguration("/api", config);
+	// 	return new CorsFilter(source);
+	// }
 
 	/*
 	 * @PutMapping("/accounts/{id}/withdraw")

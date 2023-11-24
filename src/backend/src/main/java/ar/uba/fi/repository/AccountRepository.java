@@ -14,5 +14,5 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     @Override
     List<Account> findAll();
 
-    void deleteByToken(String token);
+    void deleteById(String id);
 }
