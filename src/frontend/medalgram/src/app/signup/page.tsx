@@ -126,7 +126,7 @@ export default function Signup() {
               className="w-full bg-white rounded-b-3xl hover:bg-blue-700 text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Iniciar Sesión
+              Crear cuenta
             </button>
           </div>
         </form>

@@ -26,7 +26,7 @@ export default function CreateProfile() {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                token: verifyToken(document.cookie),
+                id: verifyToken(document.cookie),
                 name: formData.name,
                 username: formData.username,
                 age: formData.age,

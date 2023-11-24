@@ -21,9 +21,14 @@ export default function Page({ params: { id, id2 } }: SportProps) {
     // fetch events/{id_event}/comments
 
     useEffect(() => {
-        setEvent(oneEventMock())
+        //setEvent(oneEventMock())
+        fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/" + id2)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => setEvent(data));
     }, [])
-
+    if (event === null) return <div>loading...</div>;
 
     const breadcrumb = [
         {
