@@ -268,9 +268,17 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/events/{id_event}/comments")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Comment createComment(@RequestBody Comment comment, @PathVariable Integer id_event) {
-		comment.setIdEvent(id_event);
-		return commentService.createComment(comment);
+	public ResponseEntity<Pair<Runner, Comment>> createComment(@RequestHeader String token, @RequestBody Comment comment, @PathVariable Integer id_event) {
+		Optional<Runner> runner = runnerService.findById(token);
+		Optional<Event> event = eventService.findById((long) id_event);
+		if (runner.isPresent() && event.isPresent()) {
+			comment.setIdEvent(id_event);
+			comment.setTokenRunner(token);
+
+			return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 	// @Bean
