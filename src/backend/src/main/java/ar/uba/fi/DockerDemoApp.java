@@ -1,15 +1,5 @@
 package ar.uba.fi;
 
-import ar.uba.fi.model.Event;
-import ar.uba.fi.model.Sport;
-import ar.uba.fi.model.Account;
-import ar.uba.fi.model.Runner;
-import ar.uba.fi.model.Result;
-import ar.uba.fi.service.AccountService;
-import ar.uba.fi.service.EventService;
-import ar.uba.fi.service.SportService;
-import ar.uba.fi.service.RunnerService;
-import ar.uba.fi.service.ResultService;
 import ar.uba.fi.model.*;
 import ar.uba.fi.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,15 +104,24 @@ public class DockerDemoApp {
 
 	// Runner
 
+	/*
+	 * @PostMapping("/api/runners")
+	 * 
+	 * @ResponseStatus(HttpStatus.CREATED)
+	 * public ResponseEntity<Runner> createRunner(@RequestHeader String
+	 * token, @RequestBody Runner runner) {
+	 * Optional<Account> account = accountService.findById(token);
+	 * if (account.isPresent()) {
+	 * runner.setId(token);
+	 * return ResponseEntity.ok(runnerService.createRunner(runner));
+	 * }
+	 * return ResponseEntity.notFound().build();
+	 * }
+	 */
 	@PostMapping("/api/runners")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Runner> createRunner(@RequestHeader String token, @RequestBody Runner runner) {
-		Optional<Account> account = accountService.findById(token);
-		if (account.isPresent()) {
-			runner.setId(token);
-			return ResponseEntity.ok(runnerService.createRunner(runner));
-		}
-		return ResponseEntity.notFound().build();
+	public Runner createRunner(@RequestBody Runner runner) {
+		return runnerService.createRunner(runner);
 	}
 
 	// api/runners?top=5
@@ -182,7 +181,7 @@ public class DockerDemoApp {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Result> createResult(@RequestBody Result result, @RequestHeader String token) {
 		Optional<Account> account = accountService.findById(token);
-		if (account.isPresent()){
+		if (account.isPresent()) {
 			String mode = accountService.getMode(token);
 			return ResponseEntity.ok(resultService.createResult(result, mode));
 		}
@@ -241,7 +240,7 @@ public class DockerDemoApp {
 		if (top == null) {
 			top = 0;
 		}
-	 	return eventService.getEvents(top);
+		return eventService.getEvents(top);
 	}
 	// api/events?top=5
 
@@ -278,7 +277,8 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/events/{id_event}/comments")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Pair<Runner, Comment>> createComment(@RequestHeader String token, @RequestBody Comment comment, @PathVariable Integer id_event) {
+	public ResponseEntity<Pair<Runner, Comment>> createComment(@RequestHeader String token,
+			@RequestBody Comment comment, @PathVariable Integer id_event) {
 		Optional<Runner> runner = runnerService.findById(token);
 		Optional<Event> event = eventService.findById((long) id_event);
 		if (runner.isPresent() && event.isPresent()) {
@@ -311,17 +311,18 @@ public class DockerDemoApp {
 
 	// @Bean
 	// public CorsFilter corsFilter() {
-	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// UrlBasedCorsConfigurationSource source = new
+	// UrlBasedCorsConfigurationSource();
 
-	// 	// Allow anyone and anything access. Probably ok for Swagger spec
-	// 	CorsConfiguration config = new CorsConfiguration();
-	// 	config.setAllowCredentials(true);
-	// 	config.addAllowedOrigin("*");
-	// 	config.addAllowedHeader("*");
-	// 	config.addAllowedMethod("*");
+	// // Allow anyone and anything access. Probably ok for Swagger spec
+	// CorsConfiguration config = new CorsConfiguration();
+	// config.setAllowCredentials(true);
+	// config.addAllowedOrigin("*");
+	// config.addAllowedHeader("*");
+	// config.addAllowedMethod("*");
 
-	// 	source.registerCorsConfiguration("/api", config);
-	// 	return new CorsFilter(source);
+	// source.registerCorsConfiguration("/api", config);
+	// return new CorsFilter(source);
 	// }
 
 	/*
