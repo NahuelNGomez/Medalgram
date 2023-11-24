@@ -90,14 +90,13 @@ public class DockerDemoApp {
 	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable String token) {
 		Optional<Account> accountOptional = accountService.findById(token);
 
-		//if (!accountOptional.isPresent()) {
-		if (accountOptional.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		account.setId(token);
-		accountService.save(account);
+		if (accountOptional.isPresent()) {
+			account.setId(token);
+			accountService.save(account);
 
-		return ResponseEntity.ok().build();
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/api/accounts/{token}")
@@ -117,8 +116,13 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/runners")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Runner createRunner(@RequestBody Runner runner) {
-		return runnerService.createRunner(runner);
+	public ResponseEntity<Runner> createRunner(@RequestHeader String token, @RequestBody Runner runner) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent()) {
+			runner.setId(token);
+			return ResponseEntity.ok(runnerService.createRunner(runner));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	// api/runners?top=5
@@ -148,13 +152,6 @@ public class DockerDemoApp {
 	///// Me
 
 	// GET api/me/stats /* Muestra el medallero del runner logueado. */
-	@GetMapping("/api/me/stats")
-	public Collection<Result> getMeStats(@RequestHeader String token) {
-		// logica para obtener el id con el token UUID
-		// accountService.getIDByToken(token);
-		Collection<Result> results = resultService.getResultsForRunner(token);
-		return results;
-	}
 
 	// GET api/me /*Muestra datos del runner*/
 	@GetMapping("/api/me")
@@ -169,10 +166,13 @@ public class DockerDemoApp {
 
 	// GET api/me/results/ /*Muestra resultados (checked & pending) del runner*/
 	@GetMapping("/api/me/results")
-	public Collection<Result> getMeResults(@RequestHeader String token) {
-		// Hay que hacer la conversion de token a id
-		// Pedirle a account el id del runner segun token
-        return resultService.getResultsForRunner(token);
+	public ResponseEntity<Collection<Result>> getMeResults(@RequestHeader String token) {
+		Optional<Runner> runner = runnerService.findById(token);
+		if (runner.isPresent()) {
+			return ResponseEntity.ok(resultService.getResultsForRunner(token));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 	// PUT api/me *editar datos runner*
@@ -180,13 +180,13 @@ public class DockerDemoApp {
 	// POST api/me/results/ /*permite subir resultados*/
 	@PostMapping("/api/me/results")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Result createResult(@RequestBody Result result, @RequestHeader String token) {
-		// Segun el token me fijo si es admin o no y creo un resultado
-		// No verificado o verificado segun corresponda
-		// mapear token -> modo : admin o runner
-		String mode = accountService.getMode(token);
-		// String mode = "Admin";
-		return resultService.createResult(result, mode);
+	public ResponseEntity<Result> createResult(@RequestBody Result result, @RequestHeader String token) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent()){
+			String mode = accountService.getMode(token);
+			return ResponseEntity.ok(resultService.createResult(result, mode));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	///// Sports
@@ -222,12 +222,13 @@ public class DockerDemoApp {
 	@PostMapping("/api/shares")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Share createShare(@RequestHeader String token, @RequestBody String username) {
+		Optional<Runner> runner = runnerService.findById(token);
 		Optional<Runner> runnerToShare = runnerService.findByUsername(username);
-		if (runnerToShare.isPresent()) {
+		if (runnerToShare.isPresent() && runner.isPresent()) {
 			Share share = new Share();
-			Runner runner = runnerToShare.get();
+			Runner runnerToShareFound = runnerToShare.get();
 			share.setTokenRunner1(token);
-			share.setTokenRunner2(runner.getId());
+			share.setTokenRunner2(runnerToShareFound.getId());
 			return shareService.createShare(share);
 		} else {
 			throw new ResourceNotFoundException("Runner not found");
@@ -257,13 +258,22 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/events")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Event createEvent(@RequestBody Event event) {
-		return eventService.createEvent(event);
+	public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+		Optional<Sport> sport = sportService.findById(event.getIdSport());
+		if (sport.isPresent()) {
+			return ResponseEntity.ok(eventService.createEvent(event));
+		}
+
+		return ResponseEntity.notFound().build();
 	}
 
 	@GetMapping("/api/events/{id_event}/comments")
-	public Collection<Comment> getEventComments(@PathVariable Long id_event) {
-		return commentService.getEventComments(id_event);
+	public ResponseEntity<Collection<Comment>> getEventComments(@PathVariable Long id_event) {
+		Optional<Event> event = eventService.findById(id_event);
+		if (event.isPresent()) {
+			return ResponseEntity.ok(commentService.getEventComments(id_event));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping("/api/events/{id_event}/comments")
