@@ -35,4 +35,10 @@ public class ResultService {
         Collections.sort(results, Comparator.comparingInt(Result::getPosition));
         return results;
     }
+
+    public Boolean isResultForRunnerForEvent(String tokenRunner, Integer idEvent) {
+        Collection<Result> resultsForRunner = this.getResultsForRunner(tokenRunner);
+    
+        return resultsForRunner.stream().anyMatch(result -> result.getIdEvent() == idEvent && result.getStatus().equals("Confirmed"));
+    }
 }

@@ -1,7 +1,7 @@
 package ar.uba.fi.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "Comments")
@@ -21,7 +21,7 @@ public class Comment {
     private String content;
 
     @Column(name = "date")
-    private Date date;
+    private ZonedDateTime date;
 
     // getters and setters
     public Long getId() {
@@ -56,11 +56,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 }

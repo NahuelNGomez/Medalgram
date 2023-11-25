@@ -1,4 +1,6 @@
 package ar.uba.fi.model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.ZonedDateTime;
 
 import javax.persistence.*;
 
@@ -19,8 +21,9 @@ public class Event {
     @Column(name = "location", nullable = false)
     private String location;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     @Column(name = "date", nullable = false)
-    private String date;
+    private ZonedDateTime date;
 
     @Column(name = "url")
     private String url;
@@ -63,11 +66,11 @@ public class Event {
     	this.location = location;
     }
 
-    public String getDate(){
+    public ZonedDateTime getDate(){
     	return date;
     }
 
-    public void setDate(String date){
+    public void setDate(ZonedDateTime date){
     	this.date = date;
     }
 

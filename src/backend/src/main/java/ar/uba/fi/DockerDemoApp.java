@@ -26,6 +26,10 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @SpringBootApplication
@@ -181,6 +185,7 @@ public class DockerDemoApp {
 	public ResponseEntity<Result> createResult(@RequestBody Result result, @RequestHeader String token) {
 		Optional<Account> account = accountService.findById(token);
 		if (account.isPresent()) {
+			result.setTokenRunner(token);
 			String mode = accountService.getMode(token);
 			return ResponseEntity.ok(resultService.createResult(result, mode));
 		}
@@ -269,7 +274,10 @@ public class DockerDemoApp {
 	public ResponseEntity<Collection<Comment>> getEventComments(@PathVariable Long id_event) {
 		Optional<Event> event = eventService.findById(id_event);
 		if (event.isPresent()) {
-			return ResponseEntity.ok(commentService.getEventComments(id_event));
+			Collection<Comment> eventComments = commentService.getEventComments(id_event);
+			eventComments.forEach(comment -> comment.setIdRunner(null));
+
+			return ResponseEntity.ok(eventComments);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -278,15 +286,23 @@ public class DockerDemoApp {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Pair<Runner, Comment>> createComment(@RequestHeader String token,
 			@RequestBody Comment comment, @PathVariable Integer id_event) {
+				
 		Optional<Runner> runner = runnerService.findById(token);
 		Optional<Event> event = eventService.findById((long) id_event);
+
 		if (runner.isPresent() && event.isPresent()) {
 			comment.setIdEvent(id_event);
 			comment.setIdRunner(token);
 
-			return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
-		}
+			ZonedDateTime eventDate = event.get().getDate();
+			ZonedDateTime commentDate = ZonedDateTime.now();
 
+			if (commentDate.isBefore(eventDate) || (commentDate.isAfter(eventDate) && resultService.isResultForRunnerForEvent(token, id_event))) {
+				comment.setDate(commentDate);
+
+				return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
+			} 
+		}
 		return ResponseEntity.notFound().build();
 	}
 
