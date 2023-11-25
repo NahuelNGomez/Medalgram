@@ -14,6 +14,13 @@ export default function CreateProfile() {
     const [notification, setNotification] = useState('')
     const [logged, setLogged] = useState(false);
     const [token, setToken] = useState<any>(null)
+    
+    useEffect(() => {
+        if (document === undefined) return;
+        if (verifyToken(document.cookie) != false) {
+            setToken(verifyToken(document.cookie))
+        }
+    }, [])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -28,6 +35,7 @@ export default function CreateProfile() {
     }, [])
 
     const handleLogin = () => {
+        
         if (formData.username && formData.location && formData.name && formData.image && formData.age) {
             setNotification('Se enviaría una request.')
             fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners', {

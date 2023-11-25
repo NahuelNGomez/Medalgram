@@ -1,4 +1,8 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
 import firebase_app from "../config";
 
@@ -32,7 +36,7 @@ const getFromDb = async (email: string, token: string) => {
   console.log("URL es: " + url);
 
   try {
-    res = await fetch(url, {headers: {token: token}});
+    res = await fetch(url, { headers: { token: token } });
   } catch (err) {
     console.error(err);
   }
@@ -66,4 +70,16 @@ export async function getUserFromDb(email: string, token: string | undefined) {
   }
 
   return null;
+}
+
+// Send password reset email
+export async function sendResetPasswordEmail(email: string) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    console.log("Password reset email sent successfully.");
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+  }
+
+  return;
 }
