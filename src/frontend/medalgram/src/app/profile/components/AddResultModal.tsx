@@ -41,8 +41,6 @@ export default function AddResultModal({ cancelFunction, token }: any) {
       .catch((error) => {
         console.error('Error al cargar el resultado:', error);
       })
-
-
   }
 
   useEffect(() => {

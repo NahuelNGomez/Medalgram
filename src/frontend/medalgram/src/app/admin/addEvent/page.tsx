@@ -21,11 +21,11 @@ export default function AddEvent(token: any) {
 
 
 
-        if (!name || !description ||!idSport || !date || !location || !edition || !url || name.value == "" || description.value == "" || idSport.value == "" || date.value == "" || location.value == "" || edition.value == "" || url.value == "" ) {
+        if (!name || !description || !idSport || !date || !location || !edition || !url || name.value == "" || description.value == "" || idSport.value == "" || date.value == "" || location.value == "" || edition.value == "" || url.value == "") {
             console.error("Por favor, complete todos los campos.")
             return
         }
-        
+
         fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events', {
             method: 'POST',
             headers: { "Content-Type": "application/json", "token": token },
@@ -33,7 +33,7 @@ export default function AddEvent(token: any) {
                 name: name.value,
                 description: description.value,
                 idSport: idSport.value,
-                date: new Date(date.value).toUTCString(),
+                date: new Date(date.value).toISOString().slice(0, -1) + "+0000",
                 location: location.value,
                 url: url.value,
                 edition: edition.value
@@ -74,7 +74,7 @@ export default function AddEvent(token: any) {
                     <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Fecha del evento<input type="date" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="date" name="date" /></label>
                     <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Lugar del evento<input type="text" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="location" name="location" /></label>
                     <label className="block text-gray-200 text-sm font-bold mb-2 w-full">URL del evento<input type="text" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="url" name="url" /></label>
-                    <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Edicion del evento<input type="number" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="edition" name="edition" min="1"/></label>
+                    <label className="block text-gray-200 text-sm font-bold mb-2 w-full">Edicion del evento<input type="number" className="shadow appearance-none border-2 focus:border-green-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="edition" name="edition" min="1" /></label>
                     <button className="border text-white px-6 bg-dark3/20 rounded hover:bg-white hover:text-black transition duration-500">Cargar Evento</button>
 
                 </form>

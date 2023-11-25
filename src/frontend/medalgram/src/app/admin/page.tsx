@@ -46,8 +46,8 @@ export default function Admin() {
             <ManagerBox token={token} description="Ver perfiles" action={() => router.push("/admin/profiles")} />
             <ManagerBox token={token} description="Agregar deporte" action={() => router.push("/admin/addSport")} />
             <ManagerBox token={token} description="Agregar Evento" action={() => router.push("/admin/addEvent")} />
-            <ManagerBox token={token} description="Ver pedidos de validación" action="null" />
-            <ManagerBox token={token} description="Agregar resultados" action="null" />
+            <ManagerBox token={token} description="Ver pedidos de validación" action={() => router.push("/admin/validateResults")} />
+            <ManagerBox token={token} description="Agregar resultados" action={() => router.push("/admin/addResults")} />
 
         </main>
     )
