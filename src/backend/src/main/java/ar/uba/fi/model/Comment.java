@@ -1,7 +1,7 @@
 package ar.uba.fi.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "Comments")
@@ -15,13 +15,13 @@ public class Comment {
     private Integer idEvent;
 
     @Column(name = "id_runner")
-    private String tokenRunner;
+    private String idRunner;
 
     @Column(name = "content")
     private String content;
 
     @Column(name = "date")
-    private Date date;
+    private ZonedDateTime date;
 
     // getters and setters
     public Long getId() {
@@ -40,12 +40,12 @@ public class Comment {
         this.idEvent = idEvent;
     }
 
-    public String getTokenRunner() {
-        return tokenRunner;
+    public String getIdRunner() {
+        return idRunner;
     }
 
-    public void setTokenRunner(String tokenRunner) {
-        this.tokenRunner = tokenRunner;
+    public void setIdRunner(String idRunner) {
+        this.idRunner = idRunner;
     }
 
     public String getContent() {
@@ -56,11 +56,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 }
