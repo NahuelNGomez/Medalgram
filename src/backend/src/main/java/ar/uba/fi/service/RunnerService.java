@@ -17,6 +17,10 @@ public class RunnerService {
         return runnerRepository.save(runner);
     }
 
+    public void save(Runner runner) {
+        runnerRepository.save(runner);
+    }
+
     public Optional<Runner> findById(String id) {
         return runnerRepository.findById(id);
     }

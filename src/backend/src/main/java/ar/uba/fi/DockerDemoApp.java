@@ -202,6 +202,8 @@ public class DockerDemoApp {
 			if (runner.getLocation() != null) {
 				runnerToEdit.setLocation(runner.getLocation());
 			}
+			
+			runnerService.save(runnerToEdit);
 			return ResponseEntity.ok(runnerToEdit);
 		}
 		return ResponseEntity.notFound().build();
