@@ -101,7 +101,7 @@ export default function Login() {
             </a>
             <a
               className="inline-block align-baseline underline text-sm text-gray-400 hover:text-white"
-              href="#"
+              onClick={() => router.push("/forgotPassword")}
             >
               Recuperar contraseña
             </a>
