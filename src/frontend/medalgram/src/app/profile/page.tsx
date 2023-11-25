@@ -99,16 +99,21 @@ export default function Sports() {
       }
       {
         loading === true ? <div>Cargando...</div> : (
-          <div className="flex flex-col">
+          <div className="">
             <div className="pt-[50px] pl-[130px] text-3xl">
               Perfil del corredor 0001
             </div>
-            <div className="grid grid-cols-6 pl-[130px] pr-[30px] gap-[30px]">
-              <div className="col-span-4 grid grid-rows-2 gap-[30px]">
-                <ProfileInfo editProfile={editProfile} closeEditProfile={closeEditProfile} userData={userData} />
-                <LastResults newResult={newResult} closeNewResult={closeNewResult} />
+            <div className="grid grid-cols-6 h-[100px] pr-[30px] gap-[30px]">
+              <div className="col-span-4">
+                <ProfileInfo editProfile={editProfile} closeEditProfile={closeEditProfile} userData={userData} /></div>
+              <div className="col-span-2">
+                <ConfirmResults />
               </div>
-              <ConfirmResults />
+              <div className="col-span-4">
+                <LastResults newResult={newResult} closeNewResult={closeNewResult} token={token} />
+              </div>
+
+
             </div>
           </div>
 
@@ -122,7 +127,7 @@ export default function Sports() {
 
       {
         modalNewResult === true && (
-          <AddResultModal cancelFunction={closeNewResult}/>
+          <AddResultModal cancelFunction={closeNewResult} token={token} />
         )
       }
     </main >

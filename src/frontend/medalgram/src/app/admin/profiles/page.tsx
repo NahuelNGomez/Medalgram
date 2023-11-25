@@ -1,14 +1,20 @@
 "use client"
 import NavegationBarAdmin from "@/components/NavegationBarAdmin";
-import { viewProfiles } from "@/objects/mocks/functions"
+import { verifyToken, viewProfiles } from "@/objects/mocks/functions"
 import { useEffect, useState } from "react"
 
 export default function Profiles(token: any) {
     const [profiles, setProfiles] = useState<JSON | any>(null);
+    const [tokenAux, setTokenAux] = useState<any>(null);
+
+    useEffect(() => {
+        if (document === undefined) return;
+        setTokenAux(verifyToken(document.cookie))
+    }, [])
 
     const printData = async () => {
         try {
-            const data = await viewProfiles(token);
+            const data = await viewProfiles(tokenAux);
             setProfiles(data)
         } catch (error) {
             console.error(error);
@@ -17,7 +23,7 @@ export default function Profiles(token: any) {
 
     useEffect(() => {
         printData()
-    }, [])
+    }, [tokenAux])
 
 
     if (profiles == null) {

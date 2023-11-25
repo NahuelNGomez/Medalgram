@@ -21,11 +21,8 @@ export function verifyToken(string: String) {
 export const viewProfiles = async (token: any) => {
     const url = BASE_URL + "api/accounts";
   
-    console.log("URL es: " + url);
-  
     try {
-      const response = await fetch(url, { headers: { token: token } });
-  
+      const response = await fetch(url, { headers: { "token": String(token) } });
       if (!response.ok) {
         throw new Error('Something went wrong');
       }
@@ -33,7 +30,7 @@ export const viewProfiles = async (token: any) => {
       const data = await response.json();
       return data;
     } catch (err) {
-      console.error(err);
+      
       throw err; // Re-throw the error to handle it outside this function if needed
     }
   };
