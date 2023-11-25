@@ -10,7 +10,7 @@ import java.util.Optional;
 @RepositoryRestResource
 public interface RunnerRepository extends JpaRepository<Runner, String> {
 
-    Runner findRunnerById(String tokenRunner);
+    Runner findRunnerById(String id);
 
     Optional<Runner> findRunnerByUsername(String username);
 

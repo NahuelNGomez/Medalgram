@@ -104,25 +104,24 @@ public class DockerDemoApp {
 
 	// Runner
 
-	/*
-	 * @PostMapping("/api/runners")
-	 * 
-	 * @ResponseStatus(HttpStatus.CREATED)
-	 * public ResponseEntity<Runner> createRunner(@RequestHeader String
-	 * token, @RequestBody Runner runner) {
-	 * Optional<Account> account = accountService.findById(token);
-	 * if (account.isPresent()) {
-	 * runner.setId(token);
-	 * return ResponseEntity.ok(runnerService.createRunner(runner));
-	 * }
-	 * return ResponseEntity.notFound().build();
-	 * }
-	 */
+	
 	@PostMapping("/api/runners")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Runner createRunner(@RequestBody Runner runner) {
-		return runnerService.createRunner(runner);
+	public ResponseEntity<Runner> createRunner(@RequestHeader String token, @RequestBody Runner runner) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent()) {
+			runner.setId(token);
+			return ResponseEntity.ok(runnerService.createRunner(runner));
+		}		
+		return ResponseEntity.notFound().build();
 	}
+
+
+	// @PostMapping("/api/runners")
+	// @ResponseStatus(HttpStatus.CREATED)
+	// public ResponseEntity<Runner> createRunner(@RequestHeader String token, @RequestBody Runner runner) {
+	// 	return ResponseEntity.ok(runnerService.createRunner(runner));
+	// }
 
 	// api/runners?top=5
 
@@ -283,7 +282,7 @@ public class DockerDemoApp {
 		Optional<Event> event = eventService.findById((long) id_event);
 		if (runner.isPresent() && event.isPresent()) {
 			comment.setIdEvent(id_event);
-			comment.setTokenRunner(token);
+			comment.setIdRunner(token);
 
 			return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
 		}
