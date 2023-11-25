@@ -178,6 +178,34 @@ public class DockerDemoApp {
 	}
 
 	// PUT api/me *editar datos runner*
+	@PutMapping("/api/me")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Runner> editRunner(@RequestBody Runner runner, @RequestHeader String token) {
+		Optional<Account> optionalAccount = accountService.findById(token);
+		Optional<Runner> optionalRunner = runnerService.findById(token);
+	
+		if (optionalAccount.isPresent() && optionalRunner.isPresent()) {
+			Runner runnerToEdit = optionalRunner.get();
+
+			if (runner.getName() != null) {
+				runnerToEdit.setName(runner.getName());
+			}
+
+			if (runner.getUsername() != null) {
+				runnerToEdit.setUsername(runner.getUsername());
+			}
+
+			if (runner.getAge() != null) {
+				runnerToEdit.setAge(runner.getAge());
+			}
+
+			if (runner.getLocation() != null) {
+				runnerToEdit.setLocation(runner.getLocation());
+			}
+			return ResponseEntity.ok(runnerToEdit);
+		}
+		return ResponseEntity.notFound().build();
+	}
 
 	// POST api/me/results/ /*permite subir resultados*/
 	@PostMapping("/api/me/results")
