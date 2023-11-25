@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class ResultService {
@@ -23,8 +24,16 @@ public class ResultService {
         return resultRepository.save(result);
     }
 
+    public void save(Result result) {
+        resultRepository.save(result);
+    }
+
     public Collection<Result> getResults() {
         return resultRepository.findAll();
+    }
+
+    public Optional<Result> findById(Long id) {
+        return resultRepository.findById(id);
     }
 
     public Collection<Result> getResultsForRunner(String tokenRunner) {

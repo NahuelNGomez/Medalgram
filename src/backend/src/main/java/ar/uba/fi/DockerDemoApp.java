@@ -120,6 +120,21 @@ public class DockerDemoApp {
 		return ResponseEntity.notFound().build();
 	}
 
+	@PutMapping("/api/results/{id_result}")
+	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @PathVariable int id_result, @RequestBody String status) {
+		Optional<Account> account = accountService.findById(token);
+		Optional<Result> optionalResult = resultService.findById((long) id_result);
+		
+		if (optionalResult.isPresent() && account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+			Result result = optionalResult.get();
+			result.setStatus(status);
+
+			resultService.save(result);
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.notFound().build();
+	}
+
 
 	// Runner
 
