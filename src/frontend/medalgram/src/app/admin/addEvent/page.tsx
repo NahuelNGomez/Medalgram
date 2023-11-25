@@ -33,7 +33,7 @@ export default function AddEvent(token: any) {
                 name: name.value,
                 description: description.value,
                 idSport: idSport.value,
-                date: date.value,
+                date: new Date(date.value).toUTCString(),
                 location: location.value,
                 url: url.value,
                 edition: edition.value

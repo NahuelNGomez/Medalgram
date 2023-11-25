@@ -18,10 +18,6 @@ export default function Sports() {
       .then((data) => setSports(data));
   }, []);
 
-  // useEffect(()=>{
-  //   setSports(sportMock())
-  // }, [])
-  
   const [filterInput, setFilterInput] = useState("");
   const [logged, setLogged] = useState(false);
 
@@ -66,7 +62,7 @@ export default function Sports() {
                 key={sport.id}
                 id={sport.id}
                 title={sport.name}
-                //description={sport.description}
+                description={sport.description}
               />
             );
           })}

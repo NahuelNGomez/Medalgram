@@ -51,12 +51,12 @@ export default function NavegationBarLogged() {
                     </div>
                     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium md:flex-row md:space-x-8 md:mt-0">
                         <li>
-                            <div className="bg-dark0 rounded-lg p-1">
-                                <Link href="/profile" className="nav-link link-body-emphasis px-2 active text-white" aria-current="page">Ver perfil</Link></div>
+                            <div className="bg-dark0 rounded-lg p-1 text-white hover:bg-[#00508e] transition duration-300">
+                                <Link href="/profile" className="nav-link link-body-emphasis px-2 active" aria-current="page">Ver perfil</Link></div>
                         </li>
                         <li>
-                            <div className="bg-[#770000] rounded-lg p-1">
-                                <button className="nav-link link-body-emphasis px-2 active text-white" onClick={handleLogOut}>Cerrar Sesion</button>
+                            <div className="bg-[#770000] text-white rounded-lg p-1 hover:bg-[#dd0000] transition duration-300">
+                                <button className="nav-link link-body-emphasis px-2 active " onClick={handleLogOut}>Cerrar Sesion</button>
                             </div>
                         </li>
                     </ul>
