@@ -17,12 +17,9 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
-    public Result createResult(Result result, String mode) {
-        if (mode.equals("Admin")) {
-            result.setStatus("Confirmed");
-        } else {
-            result.setStatus("Pending");
-        }
+    public Result createResult(Result result, String status) { 
+        result.setStatus(status);
+
         return resultRepository.save(result);
     }
 
@@ -39,6 +36,6 @@ public class ResultService {
     public Boolean isResultForRunnerForEvent(String tokenRunner, Integer idEvent) {
         Collection<Result> resultsForRunner = this.getResultsForRunner(tokenRunner);
     
-        return resultsForRunner.stream().anyMatch(result -> result.getIdEvent() == idEvent && result.getStatus().equals("Confirmed"));
+        return resultsForRunner.stream().anyMatch(result -> result.getIdEvent() == idEvent && result.getStatus().equals("accepted"));
     }
 }
