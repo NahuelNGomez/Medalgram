@@ -13,32 +13,49 @@ export default function CreateProfile() {
     const [formData, setFormData] = useState({ username: '', location: '', name: '', image: '', age: '' });
     const [notification, setNotification] = useState('')
     const [logged, setLogged] = useState(false);
+    const [token, setToken] = useState<any>(null)
+    
+    useEffect(() => {
+        if (document === undefined) return;
+        if (verifyToken(document.cookie) != false) {
+            setToken(verifyToken(document.cookie))
+        }
+    }, [])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
+    useEffect(() => {
+        if (document === undefined) return;
+        if (verifyToken(document.cookie) != false) {
+            console.log("logged")
+            setToken(verifyToken(document.cookie));
+        }
+    }, [])
 
     const handleLogin = () => {
+        
         if (formData.username && formData.location && formData.name && formData.image && formData.age) {
             setNotification('Se enviaría una request.')
             fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners', {
-            method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                token: verifyToken(document.cookie),
-                name: formData.name,
-                username: formData.username,
-                age: formData.age,
-                location: formData.location
-                //image: formData.image
+                method: 'POST',
+                headers: { "Content-Type": "application/json", "token": token },
+                body: JSON.stringify({
+                    id: token,
+                    name: formData.name,
+                    username: formData.username,
+                    age: formData.age,
+                    location: formData.location
+                    //image: formData.image
+                })
+            }).then((response) => {
+                if (response.ok) router.push("/profile")
+                return response.json();
+            }).catch((error) => {
+                console.error('Error al cargar el proyecto:', error);
             })
-        }).then((response) => {
-            if(response.ok) router.push("/profile")
-            return response.json();
-        }).catch((error) => {
-            console.error('Error al cargar el proyecto:', error);
-        })} else {
+        } else {
             setNotification('Por favor, complete todos los campos.')
         }
     };

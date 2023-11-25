@@ -13,8 +13,15 @@ interface SportProps {
 export default function Page({ params: { id } }: SportProps) {
 
     const [logged, setLogged] = useState(false);
+    const [events, setEvents] = useState<any>(null);
 
-    const events = eventsMock();
+    useEffect(() => {
+        fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports/"+id+"/events")
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => setEvents(data));
+      }, []);
 
     const breadcrumb = [
         {
@@ -43,7 +50,7 @@ export default function Page({ params: { id } }: SportProps) {
             <div className="flex flex-wrap justify-between p-10">
                 <div className="border p-2 px-40">Buscador</div>
             </div>
-            {events.map((event: any) => {
+            {events != null && (events.map((event: any) => {
                 return (
                     <PreviewEvent
                         key={event.id}
@@ -54,7 +61,7 @@ export default function Page({ params: { id } }: SportProps) {
                         date={event.date}
                     />
                 );
-            })}
+            }))}
         </main>
     );
 }

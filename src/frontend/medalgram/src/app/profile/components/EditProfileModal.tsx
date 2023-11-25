@@ -17,10 +17,10 @@ export default function EditProfileModal({ cancelFunction, userData, token }: an
       console.error("Por favor, complete todos los campos.")
       return
     }
-    /*
-    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners/'+ token, {
+    
+    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/', {
       method: 'PUT',
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "token":token },
       body: JSON.stringify({
         name: name.value,
         age: age.value,
@@ -33,7 +33,6 @@ export default function EditProfileModal({ cancelFunction, userData, token }: an
       .catch((error) => {
         console.error('Error al actualizar los datos:', error);
       })
-*/
 
   }
 

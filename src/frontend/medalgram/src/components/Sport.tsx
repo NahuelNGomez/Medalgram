@@ -2,10 +2,10 @@ import Link from "next/link";
 
 interface componentsArgs {
     title: string;
-    description: string;
     id: number;
+    description: string;
 }
-export default function Sport({id, title, description }: componentsArgs) {
+export default function Sport({ id, title, description }: componentsArgs) {
 
     const sportId = 1; // Modificable con la id del deporte - request api
 

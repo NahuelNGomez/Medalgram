@@ -21,7 +21,7 @@ const registerIntoDb = async (
   console.log("URL es: " + url);
 
   const datos = {
-    token: token,
+    id: token,
     mode: mode,
     email: email,
     encryptedPass: token,
