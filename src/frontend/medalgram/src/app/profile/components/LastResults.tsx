@@ -34,6 +34,7 @@ export default function LastResults({ newResult, closeNewResult, token }: any) {
             results.slice(0, 3).map((result: any) => {
               return (
                 <PreviewResult
+                  key={result.id}
                   position={result.position}
                   idEvent={result.idEvent}
                   status={result.status}
