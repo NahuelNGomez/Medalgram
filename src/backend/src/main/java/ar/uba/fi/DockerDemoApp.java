@@ -29,7 +29,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
-
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @SpringBootApplication
@@ -121,10 +120,11 @@ public class DockerDemoApp {
 	}
 
 	@PutMapping("/api/results/{id_result}")
-	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @PathVariable int id_result, @RequestBody String status) {
+	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @PathVariable int id_result,
+			@RequestBody String status) {
 		Optional<Account> account = accountService.findById(token);
 		Optional<Result> optionalResult = resultService.findById((long) id_result);
-		
+
 		if (optionalResult.isPresent() && account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
 			Result result = optionalResult.get();
 			result.setStatus(status);
@@ -135,10 +135,23 @@ public class DockerDemoApp {
 		return ResponseEntity.notFound().build();
 	}
 
+	@PutMapping("/api/me/results/{id_result}")
+	public ResponseEntity<Result> updateResultUser(@RequestHeader String token, @PathVariable int id_result,
+			@RequestBody String status) {
+		Optional<Account> account = accountService.findById(token);
+		Optional<Result> optionalResult = resultService.findById((long) id_result);
+
+		if (optionalResult.isPresent() && account.isPresent() && account.get().getId().equals(token)) {
+			Result result = optionalResult.get();
+			result.setStatus(status);
+			resultService.save(result);
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.notFound().build();
+	}
 
 	// Runner
 
-	
 	@PostMapping("/api/runners")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Runner> createRunner(@RequestHeader String token, @RequestBody Runner runner) {
@@ -146,15 +159,15 @@ public class DockerDemoApp {
 		if (account.isPresent()) {
 			runner.setId(token);
 			return ResponseEntity.ok(runnerService.createRunner(runner));
-		}		
+		}
 		return ResponseEntity.notFound().build();
 	}
 
-
 	// @PostMapping("/api/runners")
 	// @ResponseStatus(HttpStatus.CREATED)
-	// public ResponseEntity<Runner> createRunner(@RequestHeader String token, @RequestBody Runner runner) {
-	// 	return ResponseEntity.ok(runnerService.createRunner(runner));
+	// public ResponseEntity<Runner> createRunner(@RequestHeader String token,
+	// @RequestBody Runner runner) {
+	// return ResponseEntity.ok(runnerService.createRunner(runner));
 	// }
 
 	// api/runners?top=5
@@ -213,7 +226,7 @@ public class DockerDemoApp {
 	public ResponseEntity<Runner> editRunner(@RequestBody Runner runner, @RequestHeader String token) {
 		Optional<Account> optionalAccount = accountService.findById(token);
 		Optional<Runner> optionalRunner = runnerService.findById(token);
-	
+
 		if (optionalAccount.isPresent() && optionalRunner.isPresent()) {
 			Runner runnerToEdit = optionalRunner.get();
 
@@ -232,7 +245,7 @@ public class DockerDemoApp {
 			if (runner.getLocation() != null) {
 				runnerToEdit.setLocation(runner.getLocation());
 			}
-			
+
 			runnerService.save(runnerToEdit);
 			return ResponseEntity.ok(runnerToEdit);
 		}
@@ -356,7 +369,8 @@ public class DockerDemoApp {
 			ZonedDateTime eventDate = event.get().getDate();
 			ZonedDateTime commentDate = ZonedDateTime.now();
 
-			if (commentDate.isBefore(eventDate) || (commentDate.isAfter(eventDate) && resultService.isResultForRunnerForEvent(token, id_event))) {
+			if (commentDate.isBefore(eventDate)
+					|| (commentDate.isAfter(eventDate) && resultService.isResultForRunnerForEvent(token, id_event))) {
 				comment.setDate(commentDate);
 
 				return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
