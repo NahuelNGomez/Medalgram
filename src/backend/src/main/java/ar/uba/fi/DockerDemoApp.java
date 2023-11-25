@@ -286,7 +286,7 @@ public class DockerDemoApp {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Pair<Runner, Comment>> createComment(@RequestHeader String token,
 			@RequestBody Comment comment, @PathVariable Integer id_event) {
-				
+
 		Optional<Runner> runner = runnerService.findById(token);
 		Optional<Event> event = eventService.findById((long) id_event);
 
@@ -301,7 +301,9 @@ public class DockerDemoApp {
 				comment.setDate(commentDate);
 
 				return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
-			} 
+			} else {
+				ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			}
 		}
 		return ResponseEntity.notFound().build();
 	}
