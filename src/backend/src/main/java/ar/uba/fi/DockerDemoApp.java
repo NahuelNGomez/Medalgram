@@ -70,8 +70,13 @@ public class DockerDemoApp {
 	}
 
 	@GetMapping("/api/accounts")
-	public Collection<Account> getAccounts() {
-		return accountService.getAccounts();
+	public ResponseEntity<Collection<Account>> getAccounts(@RequestHeader String token) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+			return ResponseEntity.ok(accountService.getAccounts());
+		}
+
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	@GetMapping("api/accounts/{token}")
@@ -105,6 +110,31 @@ public class DockerDemoApp {
 	}
 
 	// TO DO: Put for /api/results
+	@PostMapping("/api/results")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @RequestBody Result result) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+			return ResponseEntity.ok(resultService.createResult(result, "pendingForUser"));
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+	@PutMapping("/api/results/{id_result}")
+	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @PathVariable int id_result, @RequestBody String status) {
+		Optional<Account> account = accountService.findById(token);
+		Optional<Result> optionalResult = resultService.findById((long) id_result);
+		
+		if (optionalResult.isPresent() && account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+			Result result = optionalResult.get();
+			result.setStatus(status);
+
+			resultService.save(result);
+			return ResponseEntity.ok(result);
+		}
+		return ResponseEntity.notFound().build();
+	}
+
 
 	// Runner
 
@@ -216,8 +246,7 @@ public class DockerDemoApp {
 		Optional<Account> account = accountService.findById(token);
 		if (account.isPresent()) {
 			result.setTokenRunner(token);
-			String mode = accountService.getMode(token);
-			return ResponseEntity.ok(resultService.createResult(result, mode));
+			return ResponseEntity.ok(resultService.createResult(result, "pendingForAdmin"));
 		}
 		return ResponseEntity.notFound().build();
 	}
