@@ -103,7 +103,6 @@ export default function Page({ params: { id, id2 } }: SportProps) {
                                 {event.kms} Kms
                             </td>
                         </tr>
-
                     </tbody>
 
                 </table>

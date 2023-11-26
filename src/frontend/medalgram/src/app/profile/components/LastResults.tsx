@@ -19,7 +19,7 @@ export default function LastResults({ newResult, closeNewResult, token }: any) {
     <main className="h-full rounded-2xl bg-dark2 relative px-[20px] w-full">
       <div className="flex flex-col py-[20px]">
         <div className="flex justify-between items-center">
-          <h3 className="text-2xl font-bold underline">Información de perfil</h3>
+          <h3 className="text-2xl font-bold underline">Resultados</h3>
           <button className="py-2 bg-dark3 rounded-xl text-sm text-green-700 w-[150px] 2xl:w-[250px] 2xl:text-[17px] hover:bg-green-600 hover:text-white transition duration-300 border-4 border-gray-400 hover:border-blue-400 font-bold text-gray-600" onClick={newResult}>
             Cargar un resultado
           </button>

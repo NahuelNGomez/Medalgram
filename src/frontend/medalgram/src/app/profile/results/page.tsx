@@ -2,11 +2,13 @@
 import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import { listResultMock } from "@/objects/mocks/mock";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Results() {
 
     const [logged, setLogged] = useState(false);
+    const router = useRouter();
 
     const listResult = listResultMock();
 
@@ -14,6 +16,8 @@ export default function Results() {
         if (document === undefined) return;
         if (document.cookie !== 'token=null' && document.cookie !== '') {
             setLogged(true);
+        } else {
+            router.push('/login')
         }
     }, [])
 
@@ -29,14 +33,14 @@ export default function Results() {
                             <div className="flex flex-col justify-center items-center">
                                 <h1 className="text-2xl font-bold underline">Resultados</h1>
                                 {
-                                listResult === null ? <h2>No hay resultados</h2> :
-                                (
-                                    listResult.map((result: any, index:any) =>(
-                                        <h2 key={index}>resultado {result.id}</h2>
-                                    ))
-                                )
+                                    listResult === null ? <h2>No hay resultados</h2> :
+                                        (
+                                            listResult.map((result: any, index: any) => (
+                                                <h2 key={index}>resultado {result.id}</h2>
+                                            ))
+                                        )
 
-                            }
+                                }
                             </div>
                         </div>
                     </div>
