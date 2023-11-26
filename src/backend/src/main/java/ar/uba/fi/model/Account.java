@@ -18,15 +18,8 @@ public class Account {
     @Column(name = "encrypted_pass")
     private String encryptedPass;
 
-    @Column(name = "image")
-    private String avatar;
-
     public String getId() {
         return id;
-    }
-
-    public String getAvatar() {
-        return avatar;
     }
 
     public String getMode() {
@@ -39,10 +32,6 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String setId(String token) {

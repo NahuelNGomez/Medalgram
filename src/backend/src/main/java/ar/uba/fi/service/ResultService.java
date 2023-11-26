@@ -15,10 +15,12 @@ import java.util.Optional;
 @Service
 public class ResultService {
 
+    public static final String ACCEPTED = "accepted";
+
     @Autowired
     private ResultRepository resultRepository;
 
-    public Result createResult(Result result, String status) { 
+    public Result createResult(Result result, String status) {
         result.setStatus(status);
 
         return resultRepository.save(result);
@@ -44,7 +46,8 @@ public class ResultService {
 
     public Boolean isResultForRunnerForEvent(String tokenRunner, Integer idEvent) {
         Collection<Result> resultsForRunner = this.getResultsForRunner(tokenRunner);
-    
-        return resultsForRunner.stream().anyMatch(result -> result.getIdEvent() == idEvent && result.getStatus().equals("accepted"));
+
+        return resultsForRunner.stream()
+                .anyMatch(result -> result.getIdEvent() == idEvent && result.getStatus().equals(ACCEPTED));
     }
 }
