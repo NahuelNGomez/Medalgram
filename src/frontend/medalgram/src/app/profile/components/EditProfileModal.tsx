@@ -38,7 +38,7 @@ export default function EditProfileModal({
         name: name.value,
         age: age.value,
         location: location.value,
-        //profile_photo: profile_photo.value
+        profile_photo: profile_photo.value,
       }),
     })
       .then((response) => {
@@ -72,18 +72,6 @@ export default function EditProfileModal({
                 ></input>
               </label>
             </div>
-            {/* <div className="flex flex-row ">
-              <label className="px-[30px]">
-                Edad:{" "}
-                <input
-                  className="text-black"
-                  type="text"
-                  id="age"
-                  name="age"
-                  defaultValue={userData.second.age || ""}
-                ></input>
-              </label>
-            </div> */}
 
             <div className="flex flex-row items-center">
               <label htmlFor="Edad" className="pl-8 pr-4">
@@ -115,11 +103,14 @@ export default function EditProfileModal({
               <label className="px-[26px]">
                 Imagen de Perfil:{" "}
                 <input
-                  //className="text-black shadow border-2 focus:border-green-500 rounded w-[80%] py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                   className="rounded-md p-2 py-2 px-3 w-[80%] leading-tight"
                   type="file"
                   id="profile_photo"
                   name="profile_photo"
+                  defaultValue={userData.second.profile_photo || ""}
+                  onChange={(e) => {
+                    console.log("Aca estoy");
+                  }}
                 ></input>
               </label>
             </div>
