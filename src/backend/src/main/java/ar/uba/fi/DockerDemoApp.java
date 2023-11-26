@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 // import org.springframework.web.cors.CorsConfiguration;
@@ -26,7 +27,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -34,6 +34,8 @@ import java.time.ZonedDateTime;
 @SpringBootApplication
 @EnableSwagger2
 public class DockerDemoApp {
+
+	public static final String ADMIN = "ADMIN";
 
 	@Autowired
 	private AccountService accountService;
@@ -71,7 +73,7 @@ public class DockerDemoApp {
 	@GetMapping("/api/accounts")
 	public ResponseEntity<Collection<Account>> getAccounts(@RequestHeader String token) {
 		Optional<Account> account = accountService.findById(token);
-		if (account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+		if (account.isPresent() && accountService.getMode(token).equals(ADMIN)) {
 			return ResponseEntity.ok(accountService.getAccounts());
 		}
 
@@ -104,16 +106,19 @@ public class DockerDemoApp {
 
 	// Results
 	@GetMapping("/api/results")
-	public Collection<Result> getResults() {
-		return resultService.getResults();
+	public ResponseEntity<Collection<Result>> getResults(@RequestHeader String token) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent() && accountService.getMode(token).equals(ADMIN)) {
+			return ResponseEntity.ok(resultService.getResults());
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
-	// TO DO: Put for /api/results
 	@PostMapping("/api/results")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @RequestBody Result result) {
 		Optional<Account> account = accountService.findById(token);
-		if (account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+		if (account.isPresent() && accountService.getMode(token).equals(ADMIN)) {
 			return ResponseEntity.ok(resultService.createResult(result, "pendingForUser"));
 		}
 		return ResponseEntity.notFound().build();
@@ -125,7 +130,7 @@ public class DockerDemoApp {
 		Optional<Account> account = accountService.findById(token);
 		Optional<Result> optionalResult = resultService.findById((long) id_result);
 
-		if (optionalResult.isPresent() && account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+		if (optionalResult.isPresent() && account.isPresent() && accountService.getMode(token).equals(ADMIN)) {
 			Result result = optionalResult.get();
 			result.setStatus(status);
 
@@ -163,19 +168,12 @@ public class DockerDemoApp {
 		return ResponseEntity.notFound().build();
 	}
 
-	// @PostMapping("/api/runners")
-	// @ResponseStatus(HttpStatus.CREATED)
-	// public ResponseEntity<Runner> createRunner(@RequestHeader String token,
-	// @RequestBody Runner runner) {
-	// return ResponseEntity.ok(runnerService.createRunner(runner));
-	// }
-
 	// api/runners?top=5
 
 	@GetMapping("/api/runners/{token}")
 	public ResponseEntity<Runner> getRunner(@PathVariable String token, @RequestHeader String adminToken) {
 		Optional<Account> account = accountService.findById(adminToken);
-		if (account.isPresent() && account.get().getMode().equals("ADMIN")) {
+		if (account.isPresent() && account.get().getMode().equals(ADMIN)) {
 			Optional<Runner> runner = runnerService.findById(token);
 			return ResponseEntity.of(runner);
 		}
@@ -185,7 +183,6 @@ public class DockerDemoApp {
 	// api/runners/{id_runner}/stats muestra el medallero compartido con un runner.
 	@GetMapping("/api/runners/{token}/stats")
 	public Collection<Result> getRunnerStats(@RequestHeader String token, @PathVariable String tokenRunner) {
-		// si el id runner me compartio el medallero a mi
 		if (!shareService.areStatsSharedForRunnner(token, tokenRunner)
 				&& !shareService.areStatsSharedForRunnner(tokenRunner, token)) {
 			throw new ResourceNotFoundException("Runner hasn't shared its profile");
@@ -195,8 +192,6 @@ public class DockerDemoApp {
 	}
 
 	///// Me
-
-	// GET api/me/stats /* Muestra el medallero del runner logueado. */
 
 	// GET api/me /*Muestra datos del runner*/
 	@GetMapping("/api/me")
@@ -333,23 +328,31 @@ public class DockerDemoApp {
 
 	@PostMapping("/api/events")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+	public ResponseEntity<Event> createEvent(@RequestHeader String token, @RequestBody Event event) {
+		Optional<Account> account = accountService.findById(token);
 		Optional<Sport> sport = sportService.findById(event.getIdSport());
-		if (sport.isPresent()) {
-			return ResponseEntity.ok(eventService.createEvent(event));
-		}
 
-		return ResponseEntity.notFound().build();
+		if (account.isPresent() && accountService.getMode(token).equals(ADMIN)) {
+			if (sport.isPresent()) {
+				return ResponseEntity.ok(eventService.createEvent(event));
+			}
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 	@GetMapping("/api/events/{id_event}/comments")
-	public ResponseEntity<Collection<Comment>> getEventComments(@PathVariable Long id_event) {
+	public ResponseEntity<Collection<Pair<Comment, String>>> getEventComments(@PathVariable Long id_event) {
 		Optional<Event> event = eventService.findById(id_event);
+		Collection<Pair<Comment, String>> collection = new ArrayList<Pair<Comment, String>>();
 		if (event.isPresent()) {
 			Collection<Comment> eventComments = commentService.getEventComments(id_event);
-			eventComments.forEach(comment -> comment.setIdRunner(null));
-
-			return ResponseEntity.ok(eventComments);
+			eventComments.forEach(comment -> {
+				Optional<Runner> eventRunner = runnerService.findById(comment.getIdRunner());
+				comment.setIdRunner(null);
+				collection.add(Pair.of(comment, eventRunner.get().getUsername()));
+			});
+			return ResponseEntity.ok(collection);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -381,96 +384,6 @@ public class DockerDemoApp {
 		return ResponseEntity.notFound().build();
 	}
 
-	// @Bean
-	// public WebMvcConfigurer corsConfigurer() {
-	// return new WebMvcConfigurerAdapter() {
-	// @Override
-	// public void addCorsMappings(CorsRegistry registry) {
-	// registry.addMapping("/**")
-	// .allowedOrigins("*")
-	// .allowedMethods("GET", "POST", "PUT", "DELETE")
-	// .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin",
-	// "Access-Control-Request-Method",
-	// "Access-Control-Request-Headers")
-	// .exposedHeaders("Access-Control-Allow-Origin",
-	// "Access-Control-Allow-Credentials")
-	// .allowCredentials(true);
-	// }
-	// };
-	// }
-
-	// @Bean
-	// public CorsFilter corsFilter() {
-	// UrlBasedCorsConfigurationSource source = new
-	// UrlBasedCorsConfigurationSource();
-
-	// // Allow anyone and anything access. Probably ok for Swagger spec
-	// CorsConfiguration config = new CorsConfiguration();
-	// config.setAllowCredentials(true);
-	// config.addAllowedOrigin("*");
-	// config.addAllowedHeader("*");
-	// config.addAllowedMethod("*");
-
-	// source.registerCorsConfiguration("/api", config);
-	// return new CorsFilter(source);
-	// }
-
-	/*
-	 * @PutMapping("/accounts/{id}/withdraw")
-	 * public Transaction withdraw(@PathVariable Long cbu, @RequestParam Double sum)
-	 * {
-	 * Transaction transaction = new Transaction("withdraw", sum, cbu);
-	 * accountService.withdraw(cbu, transaction.getAmount());
-	 * return transactionService.withdraw(transaction);
-	 * }
-	 * 
-	 * @PutMapping("/accounts/{cbu}/deposit")
-	 * public Transaction deposit(@PathVariable Long cbu, @RequestParam Double sum)
-	 * {
-	 * Transaction transaction = new Transaction("deposit", sum, cbu);
-	 * accountService.deposit(cbu, transaction.getAmount());
-	 * return transactionService.deposit(transaction);
-	 * }
-	 * 
-	 * @PostMapping("/transactions")
-	 * 
-	 * @ResponseStatus(HttpStatus.CREATED)
-	 * public Transaction createTransaction(@RequestBody Transaction transaction) {
-	 * 
-	 * if(transaction.getType().equals("deposit")) {
-	 * accountService.deposit(transaction.getCbu(), transaction.getAmount());
-	 * return transactionService.deposit(transaction);
-	 * } else if (transaction.getType().equals("withdraw")) {
-	 * accountService.withdraw(transaction.getCbu(), transaction.getAmount());
-	 * return transactionService.withdraw(transaction);
-	 * }
-	 * 
-	 * throw new invalidTypeOfTransaction("Invalid type of transaction");
-	 * 
-	 * }
-	 * 
-	 * @GetMapping("/accounts/transactions")
-	 * public List<Transaction> getTransactions(@RequestParam Long cbu) {
-	 * return transactionService.getTransactionsByCbu(cbu);
-	 * }
-	 * 
-	 * @GetMapping("/transactions/{transactionID}")
-	 * public Transaction getTransaction(@PathVariable Long transactionID) {
-	 * return transactionService.findTransactionByID(transactionID);
-	 * 
-	 * }
-	 * 
-	 * @DeleteMapping("/transactions/{transactionID}")
-	 * public void deleteTransaction(@PathVariable Long transactionID) {
-	 * Transaction transaction =
-	 * transactionService.findTransactionByID(transactionID);
-	 * 
-	 * if (transaction == null) {
-	 * throw new invalidIdTransaction("Invalid ID of the transaction");
-	 * }
-	 * transactionService.deleteTransaction(transaction);
-	 * }
-	 */
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
