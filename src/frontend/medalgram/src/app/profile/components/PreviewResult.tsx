@@ -39,6 +39,7 @@ export default function PreviewEvent({ position, idEvent, status, time }: any) {
           <div className="row-span-1 flex flex-wrap flex-row">
             <p className="block p-2 w-1/2 font-bold underline">{event.name}</p>
             <p className="block p-2 w-1/2"><p className="underline inline">Posicion:</p> {position}</p>
+            <p className="block p-2 w-1/2"><p className="underline inline">Status:</p> {status}</p>
             <p className="block p-2 w-1/2"><p className="underline inline">Tiempo:</p> {time}</p>
           </div>
         </div>
