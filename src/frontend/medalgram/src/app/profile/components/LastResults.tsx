@@ -48,9 +48,9 @@ export default function LastResults({ newResult, closeNewResult, token }: any) {
         {
           results !== null && results !== undefined && results.length === 0 ?
             <>
-              <div className="w-full flex items-center justify-center py-5 mt-5 bg-dark1 text-gray-300">
-                <h4>Aún no hay resultados cargados</h4>
-              </div>
+              <div className="border p-4 bg-gray-900/50 border border-gray-800/40 text-gray-400 rounded my-2 flex items-center justify-center">
+              <p className="text-2xl">No hay resultados cargados.</p>
+            </div>
             </>
             : ""
         }

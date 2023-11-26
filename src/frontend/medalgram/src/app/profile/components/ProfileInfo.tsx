@@ -1,22 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function ProfileInfo({ editProfile, userData }: any) {
-  // Hacer get del perfil
+  useEffect(() => {
+    if (userData === null) {
+      return;
+    }
+    console.log(userData)
+  }, [userData]);
   return (
     <main className="h-[20rem] rounded-2xl justify-self-center justify-center grid grid-cols-3 bg-dark2 relative w-full">
-      <div className="py-3">
+      <div className="py-3 flex items-center flex-col ">
         <div className="flex justify-center items-right">
-          <Image
-            src="/avatar.svg"
+          <img
+            src={userData.second.avatar}
             alt="Descripción de la imagen"
             width={220}
             height={150}
+            className="rounded-full"
           />
         </div>
-        <div className="pt-[5px] pl-[100px] text-2xl">
+        <div className="pt-[5px] text-2xl">
           @{userData.second.username}
         </div>
       </div>

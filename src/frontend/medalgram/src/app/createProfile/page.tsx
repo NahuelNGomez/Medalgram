@@ -50,7 +50,7 @@ export default function CreateProfile() {
                     username: formData.username,
                     age: formData.age,
                     location: formData.location,
-                    image: formData.image
+                    avatar: formData.image
                 })
             }).then((response) => {
                 if (response.ok) router.push("/profile")

@@ -13,7 +13,7 @@ export default function EditProfileModal({
     const age = elements.namedItem("age") as HTMLInputElement;
     const location = elements.namedItem("location") as HTMLInputElement;
     const profile_photo = elements.namedItem(
-      "profile_photo"
+      "image"
     ) as HTMLInputElement;
 
     if (
@@ -36,11 +36,12 @@ export default function EditProfileModal({
         name: name.value,
         age: age.value,
         location: location.value,
-        profile_photo: profile_photo.value,
+        avatar: profile_photo.value,
       }),
     })
       .then((response) => {
-        if (response.ok) window.location.reload();
+        console.log(name, age, profile_photo, location)
+        //if (response.ok) window.location.reload();
       })
       .catch((error) => {
         console.error("Error al actualizar los datos:", error);
