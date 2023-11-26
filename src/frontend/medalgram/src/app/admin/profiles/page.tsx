@@ -1,4 +1,5 @@
 "use client"
+import Loading from "@/components/Loading";
 import NavegationBarAdmin from "@/components/NavegationBarAdmin";
 import { verifyToken, viewProfiles } from "@/objects/mocks/functions"
 import { useEffect, useState } from "react"
@@ -27,16 +28,8 @@ export default function Profiles(token: any) {
 
 
     if (profiles == null) {
-        return (<div className="container text-center">
-            <div className="row align-items-center">
-                <div className="col my-4">
-                    <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            </div>
-        </div>)
-    }
+        return (<Loading/>)
+      }
 
     return (
 
@@ -45,9 +38,9 @@ export default function Profiles(token: any) {
             <h1 className="text-white text-4xl font-bold">Gestion de usuarios</h1>
             {
                 profiles.map((profile: any) => (
-                    <div key={profile.token} className="flex flex-col items-center justify-center border py-8 my-8">
+                    <div key={profile.id} className="flex flex-col items-center justify-center border py-8 my-8">
                         <h1 className="text-white text-2xl font-bold">Nombre: {profile.email}</h1>
-                        <h1 className="text-white text-2xl font-bold">Token: {profile.token}</h1>
+                        <h1 className="text-white text-2xl font-bold">Token: {profile.id}</h1>
                         <h1 className="text-white text-2xl font-bold">Mode: {profile.mode}</h1>
                     </div>
                 )

@@ -17,7 +17,7 @@ export default function PreviewEvent({result, token}: any) {
         headers: { "Content-Type": "application/json", "token": tokenAux },
         body: mode
       }).then((response) => {
-        //if (response.ok) window.location.reload();
+        if (response.ok) window.location.reload();
       }).catch((error) => {
         console.error('Error al modificar el resultado:', error);
       })

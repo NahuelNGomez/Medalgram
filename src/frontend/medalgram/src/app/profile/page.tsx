@@ -10,6 +10,7 @@ import AddResultModal from "./components/AddResultModal";
 import { useRouter } from "next/navigation";
 import { verifyToken } from "@/objects/mocks/functions";
 import { data } from "autoprefixer";
+import Loading from "@/components/Loading";
 
 export default function Sports() {
   // Hacer get del perfil
@@ -81,15 +82,7 @@ export default function Sports() {
   }, [userData])
 
   if (userData == null) {
-    return (<div className="container text-center">
-      <div className="row align-items-center">
-        <div className="col my-4">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      </div>
-    </div>)
+    return (<Loading/>)
   }
 
   return (
