@@ -42,12 +42,15 @@ export default function Admin() {
     return (
         <main className="flex flex-col items-center justify-center">
             {token != null ? <NavegationBarAdmin /> : <NavegationBar />}
-            <h1 className="text-white text-4xl font-bold">Gestion de página</h1>
-            <ManagerBox token={token} description="Ver perfiles" action={() => router.push("/admin/profiles")} />
-            <ManagerBox token={token} description="Agregar deporte" action={() => router.push("/admin/addSport")} />
-            <ManagerBox token={token} description="Agregar Evento" action={() => router.push("/admin/addEvent")} />
-            <ManagerBox token={token} description="Ver pedidos de validación" action={() => router.push("/admin/validateResults")} />
-            <ManagerBox token={token} description="Agregar resultados" action={() => router.push("/admin/addResults")} />
+            <h1 className="text-white text-4xl font-bold pt-20 pb-10">Gestion de página</h1>
+            <section className="flex flex-col items-start justify-start h-[100vh]">
+
+                <ManagerBox token={token} description="Ver perfiles" action={() => router.push("/admin/profiles")} />
+                <ManagerBox token={token} description="Agregar deporte" action={() => router.push("/admin/addSport")} />
+                <ManagerBox token={token} description="Agregar Evento" action={() => router.push("/admin/addEvent")} />
+                <ManagerBox token={token} description="Ver pedidos de validación" action={() => router.push("/admin/validateResults")} />
+                <ManagerBox token={token} description="Agregar resultados" action={() => router.push("/admin/addResults")} />
+            </section>
 
         </main>
     )
