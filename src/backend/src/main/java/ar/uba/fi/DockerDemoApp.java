@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 // import org.springframework.web.cors.CorsConfiguration;
@@ -104,8 +105,12 @@ public class DockerDemoApp {
 
 	// Results
 	@GetMapping("/api/results")
-	public Collection<Result> getResults() {
-		return resultService.getResults();
+	public ResponseEntity<Collection<Result>> getResults(@RequestHeader String token) {
+		Optional<Account> account = accountService.findById(token);
+		if (account.isPresent() && accountService.getMode(token).equals("ADMIN")) {
+			return ResponseEntity.ok(resultService.getResults());
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	// TO DO: Put for /api/results
@@ -343,13 +348,17 @@ public class DockerDemoApp {
 	}
 
 	@GetMapping("/api/events/{id_event}/comments")
-	public ResponseEntity<Collection<Comment>> getEventComments(@PathVariable Long id_event) {
+	public ResponseEntity<Collection<Pair<Comment, String>>> getEventComments(@PathVariable Long id_event) {
 		Optional<Event> event = eventService.findById(id_event);
+		Collection<Pair<Comment, String>> collection = new ArrayList<Pair<Comment, String>>();
 		if (event.isPresent()) {
 			Collection<Comment> eventComments = commentService.getEventComments(id_event);
-			eventComments.forEach(comment -> comment.setIdRunner(null));
-
-			return ResponseEntity.ok(eventComments);
+			eventComments.forEach(comment -> {
+				Optional<Runner> eventRunner = runnerService.findById(comment.getIdRunner());
+				comment.setIdRunner(null);
+				collection.add(Pair.of(comment, eventRunner.get().getUsername()));
+			});
+			return ResponseEntity.ok(collection);
 		}
 		return ResponseEntity.notFound().build();
 	}
