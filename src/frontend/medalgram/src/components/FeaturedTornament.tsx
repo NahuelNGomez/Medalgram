@@ -6,14 +6,13 @@ interface componentsArgs {
 
 export default function FeaturedTournament({ image }: componentsArgs) {
     return (
-        <article className="col-span-2 ml-5 flex justify-center items-center bg-dark2/50 w-4/5 my-4 rounded-xl">
-            <div className="flex items-center justify-between w-1/5 align-items justify-content opacity-50">
-                <Image
+        <article className="col-span-2 ml-5 flex justify-center items-center my-4 rounded-xl">
+            <div className="flex items-center justify-between align-items justify-content opacity-70 border-8 border-dark2 shadow-lg shadow-dark2 hover:scale-[1.10] transition duration-500">
+                <img
                     src={image}
-                    alt="Descripción de la imagen"
-                    width={300}
+                    alt="Imagen de evento"
+                    width={250}
                     height={200}
-                    
                 />
             </div>
         </article>
