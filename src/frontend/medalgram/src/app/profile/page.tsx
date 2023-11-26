@@ -93,7 +93,7 @@ export default function Sports() {
       {loading === true ? (
         <div>Cargando...</div>
       ) : (
-        <div className="">
+        <div className="py-5">
           {/* <div className="pt-[50px] pl-[130px] text-3xl">
             @{userData.second.username}
           </div> */}
