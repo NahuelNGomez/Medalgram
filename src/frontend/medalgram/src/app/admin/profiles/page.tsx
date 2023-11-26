@@ -35,13 +35,13 @@ export default function Profiles(token: any) {
 
         <main className="flex flex-col items-center">
             <NavegationBarAdmin />
-            <h1 className="text-white text-4xl font-bold">Gestion de usuarios</h1>
+            <h1 className="text-white text-4xl font-bold pt-20 pb-10">Gestion de usuarios</h1>
             {
                 profiles.map((profile: any) => (
-                    <div key={profile.id} className="flex flex-col items-center justify-center border py-8 my-8">
-                        <h1 className="text-white text-2xl font-bold">Nombre: {profile.email}</h1>
-                        <h1 className="text-white text-2xl font-bold">Token: {profile.id}</h1>
-                        <h1 className="text-white text-2xl font-bold">Mode: {profile.mode}</h1>
+                    <div key={profile.id} className="flex flex-col items-center justify-center border py-8 my-8 w-[60%] bg-gray-900 border border-gray-800 text-gray-400 rounded shadow p-3">
+                        <h2 className="text-white text-2xl font-bold"><p className="inline">Nombre:</p> {profile.email}</h2>
+                        <h2 className="text-white text-2xl font-bold">Token: {profile.id}</h2>
+                        <h2 className="text-white text-2xl font-bold">Mode: {profile.mode}</h2>
                     </div>
                 )
                 )
