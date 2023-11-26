@@ -13,16 +13,18 @@ export default function EditProfileModal({
     const name = elements.namedItem("name") as HTMLInputElement;
     const age = elements.namedItem("age") as HTMLInputElement;
     const location = elements.namedItem("location") as HTMLInputElement;
-    const avatar = elements.namedItem("avatar") as HTMLInputElement;
+    const profile_photo = elements.namedItem(
+      "profile_photo"
+    ) as HTMLInputElement;
 
     if (
       !name ||
       !age ||
-      !avatar ||
+      !profile_photo ||
       !location ||
       name.value == "" ||
       age.value == "" ||
-      avatar.value == "" ||
+      profile_photo.value == "" ||
       location.value == ""
     ) {
       console.error("Por favor, complete todos los campos.");
@@ -36,7 +38,7 @@ export default function EditProfileModal({
         name: name.value,
         age: age.value,
         location: location.value,
-        //avatar: avatar.value
+        //profile_photo: profile_photo.value
       }),
     })
       .then((response) => {
@@ -111,12 +113,13 @@ export default function EditProfileModal({
             </div>
             <div className="flex flex-row ">
               <label className="px-[26px]">
-                Avatar:{" "}
+                Imagen de Perfil:{" "}
                 <input
-                  className="text-black shadow border-2 focus:border-green-500 rounded w-[80%] py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  id="avatar"
-                  name="avatar"
+                  //className="text-black shadow border-2 focus:border-green-500 rounded w-[80%] py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="rounded-md p-2 py-2 px-3 w-[80%] leading-tight"
+                  type="file"
+                  id="profile_photo"
+                  name="profile_photo"
                 ></input>
               </label>
             </div>
