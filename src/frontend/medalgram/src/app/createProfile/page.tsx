@@ -12,7 +12,7 @@ const ERROR_MESSAGE = 'Por favor, complete todos los campos.';
 export default function CreateProfile() {
     const router = useRouter();
 
-    const [formData, setFormData] = useState({ username: '', location: '', name: '', image: '', age: '' });
+    const [formData, setFormData] = useState({ username: '', location: '', name: '', age: '', image:'' });
     const [notification, setNotification] = useState('')
     const [logged, setLogged] = useState(false);
     const [token, setToken] = useState<any>(null)
@@ -27,6 +27,7 @@ export default function CreateProfile() {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+        console.log(formData)
     };
     useEffect(() => {
         if (document === undefined) return;
@@ -48,8 +49,8 @@ export default function CreateProfile() {
                     name: formData.name,
                     username: formData.username,
                     age: formData.age,
-                    location: formData.location
-                    //image: formData.image
+                    location: formData.location,
+                    image: formData.image
                 })
             }).then((response) => {
                 if (response.ok) router.push("/profile")
@@ -89,12 +90,12 @@ export default function CreateProfile() {
                     <div className="flex justify-center items-center">
                         <h2 className="text-white my-4 text-3xl">Crear Perfil</h2>
                     </div>
-                    {notification === ERROR_MESSAGE ?  <div className="mx-8 my-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    {notification === ERROR_MESSAGE ? <div className="mx-8 my-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <strong className="font-bold">{notification}</strong>
                         <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
                             <svg className="fill-current h-6 w-6 text-red-500" role="button" onClick={handlerButtonNotification} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
                         </span>
-                    </div> : '' }
+                    </div> : ''}
                     <div className="grid grid-cols-2">
                         <div className="mb-4 px-8 w-[60%]">
                             <label className="block text-white text-sm font-bold mb-2" htmlFor="username">
@@ -135,11 +136,27 @@ export default function CreateProfile() {
                                 type="text"
                             />
                         </div>
-                        <div className="mb-6 px-8 row-span-2 w-full flex flex-col justify-center items-center">
-                            <label className="block text-white text-sm font-bold mb-2" htmlFor="image">
-                                Imagen de perfil
-                            </label>
-                            <input type="file" onChange={handleInputChange} name="image" id="image" className="border rounded-md p-2" />
+                        <div className="mb-6 px-8 row-span-2 w-full flex justify-center items-center">
+                            <div className='w-full block text-white text-sm font-bold mb-2'> Seleccione un ícono</div>
+                            {[
+                                { id: 'image1', src: 'icons/pingpong.png' },
+                                { id: 'image2', src: 'icons/tenis.png' },
+                                { id: 'image3', src: 'icons/basquet.png' },
+                                { id: 'image4', src: 'icons/football.png' },
+                                { id: 'image5', src: 'icons/volley.png' },
+                            ].map((image) => (
+                                <div key={image.id} className="flex flex-col items-center mb-4 mx-5">
+                                    <img src={image.src} className={`rounded-full mb-2 width="50px" `} />
+                                    <input
+                                        id={image.src}
+                                        type="radio"
+                                        name="image"
+                                        value={image.src}
+                                        onChange={handleInputChange}
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                </div>
+                            ))}
                         </div>
                         <div className="mb-6 px-8">
                             <label className="block text-white text-sm font-bold mb-2" htmlFor="age">
@@ -155,7 +172,7 @@ export default function CreateProfile() {
                             />
                         </div>
                     </div>
-                    
+
                     <div className="w-full pt-5"><button onClick={handleLogin} className="w-full bg-white rounded-b-3xl text-black font-bold py-2 px-4 duration-300 hover:text-white transition-all bg-size-200 bg-pos-0 hover:bg-green-600" type="button">
                         Crear
                     </button></div>

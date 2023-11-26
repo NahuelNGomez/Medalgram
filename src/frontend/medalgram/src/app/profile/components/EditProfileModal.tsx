@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 
 export default function EditProfileModal({
   cancelFunction,
@@ -30,7 +29,6 @@ export default function EditProfileModal({
       console.error("Por favor, complete todos los campos.");
       return;
     }
-
     fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/", {
       method: "PUT",
       headers: { "Content-Type": "application/json", token: token },
@@ -99,21 +97,27 @@ export default function EditProfileModal({
                 ></input>
               </label>
             </div>
-            <div className="flex flex-row ">
-              <label className="px-[26px]">
-                Imagen de Perfil:{" "}
-                <input
-                  className="rounded-md p-2 py-2 px-3 w-[80%] leading-tight"
-                  type="file"
-                  id="profile_photo"
-                  name="profile_photo"
-                  defaultValue={userData.second.profile_photo || ""}
-                  onChange={(e) => {
-                    console.log("Aca estoy");
-                  }}
-                ></input>
-              </label>
-            </div>
+            <div className="mb-6 px-8 row-span-2 w-full flex justify-center items-center">
+                            <div className='w-full block text-white text-sm font-bold mb-2'> Seleccione un ícono</div>
+                            {[
+                                { id: 'image1', src: 'icons/pingpong.png' },
+                                { id: 'image2', src: 'icons/tenis.png' },
+                                { id: 'image3', src: 'icons/basquet.png' },
+                                { id: 'image4', src: 'icons/football.png' },
+                                { id: 'image5', src: 'icons/volley.png' },
+                            ].map((image) => (
+                                <div key={image.id} className="flex flex-col items-center mb-4 mx-5">
+                                    <img src={image.src} className={`rounded-full mb-2 width="50px" `} />
+                                    <input
+                                        id={image.src}
+                                        type="radio"
+                                        name="image"
+                                        value={image.src}
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                </div>
+                            ))}
+                        </div>
           </div>
           <div className="flex justify-end pt-[30px]">
             <button

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import PendingResult from "@/app/profile/components/PendingResult";
 
-export default function ConfirmResults({token}:any) {
+export default function ConfirmResults({ token }: any) {
 
   const [results, setResults] = useState<any>(null);
 
@@ -21,20 +21,29 @@ export default function ConfirmResults({token}:any) {
         <strong className="text-3xl px-[12px]">
           Resultados sin confirmar
         </strong>
-       {
+        {
           results !== null && results !== undefined ?
             results.filter((result: any) => result.status === 'pendingForUser').map((result: any) => {
               return (
                 <PendingResult
                   key={result.id}
+                  id={result.id}
                   position={result.position}
                   idEvent={result.idEvent}
                   status={result.status}
                   time={result.time}
+                  token={token}
                 />
               );
             })
             : "Cargando"
+        }
+        {
+          results !== null && results !== undefined && results.filter((result: any) => result.status === 'pendingForUser').length === 0 ?
+            <div className="border p-4 bg-gray-900/50 border border-gray-800/40 text-gray-400 rounded my-2">
+              <p className="text-2xl">No hay resultados pendientes de validación.</p>
+            </div>
+            : ""
         }
       </div>
     </main>
