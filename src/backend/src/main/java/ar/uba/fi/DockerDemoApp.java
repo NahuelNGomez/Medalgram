@@ -241,6 +241,10 @@ public class DockerDemoApp {
 				runnerToEdit.setLocation(runner.getLocation());
 			}
 
+			if (runner.getAvatar() != null) {
+				runnerToEdit.setAvatar(runner.getAvatar());
+			}
+
 			runnerService.save(runnerToEdit);
 			return ResponseEntity.ok(runnerToEdit);
 		}
