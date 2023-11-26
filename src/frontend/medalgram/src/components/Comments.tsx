@@ -23,12 +23,12 @@ export default function Comments({ token, logged, id2 }: any) {
         const { elements } = event.currentTarget
         const content = elements.namedItem('content') as HTMLInputElement
 
-        if (!content  || content.value == "") {
+        if (!content || content.value == "") {
             console.error("Por favor, complete todos los campos.")
             return
         }
 
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/'+ id2 + '/comments', {
+        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/' + id2 + '/comments', {
             method: 'POST',
             headers: { "Content-Type": "application/json", "token": token },
             body: JSON.stringify({
@@ -64,7 +64,7 @@ export default function Comments({ token, logged, id2 }: any) {
 
             {logged == true ? (
                 <article className="flex flex-nowrap">
-                    <Image className="inline pr-6 w-[10%]" src="/vercel.svg" width={50} height={50} alt={""} />
+                    <img className="inline pr-6 w-[10%]" src="/vercel.svg" width={50} height={50} alt={""} />
                     <form onSubmit={handlerSubmit} className="w-full">
                         <input type='text' placeholder="Escribe un comentario..." id='content' name='content' className="w-5/6 h-12 text-black p-2 text-xs"></input>
                         <button type='submit' className="w-1/6 h-12 bg-dark1 text-white text-xs">Comentar</button>
