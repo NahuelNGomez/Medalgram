@@ -2,13 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import EditProfileModal from "./EditProfileModal";
 
-export default function ProfileInfo({
-  editProfile,
-  closeEditProfile,
-  userData,
-}: any) {
+export default function ProfileInfo({ editProfile, userData }: any) {
   // Hacer get del perfil
   return (
     <main className="h-[20rem] rounded-2xl justify-self-center justify-center grid grid-cols-3 bg-dark2 relative w-full">

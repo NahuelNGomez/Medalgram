@@ -94,9 +94,6 @@ export default function Sports() {
         <div>Cargando...</div>
       ) : (
         <div className="py-5">
-          {/* <div className="pt-[50px] pl-[130px] text-3xl">
-            @{userData.second.username}
-          </div> */}
           <div className="grid grid-cols-6 h-[100px] pr-[30px] pl-[20px] gap-[30px]">
             <div className="col-span-4">
               <ProfileInfo
