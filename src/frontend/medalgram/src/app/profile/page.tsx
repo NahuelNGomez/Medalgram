@@ -101,9 +101,9 @@ export default function Sports() {
         loading === true ? <div>Cargando...</div> : (
           <div className="">
             <div className="pt-[50px] pl-[130px] text-3xl">
-              Perfil del corredor 0001
+              {userData.second.username}
             </div>
-            <div className="grid grid-cols-6 h-[100px] pr-[30px] gap-[30px]">
+            <div className="grid grid-cols-6 h-[100px] pr-[30px] pl-[20px] gap-[30px]">
               <div className="col-span-4">
                 <ProfileInfo editProfile={editProfile} closeEditProfile={closeEditProfile} userData={userData} /></div>
               <div className="col-span-2">

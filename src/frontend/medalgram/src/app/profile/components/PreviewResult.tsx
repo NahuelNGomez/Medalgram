@@ -29,17 +29,17 @@ export default function PreviewEvent({ position, idEvent, status, time }: any) {
 
   return (
     <main className="flex flex-wrap w-full my-6">
-      <div className="border bg-dark3 w-1/5 py-2 flex align-content justify-center items-center">
-        {event.date}
+      <div className="bg-dark3 w-1/5 py-2 flex align-content justify-center items-center text-dark0 font-bold">
+        {event.date && new Date(event.date).toString().split(" ").slice(1, 4).join(" ")}
       </div>
-      <div className="bg-dark2 w-4/5 text-white grid grid-cols-2 bg-gradient-to-r from-dark1 to-dark1 p-4">
-        <div className="col-span-1 flex flex-wrap flex-col justify-center pl-4 ">
-          <div className="row-span-1 flex flex-wrap flex-row justify-between  ">
-            <p>{event.name}</p>
-            <p>Posicion: {position}</p>
-            <p>status: {status}</p>
+      <div className="bg-dark2 w-4/5 text-white grid grid-cols-2 bg-gradient-to-r from-dark0 to-dark2 p-4">
+        <div className="col-span-1 flex flex-wrap flex-col justify-center pl-4">
+          <div className="row-span-1 flex flex-wrap flex-row">
+            <p className="block p-2 w-1/2 font-bold underline">{event.name}</p>
+            <p className="block p-2 w-1/2"><p className="underline inline">Posicion:</p> {position}</p>
+            <p className="block p-2 w-1/2"><p className="underline inline">Status:</p> {status}</p>
+            <p className="block p-2 w-1/2"><p className="underline inline">Tiempo:</p> {time}</p>
           </div>
-          <p>Tiempo: {time}</p>
         </div>
         <div className="flex justify-center items-center py-4">
           <Link
@@ -51,8 +51,6 @@ export default function PreviewEvent({ position, idEvent, status, time }: any) {
           </Link>
         </div>
       </div>
-
-      {/* sin terminar */}
     </main>
   );
 }

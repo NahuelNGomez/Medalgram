@@ -77,7 +77,7 @@ export default function Page({ params: { id, id2 } }: SportProps) {
                                 <svg className=" inline mr-2 h-7 w-7 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                {event.date}
+                                {event.date && new Date(event.date).toString().split(" ").slice(1, 4).join(" ")}
                             </td>
                         </tr>
                         <tr className="bg-dark3 text-black font-semibold">
@@ -99,7 +99,7 @@ export default function Page({ params: { id, id2 } }: SportProps) {
                         </tr>
                         <tr className="bg-dark3 text-black font-semibold">
                             <td className="p-1">
-                                <Image className="inline  mr-2" src="/distance.png" width={30} height={30} alt={""} />
+                                <img className="inline  mr-2" src="/distance.png" width={30} height={30} alt={""} />
                                 {event.kms} Kms
                             </td>
                         </tr>

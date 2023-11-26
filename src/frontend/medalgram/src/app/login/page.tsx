@@ -100,7 +100,7 @@ export default function Login() {
               Registrarse
             </a>
             <a
-              className="inline-block align-baseline underline text-sm text-gray-400 hover:text-white"
+              className="inline-block align-baseline underline text-sm text-gray-400 hover:text-white cursor-pointer"
               onClick={() => router.push("/forgotPassword")}
             >
               Recuperar contraseña

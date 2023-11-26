@@ -9,7 +9,7 @@ export default function PreviewEvent({ idSport, id, name, location, date }: any)
 
         <main className="flex flex-wrap w-full my-4 px-10">
 
-            <div className="border bg-dark3 w-1/5 py-2 flex align-content justify-center items-center text-dark1 font-bold">{date}</div>
+            <div className="border bg-dark3 w-1/5 py-2 flex align-content justify-center items-center text-dark1 font-bold">{date && new Date(date).toString().split(" ").slice(1, 4).join(" ")}</div>
             <div className="bg-dark2 w-4/5 text-white grid grid-cols-2 bg-gradient-to-r from-dark1 to-dark2">
                 <div className="col-span-1 flex flex-wrap flex-col justify-center pl-4 ">
                     <p>{name}</p>

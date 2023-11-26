@@ -20,11 +20,11 @@ export default function LastResults({ newResult, closeNewResult, token }: any) {
       <div className="flex flex-col py-[20px]">
         <div className="flex justify-between items-center">
           <h3 className="text-2xl font-bold underline">Información de perfil</h3>
-          <button className=" bg-green-300 rounded-3xl text-black w-[150px] 2xl:w-[300px] 2xl:text-[20px] hover:bg-dark0 hover:text-white transition duration-3 00" onClick={newResult}>
+          <button className="py-2 bg-dark3 rounded-xl text-sm text-green-700 w-[150px] 2xl:w-[250px] 2xl:text-[17px] hover:bg-green-600 hover:text-white transition duration-300 border-4 border-gray-400 hover:border-blue-400 font-bold text-gray-600" onClick={newResult}>
             Cargar un resultado
           </button>
           <Link href="/profile/results">
-            <button className=" bg-dark3 rounded-3xl text-black w-[150px] 2xl:w-[300px] 2xl:text-[20px] hover:bg-dark0 hover:text-white transition duration-3 00">
+            <button className="py-2 bg-dark3 rounded-xl text-sm text-black w-[150px] 2xl:w-[300px] 2xl:text-[17px] hover:bg-dark0 hover:text-white transition duration-300 border-4 border-gray-400 hover:border-blue-400 font-bold text-gray-600">
               Ver Todos los resultados
             </button>
           </Link>
@@ -43,6 +43,16 @@ export default function LastResults({ newResult, closeNewResult, token }: any) {
               );
             })
             : "Cargando"
+        }
+
+        {
+          results !== null && results !== undefined && results.length === 0 ? 
+          <>
+            <div className="w-full flex items-center justify-center py-5 mt-5 bg-dark1 text-gray-300">
+              <h4>Aún no hay resultados cargados</h4>
+            </div>
+          </>
+            : ""
         }
       </div>
     </main>

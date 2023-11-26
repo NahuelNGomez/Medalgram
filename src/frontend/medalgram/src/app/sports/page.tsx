@@ -43,13 +43,13 @@ export default function Sports() {
       <article className="col-span-1 border flex items-center justify-between outline-transparent border-transparent pt-6">
         <Breadcrumbs items={breadcrumb} />
         <SearchBar
-          placeholder="Buscar Evento"
+          placeholder="Buscar Deporte"
           onChange={(e) => {
             setFilterInput(e.toString().toLowerCase());
           }}
         />
       </article>
-      <section className="mt-6 grid grid-cols-3 gap-4">
+      <section className="mt-6 grid grid-cols-2 gap-6">
         {sports
           .filter((sport) => {
             return filterInput.length > 0
