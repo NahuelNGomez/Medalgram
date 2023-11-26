@@ -18,19 +18,46 @@ public class Account {
     @Column(name = "encrypted_pass")
     private String encryptedPass;
 
-    public String getId() { return id; }
+    @Column(name = "image")
+    private String avatar;
 
-    public String getMode() { return mode; }
+    public String getId() {
+        return id;
+    }
 
-    public String getEmail() { return email; }
+    public String getAvatar() {
+        return avatar;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public String getMode() {
+        return mode;
+    }
 
-    public String setId(String token) { return this.id = token; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String setMode(String mode) { return this.mode = mode; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getEncryptedPass() { return encryptedPass; }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-    public void setEncryptedPass(String encryptedPass) { this.encryptedPass = encryptedPass; }
+    public String setId(String token) {
+        return this.id = token;
+    }
+
+    public String setMode(String mode) {
+        return this.mode = mode;
+    }
+
+    public String getEncryptedPass() {
+        return encryptedPass;
+    }
+
+    public void setEncryptedPass(String encryptedPass) {
+        this.encryptedPass = encryptedPass;
+    }
 }
