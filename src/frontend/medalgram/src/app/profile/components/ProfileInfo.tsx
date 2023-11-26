@@ -27,13 +27,13 @@ export default function ProfileInfo({ editProfile, userData }: any) {
         </h3>
         <div>
           <p className="text-xl">
-            <p className="inline underline font-bold">nombre:</p>{" "}
+            <p className="inline underline font-bold">Nombre:</p>{" "}
             {userData !== null && userData !== undefined
               ? userData.second.name
               : "Cargando"}
           </p>
           <p className="text-xl py-2">
-            <p className="inline underline font-bold">edad:</p>{" "}
+            <p className="inline underline font-bold">Edad:</p>{" "}
             {userData !== null && userData !== undefined
               ? userData.second.age + " años"
               : "Cargando"}

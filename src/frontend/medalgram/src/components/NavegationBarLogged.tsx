@@ -15,7 +15,7 @@ export default function NavegationBarLogged() {
                     <a href="/" className="flex items-center">
                         <img src="https://i.ibb.co/hCwXjMC/principal.png" className="h-8 mr-3" alt="principal Logo" />
                     </a>
-                    <Link href="/sports" className="nav-link link-body-emphasis active text-gray-300 text-xl underline" aria-current="page">Deportes</Link>
+                    <Link href="/sports" className="nav-link link-body-emphasis active text-gray-300 text-xl underline text-2xl tracking-widest text-white font-semibold text-white/70" aria-current="page">Deportes</Link>
                 </div>
                 <div className="flex md:order-1">
                     <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 hover:bg-dark0 rounded-lg text-sm p-2.5">
