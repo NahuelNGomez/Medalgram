@@ -1,5 +1,6 @@
 "use client"
 import NavegationBarAdmin from "@/components/NavegationBarAdmin";
+import { BASE_PATH } from "@/constants/constants";
 import { verifyToken, viewProfiles } from "@/objects/mocks/functions";
 import { verify } from "crypto";
 import { useEffect, useState } from "react";
@@ -44,7 +45,7 @@ export default function AddResults(token: any) {
             return
         }
 
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/results', {
+        fetch(BASE_PATH + '/results', {
             method: 'POST',
             headers: { "Content-Type": "application/json", "token": tokenAux },
             body: JSON.stringify({
@@ -85,7 +86,7 @@ export default function AddResults(token: any) {
     }, [tokenAux])
 
     useEffect(() => {
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events', {
+        fetch(BASE_PATH + '/events', {
             method: 'GET',
             headers: { "Content-Type": "application/json", "token": token }
         }).then(response => {

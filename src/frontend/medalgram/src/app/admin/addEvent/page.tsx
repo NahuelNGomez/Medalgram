@@ -1,5 +1,6 @@
 "use client"
 import NavegationBarAdmin from "@/components/NavegationBarAdmin";
+import { BASE_PATH } from "@/constants/constants";
 import { useEffect, useState } from "react";
 
 const ERROR_MESSAGE = "Por favor, complete todos los campos."
@@ -34,7 +35,7 @@ export default function AddEvent(token: any) {
             return
         }
 
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events', {
+        fetch(BASE_PATH + '/events', {
             method: 'POST',
             headers: { "Content-Type": "application/json", "token": token },
             body: JSON.stringify({
@@ -64,7 +65,7 @@ export default function AddEvent(token: any) {
     }
 
     useEffect(() => {
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports')
+        fetch(BASE_PATH + '/sports')
             .then(response => {
                 return response.json()
             })

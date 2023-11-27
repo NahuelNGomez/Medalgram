@@ -1,6 +1,7 @@
 "use client";
 import { use, useEffect, useState } from "react";
 import Image from "next/image";
+import { BASE_PATH } from "@/constants/constants";
 
 
 const formatearDosDigitos = (numero: any) => {
@@ -26,7 +27,7 @@ export default function AddResultModal({ cancelFunction, token }: any) {
       return
     }
 
-    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/results', {
+    fetch(BASE_PATH + "/me/results", {
       method: 'POST',
       headers: { "Content-Type": "application/json", "token": token },
       body: JSON.stringify({
@@ -44,7 +45,7 @@ export default function AddResultModal({ cancelFunction, token }: any) {
   }
 
   useEffect(() => {
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/").then((response) => {
+    fetch(BASE_PATH + "/events/").then((response) => {
       return response.json();
     }).then((data) => setEvents(data));
   }, [])

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { oneEventMock } from "@/objects/mocks/mock";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import { verifyToken } from "@/objects/mocks/functions";
+import { BASE_PATH } from "@/constants/constants";
 
 interface SportProps {
     params: { id: number, id2: number }
@@ -24,7 +25,7 @@ export default function Page({ params: { id, id2 } }: SportProps) {
 
     useEffect(() => {
         //setEvent(oneEventMock())
-        fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/" + id2)
+        fetch(BASE_PATH + "/events/" + id2)
             .then((response) => {
                 return response.json()
             })

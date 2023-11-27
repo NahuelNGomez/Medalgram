@@ -1,5 +1,6 @@
 "use client"
 import NavegationBarAdmin from "@/components/NavegationBarAdmin";
+import { BASE_PATH } from "@/constants/constants";
 import { useState } from "react";
 
 const ERROR_MESSAGE = "Por favor, complete todos los campos."
@@ -24,7 +25,7 @@ export default function AddSport(token: any) {
             setNotification(ERROR_MESSAGE)
             return
         }
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports', {
+        fetch(BASE_PATH + '/sports', {
             method: 'POST',
             headers: { "Content-Type": "application/json", "token": token },
             body: JSON.stringify({

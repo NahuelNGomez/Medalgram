@@ -3,6 +3,7 @@ import Image from "next/image";
 import Comment from "@/components/Comment";
 import { commentsMock } from "@/objects/mocks/mock";
 import { useEffect, useState } from "react";
+import { BASE_PATH } from "@/constants/constants";
 
 export default function Comments({ token, logged, id2 }: any) {
     const [comments, setComments] = useState<any>(null);
@@ -10,7 +11,7 @@ export default function Comments({ token, logged, id2 }: any) {
     useEffect(() => {
         console.log(id2)
         if (id2 == null || id2 == undefined) return;
-        fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/" + id2 + "/comments")
+        fetch(BASE_PATH + "/events/" + id2 + "/comments")
             .then((response) => {
                 return response.json()
             })
@@ -28,7 +29,7 @@ export default function Comments({ token, logged, id2 }: any) {
             return
         }
 
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/' + id2 + '/comments', {
+        fetch(BASE_PATH + '/events/' + id2 + '/comments', {
             method: 'POST',
             headers: { "Content-Type": "application/json", "token": token },
             body: JSON.stringify({

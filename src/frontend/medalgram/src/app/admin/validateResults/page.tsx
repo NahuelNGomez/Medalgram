@@ -3,11 +3,12 @@ import NavegationBarAdmin from "@/components/NavegationBarAdmin";
 import { useState, useEffect } from "react";
 import PendingAdminResult from "./components/PendingAdminResult";
 import Loading from "@/components/Loading";
+import { BASE_PATH } from "@/constants/constants";
 
 export default function ValidateResults(token: any) {
     const [results, setResults] = useState<JSON | any>(null);
     useEffect(() => {
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/results', {
+        fetch(BASE_PATH + '/results', {
             method: 'GET',
             headers: { "Content-Type": "application/json", "token": token }
         }).then((response) => {

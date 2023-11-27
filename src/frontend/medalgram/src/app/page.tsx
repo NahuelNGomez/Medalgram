@@ -6,6 +6,7 @@ import Presentation from '../components/Presentation'
 import FeaturedTournaments from '../components/FeaturedTournaments'
 import NavegationBarLogged from '@/components/NavegationBarLogged';
 import { useRouter } from 'next/navigation';
+import {BASE_PATH} from '@/constants/constants';
 
 export default function Home() {
   const [backendPetitionState, setBackendPetitionState] = useState('Loading');
@@ -13,7 +14,7 @@ export default function Home() {
 
   const [logged, setLogged] = useState(false);
   const handleClick = async () => {
-    const resultValue = await fetch(`https://grupo-3.2023.tecnicasdedisenio.com.ar/api/counter`, {
+    const resultValue = await fetch(BASE_PATH + '/counter', {
       method: "POST"
     });
     const value = (await resultValue.json()).result;
@@ -34,6 +35,8 @@ export default function Home() {
       {/*<div>{backendPetitionState}</div>*/}
       <Presentation />
       <FeaturedTournaments />
+      
     </main>
+    
   )
 }

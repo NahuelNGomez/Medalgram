@@ -1,3 +1,4 @@
+import { BASE_PATH } from "@/constants/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -7,7 +8,7 @@ export default function PreviewEvent({ position, idEvent, status, time }: any) {
   const [event, setEvent] = useState<any>(null);
 
   useEffect(() => {
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/" + idEvent).then((response) => {
+    fetch(BASE_PATH + "/events/" + idEvent).then((response) => {
       return response.json();
     }).then((data) => setEvent(data));
 

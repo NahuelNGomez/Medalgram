@@ -6,6 +6,7 @@ import NavegationBarLogged from "@/components/NavegationBarLogged";
 import { useEffect, useState } from "react";
 import { eventsMock } from "@/objects/mocks/mock";
 import SearchBar from "@/components/SearchBar";
+import { BASE_PATH } from "@/constants/constants";
 
 interface SportProps {
     params: { id: number }
@@ -18,7 +19,7 @@ export default function Page({ params: { id } }: SportProps) {
     const [filterInput, setFilterInput] = useState("");
 
     useEffect(() => {
-        fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports/" + id + "/events")
+        fetch(BASE_PATH + "/sports/" + id + "/events")
             .then((response) => {
                 return response.json()
             })

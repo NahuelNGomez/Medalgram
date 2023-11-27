@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PreviewResult from "@/app/profile/components/PreviewResult";
+import { BASE_PATH } from "@/constants/constants";
 
 export default function LastResults({ newResult, closeNewResult, token }: any) {
   const [results, setResults] = useState<any>(null);
 
   useEffect(() => {
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/results", {
+    fetch(BASE_PATH + "/me/results", {
       headers: { "token": token }
     }).then((response) => {
       return response.json();

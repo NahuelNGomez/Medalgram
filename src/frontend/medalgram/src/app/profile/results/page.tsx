@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import PreviewResult from "../components/PreviewResult";
 import { verifyToken } from "@/objects/mocks/functions";
+import { BASE_PATH } from "@/constants/constants";
 
 export default function Results() {
 
@@ -28,7 +29,7 @@ export default function Results() {
         if (logged === false) {
             return;
         }
-        fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/results", {
+        fetch(BASE_PATH + "/me/results", {
             headers: { "token": token }
         }).then((response) => {
             return response.json();

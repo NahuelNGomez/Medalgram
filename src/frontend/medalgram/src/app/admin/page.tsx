@@ -5,6 +5,7 @@ import NavegationBarAdmin from "@/components/NavegationBarAdmin";
 import { verifyToken, viewProfiles } from "@/objects/mocks/functions";
 import NavegationBar from "@/components/NavegationBar";
 import { useRouter } from "next/navigation";
+import { BASE_PATH } from "@/constants/constants";
 
 
 
@@ -12,7 +13,7 @@ export default function Admin() {
 
     const verifyAdminToken = (router: any, auxToken: any) => {
 
-        fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me', {
+        fetch(BASE_PATH + '/me', {
             method: 'GET',
             headers: { 'token': auxToken },
         }).then((response) => { if (response.ok) return response.json() })
