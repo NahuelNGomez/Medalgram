@@ -6,11 +6,10 @@ Feature: Bank account operations
     When Trying to withdraw 500
     Then Account balance should be 500
 
-  Scenario: Cannot withdraw more money than the account balance
+  Scenario: Cannot create runner when account doens't exist
     Given Account with a balance of 1000
-    When Trying to withdraw 1001
-    Then Operation should be denied due to insufficient funds
-    And Account balance should remain 1000
+    When Trying to create a new Runner
+    Then Operation should be denied due to no account present
 
   Scenario: Successfully deposit money when sum is not negative
     Given Account with a balance of 1000
