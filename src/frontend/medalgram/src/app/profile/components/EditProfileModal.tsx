@@ -41,7 +41,7 @@ export default function EditProfileModal({
     })
       .then((response) => {
         console.log(name, age, profile_photo, location)
-        //if (response.ok) window.location.reload();
+        if (response.ok) window.location.reload();
       })
       .catch((error) => {
         console.error("Error al actualizar los datos:", error);
