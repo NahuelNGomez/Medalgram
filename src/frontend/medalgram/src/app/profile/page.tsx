@@ -103,7 +103,7 @@ export default function Sports() {
               />
             </div>
             <div className="col-span-2">
-              <ConfirmResults />
+              <ConfirmResults token={token}/>
             </div>
             <div className="col-span-4">
               <LastResults

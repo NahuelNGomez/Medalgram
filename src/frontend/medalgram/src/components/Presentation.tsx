@@ -15,7 +15,6 @@ export default function NavegationBar() {
                   alt="principal Logo"
                 />
               </section>
-              <strong className="self-end text-gray-400">by bughunters</strong>
             </div>
           </div>
 
