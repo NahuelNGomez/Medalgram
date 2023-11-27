@@ -23,7 +23,7 @@ export default function Comment({ id, content, date, username }: any) {
                 runner ? runner.filter(
                     (runner:any) => runner.first === username
                 ).map((runner: any) => {
-                    return <img src={runner.second} width={50} height={50} alt={""} className="rounded-full mx-4" />
+                    return <img key={runner.first} src={runner.second} width={50} height={50} alt={""} className="rounded-full mx-4" />
                 }) : ""
             }
             <div className="flex flex-col ">
