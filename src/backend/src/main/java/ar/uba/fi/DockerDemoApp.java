@@ -303,13 +303,13 @@ public class DockerDemoApp {
 	///// Shares
 
 	@GetMapping("/api/shares")
-	public Collection<Share> getShares() {
+	public Collection<Pair<String, String>> getShares() {
 		return shareService.getShares();
 	}
 
 	@PostMapping("/api/shares")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Share createShare(@RequestHeader String token, @RequestBody String username) {
+	public ResponseEntity createShare(@RequestHeader String token, @RequestBody String username) {
 		Optional<Runner> runner = runnerService.findById(token);
 		Optional<Runner> runnerToShare = runnerService.findByUsername(username);
 		if (runnerToShare.isPresent() && runner.isPresent()) {
@@ -317,10 +317,10 @@ public class DockerDemoApp {
 			Runner runnerToShareFound = runnerToShare.get();
 			share.setTokenRunner1(token);
 			share.setTokenRunner2(runnerToShareFound.getId());
-			return shareService.createShare(share);
-		} else {
-			throw new ResourceNotFoundException("Runner not found");
+			shareService.createShare(share);
+			return ResponseEntity.ok().build();
 		}
+		return ResponseEntity.notFound().build();
 	}
 
 	///// Events
