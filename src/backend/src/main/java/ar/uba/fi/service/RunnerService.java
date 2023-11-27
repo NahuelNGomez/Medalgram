@@ -32,4 +32,12 @@ public class RunnerService {
     public Optional<Runner> findByUsername(String username) {
         return runnerRepository.findRunnerByUsername(username);
     }
+
+    public String getUsernameById(String tokenRunner1) {
+        Optional<Runner> runner = runnerRepository.findById(tokenRunner1);
+        if (runner.isPresent()) {
+            return runner.get().getUsername();
+        }
+        return null;
+    }
 }
