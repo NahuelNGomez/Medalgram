@@ -114,6 +114,18 @@ public class DockerDemoApp {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
+	@GetMapping("/api/results/users/{username}")
+	public ResponseEntity<Collection<Result>> getResultsForUser(@PathVariable String username, @RequestHeader String token) {
+		Optional<Account> account = accountService.findById(token);
+		Optional<Runner> runner = runnerService.findByUsername(username);
+		if (account.isPresent() && runner.isPresent()) {
+			if (shareService.areStatsSharedForRunnner(token, runner.get().getId())) {
+				return ResponseEntity.ok(resultService.getResultsForRunnerSecured(runner.get().getId()));
+			}
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+
 	@PostMapping("/api/results")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Result> createResultAdmin(@RequestHeader String token, @RequestBody Result result) {
@@ -395,9 +407,8 @@ public class DockerDemoApp {
 				comment.setDate(commentDate);
 
 				return ResponseEntity.ok(Pair.of(runner.get(), commentService.createComment(comment)));
-			} else {
-				ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 			}
+			ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		return ResponseEntity.notFound().build();
 	}

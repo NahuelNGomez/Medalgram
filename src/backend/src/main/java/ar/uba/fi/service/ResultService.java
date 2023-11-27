@@ -44,6 +44,13 @@ public class ResultService {
         return results;
     }
 
+    public Collection<Result> getResultsForRunnerSecured(String tokenRunner) {
+        List<Result> results = resultRepository.findResultByTokenRunner(tokenRunner);
+        Collections.sort(results, Comparator.comparingInt(Result::getPosition));
+        results.forEach(result -> result.setTokenRunner(null));
+        return results;
+    }
+
     public Boolean isResultForRunnerForEvent(String tokenRunner, Integer idEvent) {
         Collection<Result> resultsForRunner = this.getResultsForRunner(tokenRunner);
 
