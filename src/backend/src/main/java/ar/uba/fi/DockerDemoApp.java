@@ -158,9 +158,9 @@ public class DockerDemoApp {
 	// Runner
 
 	@GetMapping("/api/runners/")
-	public ResponseEntity<Collection<Pair<String, String> getAllRunner() {
+	public ResponseEntity<Collection<Pair<String, String>>> getAllRunner() {
 		Collection<Runner> runners = runnerService.findAll();
-		Collection<Pair<String, String>> runnersData;
+		Collection<Pair<String, String>> runnersData = new ArrayList<Pair<String, String>>();
 	
 		runners.forEach(runner ->
 			{
