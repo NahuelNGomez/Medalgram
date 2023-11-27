@@ -139,7 +139,7 @@ export default function CreateProfile() {
                         <div className="mb-6 px-8 row-span-2 w-full flex justify-center items-center">
                             <div className='w-full block text-white text-sm font-bold mb-2'> Seleccione un ícono</div>
                             {[
-                                { id: 'image1', src: 'icons/pingpong.png' },
+                                { id: 'image1', src: 'https://i.ibb.co/99Nw0L1/pingpong.png' },
                                 { id: 'image2', src: 'icons/tenis.png' },
                                 { id: 'image3', src: 'icons/basquet.png' },
                                 { id: 'image4', src: 'icons/football.png' },
