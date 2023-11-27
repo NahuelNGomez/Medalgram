@@ -73,18 +73,19 @@ export default function Comments({ token, logged, id2 }: any) {
                 </article>
             ) : (<div>No estas iniciado sesion - No puedes comentar</div>)}
             <div className="flex justify-center item-center">
-                <div className="border my-6 w-[60%]"></div>
+                <div className="border my-6 w-[60%] border-dark2"></div>
             </div>
             <div>
                 {comments !== null && comments.length > 0 ? (
                     comments.map((comment: any) => (
-                        <Comment
-                            key={comment.id}
-                            id={comment.id}
-                            content={comment.content}
-                            idRunner={comment.tokenRunner}
-                            date={comment.date}
-                        />
+                        <div key={comment.first.id} className="py-4">
+                            <Comment
+                                id={comment.first.id}
+                                content={comment.first.content}
+                                username={comment.second}
+                                date={comment.first.date}
+                            />
+                        </div>
                     ))
                 ) : (
                     <p>No hay comentarios</p>

@@ -1,6 +1,7 @@
 "use client"
 import NavegationBarAdmin from "@/components/NavegationBarAdmin";
 import { BASE_PATH } from "@/constants/constants";
+import { verifyToken } from "@/objects/mocks/functions";
 import { useEffect, useState } from "react";
 
 const ERROR_MESSAGE = "Por favor, complete todos los campos."
@@ -9,10 +10,15 @@ const OK_MESSAGE = "Se ha cargado el evento correctamente."
 export default function AddEvent(token: any) {
     const [sports, setSports] = useState<JSON | any>(null);
     const [notification, setNotification] = useState("")
+    const [tokenAux, setTokenAux] = useState<any>(null)
 
     const handlerButtonNotification = () => {
         setNotification('')
     }
+    useEffect(() => {
+        if (document === undefined) return;
+        setTokenAux(verifyToken(document.cookie))
+    }, [])
 
 
     const handlerSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,6 +36,8 @@ export default function AddEvent(token: any) {
 
 
 
+
+
         if (!name || !description || !idSport || !date || !location || !edition || !url || name.value == "" || description.value == "" || idSport.value == "" || date.value == "" || location.value == "" || edition.value == "" || url.value == "") {
             setNotification(ERROR_MESSAGE)
             return
@@ -37,7 +45,7 @@ export default function AddEvent(token: any) {
 
         fetch(BASE_PATH + '/events', {
             method: 'POST',
-            headers: { "Content-Type": "application/json", "token": token },
+            headers: { "Content-Type": "application/json", "token": tokenAux },
             body: JSON.stringify({
                 name: name.value,
                 description: description.value,

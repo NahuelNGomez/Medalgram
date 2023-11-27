@@ -29,7 +29,7 @@ export default function PendingAdminResult({ result, token, idEvent }: any) {
 
   const modifyResult = (mode: string) => {
 
-    fetch(BASE_PATH + '/results/${result.id}', {
+    fetch(BASE_PATH + '/results/' + result.id, {
       method: 'PUT',
       headers: { "Content-Type": "application/json", "token": tokenAux },
       body: mode
