@@ -1,16 +1,17 @@
 "use client"
 import Breadcrumbs from "@/components/Breadcrumbs";
-import ListShared from "@/components/ListShared";
-import MedalList from "@/components/MedalList";
-import NavegationBar from "@/components/NavegationBar";
-import NavegationBarLogged from "@/components/NavegationBarLogged";
-import { createStats, verifyToken } from "@/objects/mocks/functions";
-import { verify } from "crypto";
+import MedalList from "@/components/MedalList"
+import NavegationBarLogged from "@/components/NavegationBarLogged"
+import { BASE_PATH } from "@/constants/constants";
+import { createStats } from "@/objects/mocks/functions";
 import { useEffect, useState } from "react";
 
-export default function Stats() {
-    const [logged, setLogged] = useState(false);
-    const [checked, setChecked] = useState(false); // Llega del fetch
+interface statsUsername {
+    params: { username: number }
+}
+
+
+export default function Stats({ params: { username } }: statsUsername) {
     const [token, setToken] = useState<any>(null);
     const [results, setResults] = useState<any>(null);
     const [stats, setStats] = useState<any>({
@@ -22,35 +23,9 @@ export default function Stats() {
         totalBronze: 0
     });
 
-    const breadcrumb = [
-        {
-            title: 'Corredor',
-            url: '/profile'
-        },
-        {
-            title: 'Estadisticas',
-            url: '/stats'
-        }
-    ];
-
-
-    useEffect(() => {
-        if (document === undefined) return;
-        if (document.cookie !== 'token=null' && document.cookie !== '') {
-            setLogged(true);
-            setToken(verifyToken(document.cookie));
-        }
-    }, [])
-
-
-    const handlerShared = (e: any) => {
-        // Fetch para modificar el estado de la estadistica publica
-        setChecked(e.target.checked);
-    }
-
     useEffect(() => {
         if (token === null) return;
-        fetch(`https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/results`, {
+        fetch(BASE_PATH + '/me/results', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -74,16 +49,28 @@ export default function Stats() {
     }, [results])
 
 
+    const breadcrumb = [
+        {
+            title: 'profile',
+            url: '/profile',
+        },
+        {
+            title: 'Estadisticas',
+            url: '/profile/stats',
+        },
+        {
+            title: username,
+            url: username,
+        }
+    ];
+
     return (
-        <main>
-            {
-                logged === true ? <NavegationBarLogged /> : <NavegationBar />
-            }
+        <>
+            <NavegationBarLogged />
             <Breadcrumbs items={breadcrumb} />
-            <article className="grid grid-cols-6">
-                <section className="col-span-4">
+            <section className="col-span-4">
                     <div className='flex flex-wrap items-center justify-items-start justify-between px-10'>
-                        <h2 className="text-3xl">Estadísticas</h2>
+                        <h2 className="text-3xl">Estadísticas de @{username}</h2>
                     </div>
                     <MedalList stats={stats}></MedalList>
                     <article className="flex items-center justify-center">
@@ -118,15 +105,9 @@ export default function Stats() {
                                     </td>
                                 </tr>
                             </tbody>
-
                         </table>
                     </article>
                 </section>
-                <ListShared />
-            </article>
-
-
-        </main>
+        </>
     )
 }
-

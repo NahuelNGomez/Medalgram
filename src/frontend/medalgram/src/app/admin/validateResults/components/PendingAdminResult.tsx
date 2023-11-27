@@ -1,4 +1,5 @@
 import Loading from "@/components/Loading";
+import { BASE_PATH } from "@/constants/constants";
 import { verifyToken } from "@/objects/mocks/functions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ export default function PendingAdminResult({ result, token, idEvent }: any) {
 
   useEffect(() => {
     if (!tokenAux) return;
-    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners/' + result.tokenRunner, {
+    fetch(BASE_PATH + '/runners/' + result.tokenRunner, {
       method: 'GET',
       headers: { "Content-Type": "application/json", "adminToken": tokenAux }
     }).then((response) => {
@@ -28,7 +29,7 @@ export default function PendingAdminResult({ result, token, idEvent }: any) {
 
   const modifyResult = (mode: string) => {
 
-    fetch(`https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/results/${result.id}`, {
+    fetch(BASE_PATH + '/results/${result.id}', {
       method: 'PUT',
       headers: { "Content-Type": "application/json", "token": tokenAux },
       body: mode
@@ -40,7 +41,7 @@ export default function PendingAdminResult({ result, token, idEvent }: any) {
   }
 
   useEffect(() => {
-    fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/events/' + idEvent, {
+    fetch(BASE_PATH + '/events/' + idEvent, {
       method: 'GET',
       headers: { "Content-Type": "application/json", "token": tokenAux }
     }).then((response) => {

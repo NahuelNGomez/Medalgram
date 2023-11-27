@@ -62,7 +62,7 @@ export default function ProfileInfo({ editProfile, userData }: any) {
           </button>
         </div>
         <div className="py-5">
-          <Link href="/stats">
+          <Link href="/profile/stats">
             <button className="py-2  bg-dark3 rounded-xl text-black w-[150px] 2xl:w-[200px] 2xl:text-[20px] hover:bg-dark0 hover:text-white transition duration-300 border-4 border-gray-400 hover:border-blue-400 font-bold text-gray-600">
               Ver Estadísticas
             </button>

@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import NavegationBarLogged from '@/components/NavegationBarLogged';
 import { useRouter } from 'next/navigation';
 import { verifyToken } from '@/objects/mocks/functions';
+import { PING_PONG_PATH, FOOTBALL_PATH, TENIS_PATH, BASQUET_PATH, VOLLEY_PATH, BASE_PATH } from '@/constants/constants';
 
 const ERROR_MESSAGE = 'Por favor, complete todos los campos.';
 
@@ -41,7 +42,7 @@ export default function CreateProfile() {
 
         if (formData.username && formData.location && formData.name && formData.image && formData.age) {
             setNotification('Se enviaría una request.')
-            fetch('https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/runners', {
+            fetch(BASE_PATH + '/runners', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json", "token": token },
                 body: JSON.stringify({
@@ -139,11 +140,11 @@ export default function CreateProfile() {
                         <div className="mb-6 px-8 row-span-2 w-full flex justify-center items-center">
                             <div className='w-full block text-white text-sm font-bold mb-2'> Seleccione un ícono</div>
                             {[
-                                { id: 'image1', src: 'https://i.ibb.co/99Nw0L1/pingpong.png' },
-                                { id: 'image2', src: 'https://i.ibb.co/rMZ7vS7/tenis.png' },
-                                { id: 'image3', src: 'https://i.ibb.co/Pzd1vY8/basquet.png' },
-                                { id: 'image4', src: 'https://i.ibb.co/T8n9fpM/football.png' },
-                                { id: 'image5', src: 'https://i.ibb.co/p3n64XC/volley.png' },
+                                { id: 'image1', src: PING_PONG_PATH },
+                                { id: 'image2', src: TENIS_PATH},
+                                { id: 'image3', src: BASQUET_PATH },
+                                { id: 'image4', src: FOOTBALL_PATH },
+                                { id: 'image5', src: VOLLEY_PATH },
                             ].map((image) => (
                                 <div key={image.id} className="flex flex-col items-center mb-4 mx-5">
                                     <img src={image.src} className={`rounded-full mb-2 width="50px" `} />

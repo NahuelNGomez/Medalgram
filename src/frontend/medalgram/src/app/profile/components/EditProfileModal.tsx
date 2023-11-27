@@ -1,4 +1,5 @@
 "use client";
+import { BASE_PATH, BASQUET_PATH, FOOTBALL_PATH, PING_PONG_PATH, TENIS_PATH, VOLLEY_PATH } from "@/constants/constants";
 import { useState } from "react";
 
 export default function EditProfileModal({
@@ -29,7 +30,7 @@ export default function EditProfileModal({
       console.error("Por favor, complete todos los campos.");
       return;
     }
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me/", {
+    fetch(BASE_PATH + "/me/", {
       method: "PUT",
       headers: { "Content-Type": "application/json", token: token },
       body: JSON.stringify({
@@ -99,26 +100,26 @@ export default function EditProfileModal({
               </label>
             </div>
             <div className="mb-6 px-8 row-span-2 w-full flex justify-center items-center">
-                            <div className='w-full block text-white text-sm font-bold mb-2'> Seleccione un ícono</div>
-                            {[
-                                { id: 'image1', src: 'icons/pingpong.png' },
-                                { id: 'image2', src: 'icons/tenis.png' },
-                                { id: 'image3', src: 'icons/basquet.png' },
-                                { id: 'image4', src: 'icons/football.png' },
-                                { id: 'image5', src: 'icons/volley.png' },
-                            ].map((image) => (
-                                <div key={image.id} className="flex flex-col items-center mb-4 mx-5">
-                                    <img src={image.src} className={`rounded-full mb-2 width="50px" `} />
-                                    <input
-                                        id={image.src}
-                                        type="radio"
-                                        name="image"
-                                        value={image.src}
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                </div>
-                            ))}
-                        </div>
+              <div className='w-full block text-white text-sm font-bold mb-2'> Seleccione un ícono</div>
+              {[
+                { id: 'image1', src: PING_PONG_PATH },
+                { id: 'image2', src: TENIS_PATH},
+                { id: 'image3', src: BASQUET_PATH },
+                { id: 'image4', src: FOOTBALL_PATH },
+                { id: 'image5', src: VOLLEY_PATH },
+              ].map((image) => (
+                <div key={image.id} className="flex flex-col items-center mb-4 mx-5">
+                  <img src={image.src} className={`rounded-full mb-2 width="50px" `} />
+                  <input
+                    id={image.src}
+                    type="radio"
+                    name="image"
+                    value={image.src}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex justify-end pt-[30px]">
             <button

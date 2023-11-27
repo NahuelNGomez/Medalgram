@@ -4,6 +4,7 @@ import NavegationBar from "@/components/NavegationBar";
 import NavegationBarLogged from "@/components/NavegationBarLogged";
 import SearchBar from "@/components/SearchBar";
 import Sport from "@/components/Sport";
+import { BASE_PATH } from "@/constants/constants";
 import { sportMock } from "@/objects/mocks/mock";
 import { useEffect, useState } from "react";
 
@@ -11,7 +12,7 @@ export default function Sports() {
   const [sports, setSports] = useState<Array<any>>([]);
 
   useEffect(() => {
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/sports")
+    fetch(BASE_PATH + "/sports")
       .then((response) => {
         return response.json()
       })

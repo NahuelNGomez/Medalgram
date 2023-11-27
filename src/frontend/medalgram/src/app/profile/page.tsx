@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { verifyToken } from "@/objects/mocks/functions";
 import { data } from "autoprefixer";
 import Loading from "@/components/Loading";
+import { BASE_PATH } from "@/constants/constants";
 
 export default function Sports() {
   // Hacer get del perfil
@@ -55,7 +56,7 @@ export default function Sports() {
       setLoading(false);
       return;
     }
-    fetch("https://grupo-3.2023.tecnicasdedisenio.com.ar/api/api/me", {
+    fetch(BASE_PATH + "/me", {
       method: "GET",
       headers: {
         token: token,
