@@ -115,13 +115,16 @@ public class DockerDemoApp {
 	}
 
 	@GetMapping("/api/results/users/{username}")
-	public ResponseEntity<Collection<Result>> getResultsForUser(@PathVariable String username, @RequestHeader String token) {
+	public ResponseEntity<Collection<Result>> getResultsForUser(@PathVariable String username,
+			@RequestHeader String token) {
 		Optional<Account> account = accountService.findById(token);
 		Optional<Runner> runner = runnerService.findByUsername(username);
 		if (account.isPresent() && runner.isPresent()) {
-			if (shareService.areStatsSharedForRunnner(token, runner.get().getId())) {
+			if (shareService.areStatsSharedForRunnner(token, runner.get().getId())
+					|| shareService.areStatsSharedForRunnner(runner.get().getId(), token)) {
 				return ResponseEntity.ok(resultService.getResultsForRunnerSecured(runner.get().getId()));
 			}
+			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
@@ -173,12 +176,10 @@ public class DockerDemoApp {
 	public ResponseEntity<Collection<Pair<String, String>>> getAllRunner() {
 		Collection<Runner> runners = runnerService.findAll();
 		Collection<Pair<String, String>> runnersData = new ArrayList<Pair<String, String>>();
-	
-		runners.forEach(runner ->
-			{
-				runnersData.add(Pair.of(runner.getUsername(), runner.getAvatar()));
-			}	
-		);
+
+		runners.forEach(runner -> {
+			runnersData.add(Pair.of(runner.getUsername(), runner.getAvatar()));
+		});
 
 		return ResponseEntity.ok(runnersData);
 	}
