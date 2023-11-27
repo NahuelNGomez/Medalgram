@@ -80,3 +80,18 @@ export function createStats(results: any): any {
     return stats
 
 }
+
+export function getListShared(username: any, listShared: any){
+        let usernames = []
+        
+        for (const shared of listShared) {
+            console.log("pruebo con " + username +"y" + shared.first + "y" + shared.second)
+            if (shared.first === username)
+                usernames.push(shared.second)
+            if (shared.second === username)
+                usernames.push(shared.first)
+        }
+        return usernames
+
+
+}

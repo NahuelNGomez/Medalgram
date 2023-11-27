@@ -3,7 +3,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import MedalList from "@/components/MedalList"
 import NavegationBarLogged from "@/components/NavegationBarLogged"
 import { BASE_PATH } from "@/constants/constants";
-import { createStats } from "@/objects/mocks/functions";
+import { createStats, verifyToken } from "@/objects/mocks/functions";
 import { useEffect, useState } from "react";
 
 interface statsUsername {
@@ -24,8 +24,15 @@ export default function Stats({ params: { username } }: statsUsername) {
     });
 
     useEffect(() => {
+        if (document === undefined) return;
+        if (document.cookie !== 'token=null' && document.cookie !== '') {
+            setToken(verifyToken(document.cookie));
+        }
+    }, [])
+
+    useEffect(() => {
         if (token === null) return;
-        fetch(BASE_PATH + '/me/results', {
+        fetch(BASE_PATH + '/results/users/' + username, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -38,7 +45,7 @@ export default function Stats({ params: { username } }: statsUsername) {
         }).then((data) => {
             setResults(data);
         }).catch((error) => {
-            console.error('Error al obtener la estadistica publica:', error);
+            alert('No puedes ver estas estadisitcas');
         })
 
     }, [token])
